@@ -1,0 +1,148 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* HERO */
+.hero {
+    background: url("https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9") center/cover no-repeat;
+    height: 300px;
+    position: relative;
+}
+
+.hero-overlay {
+    background: rgba(0,0,0,0.55);
+    height: 100%;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    max-width: 700px;
+    font-size: 16px;
+}
+
+/* BREADCRUMB */
+.breadcrumb {
+    padding: 15px 40px;
+    background: #fff;
+    font-size: 15px;
+}
+
+.breadcrumb a {
+    color: #ff6aa2;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.breadcrumb span {
+    margin: 0 5px;
+    color: #777;
+}
+
+/* APPOINTMENT SECTION */
+.appointment {
+    padding: 60px 40px;
+}
+
+.container {
+    display: flex;
+    gap: 60px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* LEFT INFO */
+.info {
+    width: 35%;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.info-item i {
+    font-size: 22px;
+    color: #5bc0de;
+    margin-top: 5px;
+}
+
+.info-item h4 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.info-item p {
+    color: #666;
+    font-size: 15px;
+}
+
+/* FORM */
+.form-box {
+    width: 65%;
+}
+
+.form-box form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-box label {
+    margin: 15px 0 5px;
+    font-weight: 600;
+}
+
+.form-box input,
+.form-box textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+.form-box textarea {
+    min-height: 130px;
+    resize: none;
+}
+
+.form-box button {
+    margin-top: 25px;
+    background: #ff6aa2;
+    color: #fff;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 260px;
+}
+
+.form-box button:hover {
+    background: #ff4c8b;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .info, .form-box {
+        width: 100%;
+    }
+}

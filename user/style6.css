@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Banner */
+.page-banner {
+    height: 300px;
+    background: url('images/brush.jpeg') center/cover no-repeat;
+    position: relative;
+}
+
+.banner-overlay {
+    background: rgba(0, 0, 0, 0.45);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.banner-overlay h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.banner-overlay p {
+    max-width: 800px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background: #f9f9f9;
+    padding: 15px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.breadcrumb a {
+    color: #ff69b4;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.breadcrumb span {
+    margin: 0 6px;
+}
+
+.breadcrumb .active {
+    color: #777;
+}
+
+/* Content */
+.content {
+    padding: 60px 20px;
+}
+
+.section-title {
+    text-align: center;
+    color: blue;
+    font-size: 28px;
+    margin-bottom: 40px;
+}
+
+/* Table */
+.table-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+th, td {
+    border: 1px solid #999;
+    padding: 14px;
+    text-align: left;
+}
+
+th {
+    font-weight: bold;
+    background: #fff;
+}
+
+.no-record {
+    color: red;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Scroll Top Button */
+.scroll-top {
+    position: fixed;
+    right: 20px;
+    bottom: 30px;
+    width: 45px;
+    height: 45px;
+    background: #ff69b4;
+    color: #fff;
+    font-size: 22px;
+    text-align: center;
+    line-height: 45px;
+    border-radius: 6px;
+    cursor: pointer;
+}

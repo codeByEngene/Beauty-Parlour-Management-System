@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #ede3d9;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-container {
+    display: flex;
+    width: 800px;
+    height: 500px;
+    box-shadow: 15px 15px 15px #8f7463;
+    border-radius: 30px;
+    overflow: hidden;
+    background-color: #f6f3ec;
+}
+
+/* Left Image */
+.side-img {
+    width: 35%;
+    background: url('images/image.jpg') center/cover no-repeat;
+    position: relative;
+    border-radius: 30px 0 0 30px;
+    box-shadow: inset 0 0 60px rgba(143, 116, 99, 0.5);
+}
+
+.side-img .logo {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    color: #e86a8d;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+/* Right Form */
+.login-form-wrapper {
+    width: 65%;
+    padding: 40px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-form-wrapper h2 {
+    color: #e86a8d;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.login-form-wrapper p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* Inputs */
+.input-field,
+.role-based {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+
+.input-field label,
+.role-based label {
+    font-size: 13px;
+    color: #8f7463;
+}
+
+.input-field input,
+#role {
+    padding: 12px 15px;
+    border: 2px solid #8f7463;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+.input-field input:focus,
+#role:focus {
+    outline: none;
+    border-color: #715a4b;
+    box-shadow: 0 0 5px #715a4b;
+}
+
+/* Button */
+.btn-login {
+    background-color: #8f7463;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    width: 150px;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-login:hover {
+    background-color: #e86a8d;
+}
+
+/* Links */
+.links {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.links a {
+    color: #408de4;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+/* Placeholder */
+::placeholder {
+    color: #b5a892;
+    font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #login-container {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+    }
+
+    .side-img {
+        width: 100%;
+        height: 150px;
+        border-radius: 30px 30px 0 0;
+    }
+
+    .login-form-wrapper {
+        width: 100%;
+    }
+}

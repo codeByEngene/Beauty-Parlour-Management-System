@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f7f2ee;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Main layout */
+#signup {
+    display: flex;
+    justify-content: center;
+
+    min-height: 100vh;
+}
+
+/* Image section */
+.img {
+    width: 35%;
+    background: url('./images/image.jpg') center/cover no-repeat;
+    border-radius: 25px 0 0 25px;
+    padding: 30px;
+}
+
+.logo h1 {
+    color: #e86a8d;
+    font-size: 22px;
+}
+
+/* Form section */
+#form-wrapper {
+    width: 35%;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 0 25px 25px 0;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.title {
+    text-align: center;
+    color: #e86a8d;
+    margin-bottom: 20px;
+}
+
+/* Inputs */
+.input-field,
+.role-based {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+input,
+select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #e86a8d;
+}
+
+/* Button */
+.btn-sign button {
+    width: 100%;
+    padding: 12px;
+    background: #e86a8d;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-sign button:hover {
+    background: #d75c7c;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #e86a8d;
+    text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #signup {
+        flex-direction: column;
+    }
+
+    .img,
+    #form-wrapper {
+        width: 100%;
+        border-radius: 0;
+    }
+}
