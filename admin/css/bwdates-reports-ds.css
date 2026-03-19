@@ -1,0 +1,89 @@
+body {
+    font-family: 'Poppins', 'Roboto', sans-serif;
+    background: #f3f3f3;
+    margin: 0;
+    padding: 0;                         /* removed — conflicts with fixed layout */
+}
+
+/* Main content fixed between header and footer */
+.main-content {
+    position: fixed;
+    top: 60px;                          /* header height */
+    left: 60px;                         /* collapsed sidebar width */
+    right: 0;
+    bottom: 50px;                       /* footer height */
+    padding: 20px;
+    overflow-y: auto;
+    background: #f3f3f3;
+    box-sizing: border-box;
+    transition: left 0.3s ease;         /* smooth slide when sidebar opens */
+}
+
+/* When sidebar is open — .shifted toggled by your JS */
+.main-content.shifted {
+    left: 250px;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+}
+
+.title {
+    color: #ff5a00;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.card h3 {
+    background: #f7f7f7;
+    padding: 10px;
+    margin: -20px -20px 20px -20px;
+    border-bottom: 1px solid #ddd;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    width: 120px;
+    margin-top: 15px;
+    padding: 10px;
+    background: #6a6bb7;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #4c4da3;
+}
+
+
+
+
+
+
+
+
+

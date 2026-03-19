@@ -1,0 +1,94 @@
+body {
+    font-family: 'Poppins', 'Roboto', sans-serif;
+    background: #f3f3f3;
+    margin: 0;
+}
+
+/* Main content fixed between header and footer */
+.main-content {
+    position: fixed;
+    top: 60px;                          /* space for header */
+    left: 60px;                         /* collapsed sidebar width */
+    right: 0;
+    bottom: 50px;                       /* space for footer */
+    padding: 20px;
+    overflow-y: auto;                   /* allows scrolling inside content */
+    background: #f3f3f3;
+    box-sizing: border-box;
+    transition: left 0.3s ease;         /* smooth slide when sidebar opens */
+}
+
+/* When sidebar is open — .shifted toggled by your JS */
+.main-content.shifted {
+    left: 250px;
+}
+
+/* Page Title */
+.title {
+    color: #ff5a00;
+    margin: 30px 60px;
+    font-size: 28px;
+}
+
+/* Container */
+.container {
+    width: 92%;
+    margin: auto;
+    background: #ffffff;
+    padding: 25px;
+    border: 1px solid #ddd;
+}
+
+/* Subtitle */
+.subtitle {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Table */
+.appointment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.appointment-table th,
+.appointment-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.appointment-table th {
+    background: #f7f7f7;
+    font-weight: bold;
+}
+
+/* Buttons */
+.view-btn {
+    background: #337ab7;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.delete-btn {
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.view-btn:hover,
+.delete-btn:hover {
+    opacity: 0.85;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}

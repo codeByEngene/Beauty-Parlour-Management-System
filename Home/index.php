@@ -1,6 +1,7 @@
 <?php
 session_start();
-error_reporting(0);
+error_reporting(E_ALL);
+ini_set('display_errors' , 1);
 include('includes/dbconnection.php');
 ?>
 
@@ -19,13 +20,12 @@ include('includes/dbconnection.php');
 
 <body>
 <?php include('includes/header.php');?>
-  </nav>
-
   <!-- Slideshow -->
   <div class="slideshow">
     <div class="slide">
       <img src="images/bg1.jpg" alt="Slide 1" />
       <div class="caption">
+        
         <h2>Welcome to Our Beauty Parlour</h2>
         <p>Experience the best beauty services with us.</p>
         <a href="signup.php" class="btn">Get Appointment</a>

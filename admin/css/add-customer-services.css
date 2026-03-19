@@ -1,0 +1,84 @@
+body{
+font-family: 'Poppins', 'Roboto', sans-serif;
+background:#f3f3f3;
+margin:0;
+padding:30px;
+}
+
+.main-content{
+position: fixed;
+top: 60px;
+left: 250px;
+right: 0;
+bottom: 50px;
+padding: 20px;
+overflow-y: auto;
+background:#f3f3f3;
+box-sizing: border-box;
+}
+
+/* Page title */
+.title{
+color:#f05a1a;
+font-size:32px;
+margin-bottom:20px;
+}
+
+/* Card container */
+
+.card{
+background:#ffffff;
+border:1px solid #ddd;
+padding:25px;
+box-shadow:0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Section heading */
+
+.card h3{
+color:#666;
+margin-bottom:15px;
+}
+
+/* Table styling */
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+table th{
+background:#f7f7f7;
+border:1px solid #ddd;
+padding:12px;
+text-align:left;
+}
+
+table td{
+border:1px solid #ddd;
+padding:12px;
+}
+
+/* Checkbox center */
+
+table td:last-child{
+text-align:center;
+}
+
+/* Submit button area */
+
+.submit-area{
+text-align:center;
+margin-top:20px;
+}
+
+/* Submit button */
+
+.assign{
+background:#337ab7;
+color:white;
+padding:6px 12px;
+text-decoration:none;
+border-radius:3px;
+}
+

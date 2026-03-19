@@ -17,42 +17,26 @@
     height: 100%;
     color: #fff;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 20px;
+    align-items: center;
+    flex-direction: column;
 }
 
 .hero h1 {
     font-size: 48px;
-    margin-bottom: 10px;
 }
 
 .hero p {
-    max-width: 700px;
     font-size: 16px;
 }
 
 /* BREADCRUMB */
 .breadcrumb {
     padding: 15px 40px;
-    background: #fff;
     font-size: 15px;
 }
 
-.breadcrumb a {
-    color: #ff6aa2;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.breadcrumb span {
-    margin: 0 5px;
-    color: #777;
-}
-
-/* APPOINTMENT SECTION */
+/* SECTION */
 .appointment {
     padding: 60px 40px;
 }
@@ -64,32 +48,15 @@
     margin: auto;
 }
 
-/* LEFT INFO */
+/* INFO */
 .info {
     width: 35%;
 }
 
 .info-item {
     display: flex;
-    align-items: flex-start;
     gap: 15px;
-    margin-bottom: 30px;
-}
-
-.info-item i {
-    font-size: 22px;
-    color: #5bc0de;
-    margin-top: 5px;
-}
-
-.info-item h4 {
-    font-size: 18px;
-    margin-bottom: 5px;
-}
-
-.info-item p {
-    color: #666;
-    font-size: 15px;
+    margin-bottom: 25px;
 }
 
 /* FORM */
@@ -103,33 +70,37 @@
 }
 
 .form-box label {
-    margin: 15px 0 5px;
+    margin-top: 15px;
     font-weight: 600;
 }
 
 .form-box input,
-.form-box textarea {
+.form-box textarea,
+.appointment-time {
     padding: 12px;
+    margin-top: 5px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 5px;
     font-size: 15px;
 }
 
 .form-box textarea {
-    min-height: 130px;
-    resize: none;
+    min-height: 120px;
 }
 
+.appointment-time {
+    width: 40%;
+}
+
+/* BUTTON */
 .form-box button {
-    margin-top: 25px;
+    margin-top: 20px;
     background: #ff6aa2;
-    color: #fff;
+    color: white;
+    padding: 12px;
     border: none;
-    padding: 14px;
-    font-size: 16px;
-    border-radius: 6px;
+    border-radius: 5px;
     cursor: pointer;
-    width: 260px;
 }
 
 .form-box button:hover {
@@ -137,12 +108,16 @@
 }
 
 /* RESPONSIVE */
-@media (max-width: 900px) {
-    .container {
+@media(max-width:900px){
+    .container{
         flex-direction: column;
     }
 
-    .info, .form-box {
-        width: 100%;
+    .info, .form-box{
+        width:100%;
+    }
+
+    .appointment-time{
+        width:100%;
     }
 }

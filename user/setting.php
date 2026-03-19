@@ -43,7 +43,7 @@
             </div>
 
             <div class="info-block">
-                <h3>📧 Email Us</h3>
+                <h3>Email Us</h3>
                 <p>parlour01@gmail.com</p>
             </div>
 
@@ -73,7 +73,7 @@
                         <input type="password" name="confirm_password" required>
                     </div>
                      <div class="col">
-                        <label>Cinfirm Password</label>
+                        <label>Confirm Password</label>
                         <input type="password" name="password" required>
                     </div>
                 </div>

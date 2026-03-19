@@ -4,11 +4,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* cursor: pointer; */
 }
 
 body {
     background-color: #f7f2ee;
     font-family: 'Poppins', sans-serif;
+    /* cursor: default; */
 }
 
 /* Main layout */

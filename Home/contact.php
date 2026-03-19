@@ -1,4 +1,11 @@
 <?php
+include('includes/dbconnection.php');
+// Fetch dynamic info
+$ret = mysqli_query($con, "SELECT * FROM tblpages WHERE PageType='contactus'");
+$row = mysqli_fetch_array($ret);
+?>
+
+<?php
 session_start();
 include('includes/dbconnection.php');
 
@@ -22,7 +29,6 @@ if(isset($_POST['submit'])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,67 +36,49 @@ if(isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - BPMS</title>
     <link rel="stylesheet" href="style3.css">
-  <link rel="stylesheet" href="includes/footer.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="includes/header.css">
+    <link rel="stylesheet" href="includes/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
 <?php include('includes/header.php');?>
-    <!-- Banner Section -->
-    <section class="banner">
-        <div class="banner-content">
-            <h1>Contact Us</h1>
-        </div>
-    </section>
+<section class="contact-section">
 
-    <!-- Breadcrumb -->
-    <div class="breadcrumb">
-        <a href="index.php">Home</a> > <span>Contact</span>
+    <div class="contact-info">
+        <div class="box">
+            <h3>Call Us</h3>
+            <p><?php echo $row['MobileNumber']; ?></p>
+        </div>
+        <div class="box">
+            <h3>Email Us</h3>
+            <p><?php echo $row['Email']; ?></p>
+        </div>
+        <div class="box">
+            <h3>Address</h3>
+            <p><?php echo $row['PageDescription']; ?></p>
+        </div>
+        <div class="box">
+            <h3>Time</h3>
+            <p><?php echo $row['Timing']; ?></p>
+        </div>
     </div>
 
-    <!-- Main Contact Section -->
-    <section class="contact-section">
-
-        <!-- Left Info -->
-        <div class="contact-info">
-            <div class="box">
-                <h3>Call Us</h3>
-                <p>+1-2415903</p>
-            </div>
-
-            <div class="box">
-                <h3>Email Us</h3>
-                <p>parlour@gmail.com</p>
-            </div>
-
-            <div class="box">
-                <h3> Address</h3>
-                <p>Thamel, 16 Kathmandu Nepal</p>
-            </div>
-
-            <div class="box">
-                <h3>Time</h3>
-                <p>10:00 am to 8:30 pm</p>
-            </div>
+    <form class="contact-form" method="POST"> 
+        <div class="row">
+            <input type="text" name="name" placeholder="Full Name" required>
         </div>
 
-        <!-- Right Contact Form -->
-        <!-- Right Contact Form -->
-<form class="contact-form" method="post" action="">
-    <div class="row">
-        <input type="text" name="name" placeholder="Name" required>
-    </div>
+        <div class="row">
+            <input type="text" name="phone" placeholder="Phone" required>
+            <input type="email" name="email" placeholder="Email" required>
+        </div>
 
-    <div class="row">
-        <input type="text" name="phone" placeholder="Phone" required>
-        <input type="email" name="email" placeholder="Email" required>
-    </div>
+        <textarea name="message" placeholder="Message" required></textarea>
 
-    <textarea name="message" placeholder="Message" required></textarea>
+        <button type="submit" name="submit">Send Message</button>
+    </form>
 
-    <button type="submit" name="submit">Send Message</button>
-</form>
-
-    </section>
- <?php include('includes/footer.php');?>
+</section>
+    <?php include ('includes/footer.php');?>
 </body>
 </html>

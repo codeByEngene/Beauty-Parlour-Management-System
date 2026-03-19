@@ -1,0 +1,101 @@
+
+/* ================= HEADER ================= */
+
+#header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 11vh;
+  width: 100%;
+  background: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px #ccc;
+  z-index: 2000;
+}
+
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+  position: fixed;
+  top: 11vh;
+  left: -280px;
+  width: 280px;
+  bottom: 0;
+  background: #6467c2;
+  transition: 0.3s;
+  z-index: 3000;
+  overflow-y: auto;
+}
+
+/* Sidebar visible when active */
+
+.sidebar.active{
+  left: 0;
+}
+
+
+/* ================= SIDEBAR MENU ================= */
+
+.sidebar ul{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li{
+  position: relative;
+}
+
+.sidebar ul li a{
+  display: block;
+  padding: 15px 25px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.sidebar ul li a i{
+  margin-right: 10px;
+}
+
+
+/* Hover effect */
+
+.sidebar ul li a:hover{
+  background: #f67535;
+}
+
+
+/* ================= SUBMENU ================= */
+
+.sidebar ul li ul{
+  display: none;
+  background: #5b5fc7;
+}
+
+.sidebar ul li.active ul{
+  display: block;
+}
+
+
+/* Submenu links */
+
+.sidebar ul li ul li a{
+  padding-left: 45px;
+  font-size: 14px;
+}
+
+
+/* ================= CONTENT AREA ================= */
+
+.content-wrapper{
+  padding: 30px;
+  margin-left: 280px;
+  position: relative;
+  z-index: 1;
+}
+

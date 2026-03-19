@@ -1,0 +1,89 @@
+body {
+    font-family: 'Poppins', 'Roboto', sans-serif;
+    background: #e6e6e6;
+    margin: 0;
+}
+
+/* Main content fixed between header and footer */
+.main-content {
+    position: fixed;
+    top: 60px;                      /* header height */
+    left: 60px;                     /* collapsed sidebar width */
+    right: 0;
+    bottom: 50px;                   /* footer height */
+    padding: 40px;
+    overflow-y: auto;
+    background: #f2f2f2;
+    box-sizing: border-box;
+    transition: left 0.3s ease;     /* smooth slide when sidebar opens */
+}
+
+/* When sidebar is open — .shifted toggled by your JS */
+.main-content.shifted {
+    left: 250px;                    /* expanded sidebar width */
+}
+
+/* Inner container */
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Page title */
+.title {
+    color: #ff5a00;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Panel box */
+.panel {
+    background: #f7f7f7;
+    border: 1px solid #d5d5d5;
+    padding: 30px;
+}
+
+.panel h3 {
+    color: #666;
+    font-weight: normal;
+}
+
+/* Label style */
+.label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* Input style */
+.input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+/* Button style */
+.btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #3a78b3;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 15px;
+    background: #f7f7f7;
+    border: 1px solid #d5d5d5;
+    border-top: none;
+    margin-top: 20px;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}

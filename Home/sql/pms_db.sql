@@ -39,21 +39,22 @@ CREATE TABLE tblservices (
 );
 
 -- -----------------------------
--- Table: tblbook
+-- Table: tblappointments
 -- -----------------------------
-CREATE TABLE tblbook (
-    ID INT(10) NOT NULL AUTO_INCREMENT,
-    UserID INT(10),
-    AptNumber INT(10),
-    AptDate DATE,
-    AptTime TIME,
-    Message MEDIUMTEXT,
-    BookingDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Remark VARCHAR(250),
-    Status VARCHAR(250),
-    RemarkDate TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (ID)
+CREATE TABLE tblappointments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    service_name VARCHAR(100) NOT NULL,
+    appointment_date DATE NOT NULL,
+    appointment_time TIME NOT NULL,
+    message TEXT,
+    status ENUM('Pending','Approved','Rejected') DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+INSERT INTO tblappointments
+(user_id, service_name, appointment_date, appointment_time, message)
+VALUES
+(1, 'Facial', '2026-01-10', '14:30', 'First time visit');
 
 -- -----------------------------
 -- Table: tblcontact
@@ -107,3 +108,31 @@ VALUES
 ('contactus', 'Contact Us',
  '890, Sector 62, Gyan Sarovar, Noida',
  'info@gmail.com', 7896541236, '10:30 am to 7:30 pm');
+
+CREATE TABLE about_settings (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    page_title VARCHAR(255),
+    page_description TEXT
+);
+
+-- Insert a default row to update later
+INSERT INTO about_settings (page_title, page_description) 
+VALUES ('About Us', 'Our main focus is on quality and hygiene...');
+
+CREATE TABLE IF NOT EXISTS tblpages (
+  ID int(11) PRIMARY KEY AUTO_INCREMENT,
+  PageType varchar(50),
+  PageTitle varchar(200),
+  Email varchar(200),
+  MobileNumber bigint(12),
+  Timing varchar(200),
+  PageDescription mediumtext
+);
+
+-- Insert the initial record so we have something to update
+INSERT INTO tblpages (PageType, PageTitle, Email, MobileNumber, Timing, PageDescription) 
+VALUES ('contactus', 'Contact Us', 'parlour017@gmail.com', 9824159063, '10:00 am to 8:30 pm', 'Thamel, 16 Kathmandu Nepal');
+
+
+
+

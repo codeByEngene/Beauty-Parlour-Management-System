@@ -1,0 +1,103 @@
+body {
+    font-family: 'Poppins', 'Roboto', sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+}
+
+/* Main content fixed between header and footer */
+.main-content {
+    position: fixed;
+    top: 60px;                          /* header height */
+    left: 60px;                         /* collapsed sidebar width */
+    right: 0;
+    bottom: 50px;                       /* footer height */
+    padding: 20px;
+    overflow-y: auto;                   /* scroll if content is taller */
+    background-color: #f2f2f2;
+    box-sizing: border-box;
+    transition: left 0.3s ease;         /* smooth slide when sidebar opens */
+}
+
+/* When sidebar is open — .shifted toggled by your JS */
+.main-content.shifted {
+    left: 250px;
+}
+
+/* Title */
+.title {
+    color: #ff5a00;
+    margin: 30px 60px;
+    font-size: 28px;
+}
+
+/* Container */
+.container {
+    width: 80%;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border: 1px solid #ddd;
+}
+
+/* Subtitle */
+.subtitle {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Table */
+.appointment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.appointment-table th,
+.appointment-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.appointment-table th {
+    background: #f7f7f7;
+}
+
+/* Buttons */
+.view-btn {
+    background: #337ab7;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.view-btn:hover,
+.delete-btn:hover {
+    opacity: 0.8;
+}
+
+.action-buttons {
+    display: flex;                      /* makes buttons appear side by side */
+    gap: 5px;                           /* space between buttons */
+}
+
+
+
+
+
+
+
+
+
+
+

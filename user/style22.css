@@ -40,3 +40,12 @@ h1 {
   color: #333;
 }
 
+.service-card a.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  background-color: #3498db;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+}

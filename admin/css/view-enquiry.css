@@ -1,0 +1,100 @@
+/* ================= BODY ================= */
+body {
+    margin: 0;
+    font-family: 'Poppins', 'Roboto', sans-serif;
+    background-color: #f3f3f3;
+    color: #333;
+}
+
+/* ================= MAIN CONTENT ================= */
+.main-content {
+    position: fixed;
+    top: 60px;
+    left: 60px;
+    right: 0;
+    bottom: 50px;
+    padding: 40px;
+    overflow-y: auto;
+    background: #f3f3f3;
+    box-sizing: border-box;
+    transition: left 0.3s ease;
+}
+
+.main-content.shifted {
+    left: 250px;
+}
+
+/* ================= PAGE WRAPPER ================= */
+.title{
+    color:#f67535;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.container{
+    background: #ffffff;
+    border: 1px solid #ddd;
+    padding: 25px;
+}
+
+/* ================= CARD ================= */
+.card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+}
+
+/* ================= CARD TITLE ================= */
+.card-title {
+    text-align: center;
+    color: blue;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+/* ================= TABLE ================= */
+.enquiry-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* Cells */
+.enquiry-table th,
+.enquiry-table td {
+    border: 1px solid #e0e0e0;
+    padding: 14px;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #333;
+    word-break: break-word;
+}
+
+/* Header */
+.enquiry-table th {
+    background-color: #f7f7f7;
+    font-weight: 600;
+    width: 20%;
+}
+
+/* Data */
+.enquiry-table td {
+    width: 30%;
+    background-color: #ffffff;
+}
+
+/* Alternate rows */
+.enquiry-table tr:nth-child(even) td {
+    background-color: #fafafa;
+}
+
+/* Message row */
+.message-row td {
+    height: 80px;
+    vertical-align: top;
+    line-height: 1.6;
+}

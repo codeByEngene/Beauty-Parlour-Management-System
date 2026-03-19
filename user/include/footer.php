@@ -1,17 +1,28 @@
+<?php 
+$con = mysqli_connect("localhost", "root", "", "pms_db");
+// Pulling contact info for the left column
+$res_contact = mysqli_query($con, "SELECT * FROM tblpages WHERE PageType='contactus'");
+$foot_contact = mysqli_fetch_array($res_contact);
+
+// Pulling "About Us" info for the right column
+$res_about = mysqli_query($con, "SELECT * FROM about_settings WHERE id=1");
+$foot_about = mysqli_fetch_array($res_about);
+?>
+
 <footer class="footer">
   <div class="footer-container">
-
+    
     <div class="footer-section">
       <h3>Contact Us</h3>
-      <p>Thamel, 16 Kathmandu</p>
-      <p> +1- 2415903</p>
-      <p>✉️ parlour01@gmail.com</p>
+      <p><?php echo $foot_contact['PageDescription']; ?></p>
+      <p><?php echo $foot_contact['MobileNumber']; ?></p>
+      <p><?php echo $foot_contact['Email']; ?></p>
     </div>
 
     <div class="footer-section">
       <h3>Useful Links</h3>
       <ul>
-        <li><a href="dashboard.php">Home</a></li>
+        <li><a href="index.php">Home</a></li>
         <li><a href="aboutus.php">About</a></li>
         <li><a href="services.php">Services</a></li>
         <li><a href="contact.php">Contact</a></li>
@@ -19,19 +30,9 @@
     </div>
 
     <div class="footer-section">
-      <h3>About Us</h3>
-      <p>Quality and hygiene focused beauty services.</p>
+      <h3><?php echo $foot_about['page_title'] ?? 'About Us'; ?></h3>
+      <p><?php echo $foot_about['page_description'] ?? 'Default about text...'; ?></p>
     </div>
 
   </div>
-
-  <div class="footer-bottom">
-    <p>© 2025 Beauty Parlour Management System</p>
-    <div class="social-icons">
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-linkedin-in"></i></a>
-    </div>
-  </div>
-</footer>
+  </footer>

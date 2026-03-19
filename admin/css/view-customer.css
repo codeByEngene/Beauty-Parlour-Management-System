@@ -1,0 +1,162 @@
+/* ─────────────────────────────────────────────────────────────
+   view-customer.css
+   Styles specific to the Invoice Details / View Customer page
+───────────────────────────────────────────────────────────── */
+body{
+font-family: 'Poppins', 'Roboto', sans-serif;
+background:#f3f3f3;
+margin:0;
+padding:30px;
+}
+
+/* ─── Main Layout ───────────────────────────────────────────── */
+.main-content{
+    margin-left:250px;
+    padding:30px;
+    background:#f5f5f5;
+    min-height:100vh;
+}
+
+/* ─── Page Title ────────────────────────────────────────────── */
+.title{
+    color:#ff5a00;
+    font-size:28px;
+    margin-bottom:20px;
+    font-weight:700;
+}
+
+/* ─── Container Box ─────────────────────────────────────────── */
+.container{
+    background:#ffffff;
+    padding:25px;
+    border:1px solid #ddd;
+    box-shadow:0 2px 5px rgba(0,0,0,0.05);
+    max-width:100%;
+}
+
+/* ─── Table Wrapper ─────────────────────────────────────────── */
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+    margin-bottom:20px;
+}
+
+/* ─── Base Table Styles ─────────────────────────────────────── */
+table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+table th,
+table td{
+    border:1px solid #ddd;
+    padding:12px 10px;
+    font-size:14px;
+    vertical-align:top;
+    word-break:break-word;
+    overflow-wrap:break-word;
+    white-space:normal;
+}
+
+/* ─── Section Header Rows ───────────────────────────────────── */
+.section-title td{
+    background:#f3f3f3;
+    font-weight:bold;
+    font-size:15px;
+}
+
+/* ─── Table Headers ─────────────────────────────────────────── */
+th{
+    background:#fafafa;
+    text-align:left;
+    font-weight:600;
+}
+
+/* ─── Customer Table Column Sizes ───────────────────────────── */
+.customer-table td:nth-child(1){width:14%;}
+.customer-table td:nth-child(2){width:20%;}
+.customer-table td:nth-child(3){width:14%;}
+.customer-table td:nth-child(4){width:16%;}
+.customer-table td:nth-child(5){width:10%;}
+.customer-table td:nth-child(6){width:26%;}
+
+.customer-table td:nth-child(6){
+    word-break:break-all;
+}
+
+/* ─── Services Table ────────────────────────────────────────── */
+.services-table th:nth-child(1),
+.services-table td:nth-child(1){width:10%;}
+
+.services-table th:nth-child(2),
+.services-table td:nth-child(2){width:70%;}
+
+.services-table th:nth-child(3),
+.services-table td:nth-child(3){width:20%;}
+
+/* ─── Grand Total Row ───────────────────────────────────────── */
+.grand-total td{
+    font-weight:bold;
+    text-align:center;
+    background:#fafafa;
+}
+
+/* ─── Print Icon Area ───────────────────────────────────────── */
+.print-area{
+    text-align:center;
+    margin-top:25px;
+}
+
+/* Printer Icon */
+.print-icon{
+    font-size:26px;
+    color:#333;
+    padding:10px 15px;
+    border:1px solid #ddd;
+    border-radius:5px;
+    background:#f5f5f5;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+/* Hover Effect */
+.print-icon:hover{
+    background:#333;
+    color:#fff;
+}
+
+/* ─── Print Mode ────────────────────────────────────────────── */
+@media print{
+
+    .main-content{
+        margin-left:0;
+        padding:10px;
+    }
+
+    .print-area{
+        display:none;
+    }
+}
+
+/* ─── Responsive Layout ─────────────────────────────────────── */
+@media (max-width:768px){
+
+    .main-content{
+        margin-left:0;
+        padding:15px;
+    }
+
+    .customer-table{
+        table-layout:auto;
+    }
+
+    .customer-table td:nth-child(odd){
+        width:auto;
+        white-space:nowrap;
+    }
+
+    .customer-table td:nth-child(even){
+        width:auto;
+    }
+}

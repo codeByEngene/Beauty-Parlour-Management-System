@@ -1,0 +1,104 @@
+/* Page background */
+body {
+    margin: 0;
+    font-family: 'Poppins', 'Roboto', sans-serif;
+    background: #f3f3f3;
+}
+
+/* Main content fixed between header and footer */
+.main-content {
+    position: fixed;
+    top: 60px;                      /* header height */
+    left: 60px;                     /* collapsed sidebar width */
+    right: 0;
+    bottom: 50px;                   /* footer height */
+    padding: 40px;
+    overflow-y: auto;
+    background: #f3f3f3;
+    box-sizing: border-box;
+    transition: left 0.3s ease;     /* smooth slide when sidebar opens */
+}
+
+/* When sidebar is open — .shifted toggled by your JS */
+.main-content.shifted {
+    left: 250px;
+}
+
+/* Page title */
+.title {
+    color: #f67535;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Container box */
+.container {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    padding: 25px;
+}
+
+/* Sub heading */
+.container h3 {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+/* Table header */
+table th {
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    font-size: 15px;
+}
+
+/* Table data */
+table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    font-size: 14px;
+}
+
+/* Action button container */
+.action-buttons {
+    white-space: nowrap;
+}
+
+/* View button */
+.view-btn {
+    background: #337ab7;
+    color: white;
+    padding: 6px 14px;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.view-btn:hover {
+    background: #2c6aa0;
+}
+
+/* Delete button */
+.delete-btn {
+    background: #d9534f;
+    color: white;
+    padding: 6px 14px;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 14px;
+    margin-left: 6px;
+    display: inline-block;
+}
+
+.delete-btn:hover {
+    background: #c9302c;
+}

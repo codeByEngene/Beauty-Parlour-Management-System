@@ -1,0 +1,96 @@
+body {
+  font-family: 'Roboto Condensed', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #e3e3e3;
+}
+
+
+/* HEADER */
+#header {
+  display: flex;
+  justify-content: space-between;
+  height: 11vh;
+  background-color: white;
+  box-shadow: 0 2px 5px rgb(181, 176, 176);
+  margin-top: 0px;
+  margin-bottom: 60px;
+}
+
+/* LOGO */
+.logo {
+  display: flex;
+  gap: 40px;
+}
+
+.logo i {
+  font-size: 25px;
+  padding-top: 25px;
+  margin-left: 50px;
+}
+
+.logo2 {
+  width: 300px;
+  height: 12vh;
+  text-align: center;
+  background-color: #6467c2;
+  color: white;
+  line-height: 12px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.logo2 p {
+  letter-spacing: 6px;
+}
+
+/* HEADER ICONS */
+.icon {
+  display: flex;
+}
+
+.bell {
+  padding: 30px 50px;
+}
+
+.bell i {
+  font-size: 19px;
+  color: rgb(97, 97, 98);
+}
+
+.user {
+  display: flex;
+  gap: 8px;
+  padding-right: 30px;
+}
+
+.user i {
+  font-size: 50px;
+  color: #e94e02;
+  padding-top: 14px;
+}
+
+.user-text {
+  line-height: 3px;
+  padding-top: 10px;
+}
+
+.user-text h3 {
+  color: #e94e02;
+}
+
+.user-text p {
+  font-style: italic;
+  color: rgb(97, 97, 98);
+}
+
+.user img {
+  width: 25px;
+  margin-left: 15px;
+}
+
+
+main {
+  padding-top: 11vh;
+  margin-top: 40px;
+}

@@ -8,8 +8,7 @@
      <li><a href="get-appointment.php">Get-Appointment</a></li>
      <li><a href="bookinghistory.php">Booking History</a></li>
      <li><a href="invoice.php">Invoice History</a></li>
-     <li><a href="profile.php">Profile</a></li>
-     <li><a href="setting.php">Setting</a></li>
+ 
      <li><a href="logout.php">LogOut</a></li>
   </ul>
 </nav>

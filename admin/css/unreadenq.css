@@ -1,0 +1,97 @@
+/* Page Background */
+body {
+    margin: 0;
+    font-family: 'Poppins', 'Roboto', sans-serif;
+    background-color: #efefef;
+}
+
+/* Main content fixed between header and footer */
+.main-content {
+    position: fixed;
+    top: 60px;                          /* header height */
+    left: 60px;                         /* collapsed sidebar width */
+    right: 0;
+    bottom: 50px;                       /* footer height */
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #efefef;
+    box-sizing: border-box;
+    transition: left 0.3s ease;         /* smooth slide when sidebar opens */
+}
+
+/* When sidebar is open — .shifted toggled by your JS */
+.main-content.shifted {
+    left: 250px;
+}
+
+.container {
+    width: 96%;
+    margin: 20px auto;
+}
+
+/* Page Title */
+.title {
+    color: #ff5a00;
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* White box container */
+.box {
+    background: #f7f7f7;
+    border: 1px solid #dcdcdc;
+    padding: 25px;
+}
+
+/* Subtitle */
+.subtitle {
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* Table */
+.enquiry-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+/* Table Header */
+.enquiry-table th {
+    background: #f2f2f2;
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #dcdcdc;
+    font-size: 14px;
+}
+
+/* Table Body */
+.enquiry-table td {
+    padding: 12px;
+    border: 1px solid #dcdcdc;
+}
+
+.view-btn {
+    background: #337ab7;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}

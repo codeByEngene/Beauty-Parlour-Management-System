@@ -1,0 +1,100 @@
+body{
+font-family: 'Poppins', 'Roboto', sans-serif;
+background:#f3f3f3;
+margin:0;
+padding:30px;
+}
+
+/* ================= MAIN CONTENT ================= */
+.main-content {
+    position: fixed;
+    top: 60px;                          /* header height */
+    left: 60px;                         /* collapsed sidebar width */
+    right: 0;
+    bottom: 50px;                       /* footer height */
+    padding: 20px;
+    background: #f2f2f2;
+    overflow-y: auto;
+    box-sizing: border-box;
+    transition: left 0.3s ease;         /* smooth slide when sidebar opens */
+}
+
+/* When sidebar is open — .shifted toggled by your JS */
+.main-content.shifted {
+    left: 250px;
+}
+
+/* ================= CONTAINER ================= */
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Page Title */
+.page-title {
+    color: #e94e02;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* ================= CARD BOX ================= */
+.card-box {
+    background: #ffffff;
+    padding: 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    background: #f2f2f2;
+    padding: 10px;
+    margin: -25px -25px 20px;
+    font-weight: 500;
+}
+
+/* ================= TABLE ================= */
+.service-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.service-table th,
+.service-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.service-table th {
+    background: #f2f2f2;
+}
+
+/* ================= ACTION BUTTONS ================= */
+.action-buttons {
+    white-space: nowrap;
+}
+
+.btn-edit {
+    background: #025cab;
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.btn-edit:hover {
+    background: #01467f;
+}
+
+.btn-delete {
+    background: #f34842;
+    color: white;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.btn-delete:hover {
+    background: #c73630;
+}

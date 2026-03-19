@@ -1,10 +1,15 @@
 <?php
 session_start();
-if (!isset($_SESSION['uid']) || $_SESSION['role'] != 'user') {
-    header("Location: Home/login.php");
-    exit;
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+if (!isset($_SESSION['bpmsaid']) || strlen($_SESSION['bpmsaid']) == 0) {
+    header('location:../index.php'); 
+    exit();
 }
-echo "Welcome User";
+
+// User details nikalne
+$fullname = $_SESSION['fullname'];
 ?>
 
 <!DOCTYPE html>
@@ -12,9 +17,8 @@ echo "Welcome User";
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Beauty Parlour</title>
+  <title>Beauty Parlour | User Dashboard</title>
 
-  <!-- CSS -->
   <link rel="stylesheet" href="style1.css">
   <link rel="stylesheet" href="include/header.css">
   <link rel="stylesheet" href="include/footer.css">
@@ -22,15 +26,19 @@ echo "Welcome User";
 </head>
 
 <body>
-<?php include('include/header.php');?>
-  <!-- Slideshow -->
+<?php 
+// Header file include garda path check garnu hola
+// Yadi 'include' folder baira chha bhane path ../include/header.php hunu parcha
+include('include/header.php');
+?>
+
   <div class="slideshow">
     <div class="slide">
       <img src="images/bg1.jpg" alt="Slide 1" />
       <div class="caption">
-        <h2>Welcome to Our Beauty Parlour</h2>
+        <h2>Welcome, <?php echo htmlspecialchars($fullname); ?></h2>
         <p>Experience the best beauty services with us.</p>
-        <a href="get-appointment.php" class="btn">Get Appointment</a>m
+        <a href="../get-appointment.php" class="btn">Get Appointment</a>
       </div>
     </div>
 
@@ -44,7 +52,6 @@ echo "Welcome User";
     </div>
   </div>
 
-  <!-- Parlour Section -->
   <section class="parlour">
     <h1>Our Salon is Most Popular</h1>
     <p>Anua Hair and Beauty Salon offers a wide range of beauty services.</p>
@@ -67,7 +74,6 @@ echo "Welcome User";
     </div>
   </section>
 
-  <!-- Image Content Section -->
   <div class="image-container">
     <div class="overlay"></div>
     <div class="text-content">
@@ -81,7 +87,6 @@ echo "Welcome User";
     </div>
   </div>
 
-  <!-- Section: Hair Salon Info -->
   <section class="salon-section">
     <div class="salon-container">
       <div class="salon-image">
@@ -113,7 +118,6 @@ echo "Welcome User";
             <li>Body Therapies</li>
           </ul>
         </div>
-
       </div>
     </div>
   </section>

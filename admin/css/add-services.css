@@ -1,0 +1,69 @@
+/* ================= MAIN CONTENT ================= */
+.main-content {
+  position: fixed;
+  top: 60px;       /* header height */
+  left: 290px;     /* sidebar width */
+  right: 0;
+  bottom: 0;    /* footer height */
+  padding: 40px;
+  background: #f2f2f2;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* ================= CONTAINER ================= */
+.container {
+  width: 85%;
+  margin: 0 auto;
+}
+
+/* Page Title */
+.page-title {
+  color: #e94e02;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+/* ================= CARD BOX ================= */
+.card-box {
+  background: #ffffff;
+  padding: 25px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card-title {
+  background: #f2f2f2;
+  padding: 10px;
+  margin: -25px -25px 20px;
+  font-weight: 500;
+}
+
+/* ================= FORM ================= */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* ================= BUTTON ================= */
+.action-buttons {
+  margin-top: 20px;
+}
+
+.btn-primary {
+  background: #6467c2;
+  color: #ffffff;
+  border: none;
+  padding: 10px 25px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.btn-primary:hover {
+  background: #5457a8;
+}

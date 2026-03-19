@@ -1,0 +1,332 @@
+body {
+  font-family: 'Roboto Condensed', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #e3e3e3;
+}
+
+
+/* DASHBOARD ROW */
+/* GLOBAL */
+* {
+  box-sizing: border-box;
+}
+
+/* DASHBOARD ROW */
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  width: 98%;
+  margin: 35px auto;
+  padding: 12px 20px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgb(181, 176, 176);
+}
+
+
+/* CARD BASE */
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  height: 13vh;
+}
+
+/* CARD COLORS */
+.card1 {
+  background-color: #4e52ba;
+}
+
+.card2 {
+  background-color: #585858;
+}
+
+.card3 {
+  background-color: #e94e02;
+}
+
+/* CARD TEXT*/
+.card-text {
+  padding-left: 40px;
+  line-height: 13px;
+}
+
+.card-text p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.card-text h1 {
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+/* COUNT BOX */
+.count {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.count p {
+  font-size: 45px;
+  margin: 0;
+}
+
+/* COUNT COLORS */
+.count1 {
+  background-color: #6467c2;
+}
+
+.count2 {
+  background-color: #6c6c6c;
+}
+
+.count3 {
+  background-color: #ed6a2b;
+}
+/*  DASHBOARD  */
+#main-content {
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+  padding-top: 11vh;
+  padding-bottom: 11vh;
+}
+
+.sidebar.active ~ #main-content {
+  margin-left: 280px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

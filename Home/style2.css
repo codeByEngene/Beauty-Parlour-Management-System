@@ -40,3 +40,26 @@ h1 {
   color: #333;
 }
 
+.service-card a.btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 18px;
+  background-color: #3498db;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.service-card a.btn:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.service-card a.btn:active {
+  transform: translateY(0);
+}
+
+
