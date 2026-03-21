@@ -1,11 +1,16 @@
 <?php 
+session_start();
 include('includes/dbconnection.php'); 
+
+if (strlen($_SESSION['bpmsaid']) == 0) {
+    header('location:logout.php');
+} else {
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Manage Unread Enquiry</title>
+    <title>Manage Unread Enquiry - BPMS Admin</title>
     <link rel="stylesheet" href="css/unreadenq.css">
 </head>
 <body>
@@ -13,11 +18,11 @@ include('includes/dbconnection.php');
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/sidebar.php'; ?>
 
-<div class="main-content">
+<main id="main-content" class="main-content">
     <div class="container">
         <h1 class="title">Manage Unread Enquiry</h1>
         <div class="box">
-            <h3 class="subtitle">View Enquiry:</h3>
+            <h3 class="subtitle">New Messages:</h3>
             <table class="enquiry-table">
                 <thead>
                     <tr>
@@ -30,13 +35,10 @@ include('includes/dbconnection.php');
                 </thead>
                 <tbody>
                 <?php
-                
                 $ret = mysqli_query($con, "SELECT * FROM tblcontact WHERE IsRead=0 ORDER BY id DESC");
                 $cnt = 1;
                 
-                
-                $count_rows = mysqli_num_rows($ret);
-                if($count_rows > 0) {
+                if(mysqli_num_rows($ret) > 0) {
                     while ($row = mysqli_fetch_array($ret)) {
                 ?>
                     <tr>
@@ -46,8 +48,8 @@ include('includes/dbconnection.php');
                         <td><?php echo $row['PostingDate']; ?></td>
                         <td>
                             <div class="action-buttons">
-                                <a href="view-enquiry.php?viewid=<?php echo $row['ID']; ?>" class="view-btn" style="padding:5px 10px; background:#d4a373; color:white; text-decoration:none; border-radius:4px; display:inline-block;">View</a>
-                                <a href="delete-enquiry.php?id=<?php echo $row['ID']; ?>" class="delete-btn" style="padding:5px 10px; background:red; color:white; text-decoration:none; border-radius:4px; margin-left:5px;" onclick="return confirm('Do you really want to delete?');">Delete</a>
+                                <a href="view-enquiry.php?viewid=<?php echo $row['ID']; ?>" class="view-btn">View</a>
+                                <a href="manage-unread-enquiry.php?delid=<?php echo $row['ID']; ?>" class="delete-btn" onclick="return confirm('Do you really want to delete?');">Delete</a>
                             </div>
                         </td>
                     </tr>
@@ -56,17 +58,18 @@ include('includes/dbconnection.php');
                     } 
                 } else { ?>
                     <tr>
-                        <td colspan="5" style="text-align:center; color:red;">No unread enquiries found.</td>
+                        <td colspan="5" style="text-align:center; color:red; padding:20px;">No unread enquiries found.</td>
                     </tr>
                 <?php } ?>
                 </tbody>
             </table>
         </div>
     </div>
-</div>
+</main>
 
 <?php include 'includes/footer.php'; ?>
 <script src="js/script.js"></script>
 
 </body>
 </html>
+<?php } ?>

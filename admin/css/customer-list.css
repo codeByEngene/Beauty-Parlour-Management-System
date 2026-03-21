@@ -2,44 +2,30 @@ body {
     font-family: 'Poppins', 'Roboto', sans-serif;
     background: #f4f4f4;
     margin: 0;
-    padding: 0;                         /* removed — conflicts with fixed layout */
 }
 
-/* Main content fixed between header and footer */
+/* MAIN CONTENT - Extended Layout */
 .main-content {
-    position: fixed;
-    top: 60px;                          /* header height */
-    left: 60px;                         /* collapsed sidebar width */
-    right: 0;
-    bottom: 50px;                       /* footer height */
+    position: relative; /* Changed from fixed to allow vertical scrolling */
+    top: 60px;          /* header height */
+    margin-left: 0;     /* Default for collapsed sidebar */
+    min-height: 100vh;  /* Ensures background fills the screen */
     padding: 20px;
-    overflow-y: auto;
     background: #f4f4f4;
     box-sizing: border-box;
-    transition: left 0.3s ease;         /* smooth slide when sidebar opens */
+    transition: margin-left 0.3s ease; /* smooth slide when sidebar opens */
 }
 
-/* When sidebar is open — .shifted toggled by your JS */
+/* When sidebar is open — toggled by script.js */
 .main-content.shifted {
-    left: 250px;
+    margin-left: 250px;
 }
-
-/* Container */
-.container {
-    width: 92%;
-    margin: auto;
-    background: #f1efef;
-    padding: 25px;
-    border: 1px solid #ddd;
-}
-
-
 
 /* Page title */
 .title {
     color: #f05a1a;
     font-size: 28px;
-    margin-bottom: 30px 60px;
+    margin: 20px 0 30px 2%;
 }
 
 /* Card container */
@@ -48,12 +34,16 @@ body {
     border: 1px solid #ddd;
     padding: 25px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 96%;
+    margin: auto;
+    overflow-x: auto; /* Adds horizontal scroll if table is too wide on mobile */
 }
 
 /* Sub heading */
 .card h3 {
     color: #666;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    font-weight: 400;
 }
 
 /* Table */
@@ -67,29 +57,30 @@ table th {
     border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
+    font-size: 14px;
+    color: #333;
 }
 
 table td {
     border: 1px solid #ddd;
     padding: 12px;
+    font-size: 14px;
 }
 
 /* Buttons */
 .assign {
     background: #337ab7;
     color: white;
-    padding: 6px 12px;
+    padding: 6px 15px;
     text-decoration: none;
     border-radius: 3px;
+    font-size: 13px;
+    transition: 0.3s;
+    display: inline-block;
 }
 
-.delete {
-    background: #d9534f;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 3px;
-    cursor: pointer;
+.assign:hover {
+    background: #286090;
 }
 
 .action-buttons {

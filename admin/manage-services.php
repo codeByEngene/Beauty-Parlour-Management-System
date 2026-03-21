@@ -1,13 +1,15 @@
 <?php
+session_start();
 include 'includes/dbconnection.php';
 
-// Code for Deletion
 if(isset($_GET['delid'])) {
     $id = $_GET['delid'];
     mysqli_query($con, "DELETE FROM services WHERE id = '$id'");
     echo "<script>alert('Data Deleted');</script>";
     echo "<script>window.location.href='manage-services.php'</script>";
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +23,7 @@ if(isset($_GET['delid'])) {
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/sidebar.php'; ?>
 
-    <main class="main-content">
+    <main id="main-content" class="main-content">
         <div class="container">
             <h2 class="page-title">Manage Services</h2>
             <div class="card-box">

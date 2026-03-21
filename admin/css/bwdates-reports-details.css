@@ -1,0 +1,143 @@
+/* ================= GLOBAL RESETS ================= */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+/* ================= MAIN CONTENT LAYOUT ================= */
+.main-content {
+    position: relative;
+    top: 60px;              /* Space for fixed header */
+    margin-left: 60px;      /* Matches collapsed sidebar width */
+    min-height: calc(100vh - 110px); /* Full height minus header/footer */
+    padding: 30px;
+    background: #f4f7f6;
+    transition: margin-left 0.3s ease;
+    overflow-x: hidden;
+}
+
+/* When Sidebar is Toggled Open */
+.main-content.shifted {
+    margin-left: 280px; 
+}
+
+/* ================= TYPOGRAPHY ================= */
+.page-title {
+    color: #e65100; /* Deep orange */
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    border-left: 5px solid #e65100;
+    padding-left: 15px;
+}
+
+/* ================= CARD CONTAINER ================= */
+.card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.sub-title {
+    font-size: 18px;
+    color: #444;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.report-range {
+    text-align: center;
+    background: #e3f2fd; /* Light blue background */
+    color: #0d47a1;      /* Dark blue text */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
+    width: 100%;
+}
+
+/* ================= DATA TABLE ================= */
+.report-table {
+    width: 100%; /* Changed from 80% to 100% for better use of space */
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: #fff;
+}
+
+.report-table thead {
+    background-color: #f8f9fa;
+}
+
+.report-table th {
+    padding: 15px 12px;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+    color: #555;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+.report-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+/* Zebra Striping */
+.report-table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+/* Hover effect on rows */
+.report-table tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: background 0.2s;
+}
+
+/* ================= ACTION BUTTON ================= */
+.btn-view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    background: #4e73df; /* Modern Blue */
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 20px; /* Rounded pill style */
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-view:hover {
+    background: #224abe;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transform: translateY(-1px);
+}
+
+/* ================= RESPONSIVE DESIGN ================= */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0 !important;
+        padding: 15px;
+    }
+    
+    .report-table {
+        display: block;
+        overflow-x: auto; /* Adds scrollbar for mobile */
+    }
+}

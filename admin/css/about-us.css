@@ -4,23 +4,21 @@ body {
     margin: 0;
 }
 
-/* Main content fixed between header and footer */
+/* FIXED: Changed from fixed to relative to allow page extension */
 .main-content {
-    position: fixed;
+    position: relative;
     top: 60px;                          /* header height */
-    left: 60px;                         /* collapsed sidebar width */
-    right: 0;
-    bottom: 50px;                       /* footer height */
+    margin-left: 0;                     /* default */
+    min-height: 100vh;                  /* keeps background full screen */
     padding: 30px;
-    overflow-y: auto;
     background: #e6e6e6;
     box-sizing: border-box;
-    transition: left 0.3s ease;         /* smooth slide when sidebar opens */
+    transition: margin-left 0.3s ease;  /* smooth slide */
 }
 
-/* When sidebar is open — .shifted toggled by your JS */
+/* This reacts to your JS toggle */
 .main-content.shifted {
-    left: 250px;
+    margin-left: 250px; 
 }
 
 /* Container */
@@ -41,23 +39,22 @@ body {
     background: #f7f7f7;
     border: 1px solid #d5d5d5;
     padding: 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-/* Panel heading */
 .panel h3 {
     color: #666;
     font-weight: normal;
     margin-bottom: 20px;
 }
 
-/* Labels */
 label {
     display: block;
     margin-top: 15px;
     margin-bottom: 5px;
+    font-weight: 500;
 }
 
-/* Input fields */
 .input {
     width: 100%;
     padding: 10px;
@@ -65,40 +62,29 @@ label {
     box-sizing: border-box;
 }
 
-/* Textarea */
 .textarea {
     width: 100%;
-    height: 150px;
+    height: 250px; /* Increased height for better editing */
     padding: 10px;
     border: 1px solid #ccc;
     box-sizing: border-box;
+    font-family: inherit;
 }
 
-/* Button wrapper */
 .action-buttons {
     margin-top: 20px;
 }
 
-/* Button */
 .btn {
-    padding: 10px 20px;
+    padding: 10px 25px;
     background: #6c7ae0;
     border: none;
     color: white;
     cursor: pointer;
     border-radius: 3px;
+    font-size: 16px;
 }
 
 .btn:hover {
     background: #5a68c7;
-}
-
-/* Footer */
-.footer {
-    text-align: center;
-    padding: 15px;
-    background: #f7f7f7;
-    border: 1px solid #d5d5d5;
-    border-top: none;
-    margin-top: 20px;
 }

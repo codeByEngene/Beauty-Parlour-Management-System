@@ -34,34 +34,34 @@
 .breadcrumb {
     padding: 15px 40px;
     font-size: 15px;
-}
-
-/* SECTION */
-.appointment {
-    padding: 60px 40px;
-}
-
-.container {
-    display: flex;
-    gap: 60px;
     max-width: 1200px;
     margin: auto;
 }
 
-/* INFO */
-.info {
-    width: 35%;
+/* SECTION */
+.appointment {
+    padding: 60px 20px; /* Reduced side padding for centered look */
+    display: flex; /* Centering outer alignment */
+    justify-content: center;
 }
 
-.info-item {
+/* NEW: Container designed specifically for centering */
+.centered-container {
+    width: 100%;
+    max-width: 750px; /* Limits the form width to prevent stretching */
     display: flex;
-    gap: 15px;
-    margin-bottom: 25px;
+    justify-content: center;
 }
 
-/* FORM */
+/* REMOVED: Old .container and .info rules */
+
+/* FORM BOX */
 .form-box {
-    width: 65%;
+    width: 100%; /* Form now fills its centered container */
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Optional: Soft shadow makes form pop */
 }
 
 .form-box form {
@@ -82,42 +82,40 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 15px;
+    width: 100%; /* All fields full width */
 }
 
 .form-box textarea {
     min-height: 120px;
 }
 
+/* Updated dropdown style */
 .appointment-time {
-    width: 40%;
+    width: 100%; /* Dropdown fills form on all devices */
+    cursor: pointer;
 }
 
 /* BUTTON */
 .form-box button {
-    margin-top: 20px;
+    margin-top: 25px;
     background: #ff6aa2;
     color: white;
-    padding: 12px;
+    padding: 14px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .form-box button:hover {
     background: #ff4c8b;
 }
 
-/* RESPONSIVE */
-@media(max-width:900px){
-    .container{
-        flex-direction: column;
-    }
-
-    .info, .form-box{
-        width:100%;
-    }
-
-    .appointment-time{
-        width:100%;
-    }
+/* RESPONSIVE (Simplified) */
+@media(max-width:768px){
+    .breadcrumb { padding: 10px 20px; }
+    .hero h1 { font-size: 32px; }
+    .hero p { font-size: 14px; }
+    .form-box { padding: 20px; }
 }

@@ -1,16 +1,13 @@
 <link rel="stylesheet" href="includes/sidebar.css">
 
-<!-- SIDEBAR START -->
 <div class="sidebar" id="sidebar">
   <ul>
-    <!-- Dashboard -->
     <li>
       <a href="dashboard.php" id="dashboard-link">
         <i class="fa fa-home"></i> Dashboard
       </a>
     </li>
 
-    <!-- Services -->
     <li class="menu">
       <a href="#">
         <i class="fa fa-cogs"></i> Services
@@ -21,7 +18,6 @@
       </ul>
     </li>
 
-    <!-- Pages -->
     <li class="menu">
       <a href="#"><i class="fa fa-book"></i> Pages</a>
       <ul class="submenu">
@@ -30,7 +26,6 @@
       </ul>
     </li>
 
-    <!-- Appointment -->
     <li class="menu">
       <a href="#"><i class="fa fa-calendar"></i> Appointment</a>
       <ul class="submenu">
@@ -41,7 +36,6 @@
       </ul>
     </li>
 
-    <!-- Enquiry -->
     <li class="menu">
       <a href="#"><i class="fa fa-envelope"></i> Enquiry</a>
       <ul class="submenu">
@@ -50,12 +44,10 @@
       </ul>
     </li>
 
-    <!-- Customer List -->
     <li>
       <a href="customer-list.php"><i class="fa fa-users"></i> Customer List</a>
     </li>
 
-    <!-- Reports -->
     <li class="menu">
       <a href="#"><i class="fa fa-bar-chart"></i> Reports</a>
       <ul class="submenu">
@@ -64,18 +56,15 @@
       </ul>
     </li>
 
-    <!-- Invoices -->
     <li>
       <a href="invoices.php"><i class="fa-solid fa-file-alt"></i> Invoices</a>
     </li>
 
-    <!-- Search -->
     <li>
       <a href="search-appointment.php"><i class="fa fa-search"></i> Search Appointment</a>
     </li>
     <li>
       <a href="search-invoices.php"><i class="fa fa-search"></i> Search Invoice</a>
-    </li>
-  </ul>
+    </li> 
+    </ul>
 </div>
-<!-- SIDEBAR END -->

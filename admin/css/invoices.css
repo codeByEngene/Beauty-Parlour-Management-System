@@ -1,104 +1,102 @@
-/* Page background */
+/* General Reset */
 body {
     margin: 0;
     font-family: 'Poppins', 'Roboto', sans-serif;
     background: #f3f3f3;
 }
 
-/* Main content fixed between header and footer */
+/* MAIN CONTENT - Responsive Layout */
 .main-content {
-    position: fixed;
-    top: 60px;                      /* header height */
-    left: 60px;                     /* collapsed sidebar width */
-    right: 0;
-    bottom: 50px;                   /* footer height */
-    padding: 40px;
-    overflow-y: auto;
+    position: relative; /* Changed from fixed to allow vertical scrolling */
+    top: 60px;          /* Header height */
+    margin-left: 0;     /* Default for collapsed sidebar */
+    min-height: 100vh;
+    padding: 30px;
     background: #f3f3f3;
     box-sizing: border-box;
-    transition: left 0.3s ease;     /* smooth slide when sidebar opens */
+    transition: margin-left 0.3s ease;
 }
 
-/* When sidebar is open — .shifted toggled by your JS */
+/* Sidebar Toggle (Triggered by script.js) */
 .main-content.shifted {
-    left: 250px;
+    margin-left: 250px;
 }
 
-/* Page title */
+/* Page Title */
 .title {
     color: #f67535;
     font-size: 32px;
     margin-bottom: 20px;
+    font-weight: 500;
 }
 
-/* Container box */
+/* Container Box */
 .container {
     background: #ffffff;
     border: 1px solid #ddd;
     padding: 25px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-/* Sub heading */
 .container h3 {
     color: #666;
-    margin-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 400;
 }
 
-/* Table styling */
+/* Table Design */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
 }
 
-/* Table header */
 table th {
-    background: #f7f7f7;
+    background: #f8f9fa;
     border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
     font-size: 15px;
+    color: #333;
 }
 
-/* Table data */
 table td {
     border: 1px solid #ddd;
     padding: 12px;
     font-size: 14px;
+    color: #555;
 }
 
-/* Action button container */
+table tr:hover {
+    background-color: #fcfcfc;
+}
+
+/* Action Buttons */
 .action-buttons {
     white-space: nowrap;
 }
 
-/* View button */
 .view-btn {
-    background: #337ab7;
+    background: #2a9d8f;
     color: white;
-    padding: 6px 14px;
+    padding: 8px 16px;
     text-decoration: none;
-    border-radius: 3px;
-    font-size: 14px;
+    border-radius: 4px;
+    font-size: 13px;
     display: inline-block;
+    transition: background 0.3s ease, opacity 0.3s ease;
 }
 
 .view-btn:hover {
-    background: #2c6aa0;
+    background: #21867a;
+    opacity: 0.9;
 }
 
-/* Delete button */
-.delete-btn {
-    background: #d9534f;
-    color: white;
-    padding: 6px 14px;
-    text-decoration: none;
-    border-radius: 3px;
-    font-size: 14px;
-    margin-left: 6px;
-    display: inline-block;
-}
-
-.delete-btn:hover {
-    background: #c9302c;
+/* Helper Class */
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+    font-style: italic;
 }

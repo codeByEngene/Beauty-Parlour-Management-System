@@ -1,30 +1,58 @@
-body {
-  font-family: 'Roboto Condensed', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #e3e3e3;
-}
-
-
-/* DASHBOARD ROW */
 /* GLOBAL */
 * {
   box-sizing: border-box;
 }
 
-/* DASHBOARD ROW */
-
-.row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-  width: 98%;
-  margin: 35px auto;
-  padding: 12px 20px;
-  background-color: white;
-  box-shadow: 0 2px 5px rgb(181, 176, 176);
+body {
+  font-family: 'Roboto Condensed', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #e3e3e3;
+  scroll-behavior: smooth;
 }
 
+/* DASHBOARD MAIN LAYOUT */
+#main-content {
+  /* Remove position: fixed; it was preventing the dashboard from extending */
+  position: relative;
+  margin-left: 60px; /* Default collapsed width */
+  margin-top: 60px;  /* Space for header */
+  padding: 60px;
+  min-height: 100vh; /* Ensures it takes up full height */
+  background: #f3f3f3;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.shifted {
+  left: 250px;
+}
+
+.dashboard-header {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.header-title {
+  margin: 0;
+  color: #333;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 24px;
+}
+
+/* DASHBOARD GRID ROW */
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Better responsiveness */
+  gap: 25px;
+  width: 100%;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
 /* CARD BASE */
 .card {
@@ -35,20 +63,6 @@ body {
   height: 13vh;
 }
 
-/* CARD COLORS */
-.card1 {
-  background-color: #4e52ba;
-}
-
-.card2 {
-  background-color: #585858;
-}
-
-.card3 {
-  background-color: #e94e02;
-}
-
-/* CARD TEXT*/
 .card-text {
   padding-left: 40px;
   line-height: 13px;
@@ -62,9 +76,10 @@ body {
 .card-text h1 {
   font-weight: 500;
   margin-top: 8px;
+  font-size: 24px;
 }
 
-/* COUNT BOX */
+/* COUNT BOX BASE */
 .count {
   width: 30%;
   height: 100%;
@@ -78,255 +93,38 @@ body {
   margin: 0;
 }
 
-/* COUNT COLORS */
-.count1 {
-  background-color: #6467c2;
-}
+/* DYNAMIC CARD & COUNT COLORS */
 
-.count2 {
-  background-color: #6c6c6c;
-}
+/* Customers */
+.card1 { background-color: #4e52ba; }
+.count1 { background-color: #6467c2; }
 
-.count3 {
-  background-color: #ed6a2b;
-}
-/*  DASHBOARD  */
-#main-content {
-  margin-left: 0;
-  transition: margin-left 0.3s ease;
-  padding-top: 11vh;
-  padding-bottom: 11vh;
-}
+/* Appointments */
+.card3 { background-color: #e94e02; }
+.count3 { background-color: #ed6a2b; }
 
+/* Accepted */
+.card-accepted { background-color: #2ecc71; }
+.count-accepted { background-color: #27ae60; }
+
+/* Rejected */
+.card-rejected { background-color: #e74c3c; }
+.count-rejected { background-color: #c0392b; }
+
+/* Services */
+.card-services { background-color: #9b59b6; }
+.count-services { background-color: #8e44ad; }
+
+/* Sales */
+.card-sales { background-color: #1abc9c; }
+.count-sales { background-color: #16a085; }
+
+
+/* SIDEBAR TOGGLE STATES */
 .sidebar.active ~ #main-content {
   margin-left: 280px;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* Placeholder for card2 if ever used */
+.card2 { background-color: #585858; }
+.count2 { background-color: #6c6c6c; }

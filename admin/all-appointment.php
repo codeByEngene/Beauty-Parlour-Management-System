@@ -23,23 +23,12 @@ if(isset($_GET['delid'])) {
     <meta charset="UTF-8">
     <title>All Appointment - BPMS Admin</title>
     <link rel="stylesheet" href="css/all-appointment.css">
-    <style>
-   
-        .main-content { padding: 20px; margin-left: 250px; background: #f4f7f6; min-height: 100vh; }
-        .appointment-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .appointment-table th, .appointment-table td { border: 1px solid #eee; padding: 12px; text-align: left; }
-        .appointment-table th { background-color: #f8f9fa; color: #333; }
-        .status-pending { color: orange; font-weight: bold; }
-        .status-accepted { color: green; font-weight: bold; }
-        .status-rejected { color: red; font-weight: bold; }
-        .view-btn { padding: 5px 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 3px; font-size: 13px; }
-    </style>
 </head>
 <body>
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/sidebar.php'; ?>
 
-<div class="main-content">
+<main id="main-content" class="main-content">
     <h2 class="title">All Appointment</h2>
 
     <div class="container">
@@ -61,7 +50,6 @@ if(isset($_GET['delid'])) {
 
             <tbody>
             <?php
-       
             $ret = mysqli_query($con, "SELECT tblappointment.ID, tblappointment.AppointmentNumber, tblappointment.AptDate, tblappointment.AptTime, tblappointment.Status, tblusers.FullName, tblusers.MobileNumber 
                                        FROM tblappointment 
                                        JOIN tblusers ON tblusers.id = tblappointment.UserID 
@@ -93,6 +81,7 @@ if(isset($_GET['delid'])) {
                     <td>
                         <div class="action-buttons">
                             <a href="view-appointment.php?viewid=<?php echo $row['ID'];?>" class="view-btn">View</a>
+                            <a href="all-appointment.php?delid=<?php echo $row['ID'];?>" class="delete-btn" onclick="return confirm('Do you really want to delete?');">Delete</a>
                         </div>
                     </td>
                 </tr>
@@ -107,7 +96,7 @@ if(isset($_GET['delid'])) {
             </tbody>
         </table>
     </div>
-</div>
+</main>
 <?php include 'includes/footer.php'; ?>
 <script src="js/script.js"></script>
 </body>

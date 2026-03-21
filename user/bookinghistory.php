@@ -42,7 +42,7 @@ if (strlen($_SESSION['uid']) == 0) {
                     <tr>
                         <th>#</th>
                         <th>Apt Number</th>
-                        <th>Apt Date</th>
+                        <th>Service</th> <th>Apt Date</th>
                         <th>Apt Time</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -51,8 +51,13 @@ if (strlen($_SESSION['uid']) == 0) {
                 <tbody>
                 <?php
                 $userid = $_SESSION['uid'];
-                // User ko appointments naya pahile (DESC) dekhaune
-                $query = mysqli_query($con, "SELECT * FROM tblappointment WHERE UserID='$userid' ORDER BY ID DESC");
+                
+                // UPDATED QUERY: Using LEFT JOIN to get the service name
+                $query = mysqli_query($con, "SELECT tblappointment.*, services.service_name 
+                                            FROM tblappointment 
+                                            LEFT JOIN services ON tblappointment.ServiceId = services.id 
+                                            WHERE tblappointment.UserID='$userid' 
+                                            ORDER BY tblappointment.ID DESC");
                 $cnt = 1;
                 
                 if(mysqli_num_rows($query) > 0) {
@@ -61,7 +66,7 @@ if (strlen($_SESSION['uid']) == 0) {
                     <tr>
                         <td><?php echo $cnt;?></td>
                         <td><?php echo $row['AppointmentNumber'];?></td>
-                        <td><?php echo $row['AptDate'];?></td>
+                        <td><?php echo ($row['service_name'] != "") ? $row['service_name'] : "Not Specified"; ?></td> <td><?php echo $row['AptDate'];?></td>
                         <td><?php echo $row['AptTime'];?></td>
                         <td>
                             <?php 
@@ -78,7 +83,7 @@ if (strlen($_SESSION['uid']) == 0) {
                             ?>
                         </td>
                         <td>
-                            <a href="appointment-detail.php?viewid=<?php echo $row['ID'];?>" class="view-btn" style="text-decoration:none; padding: 5px 10px; background: #007bff; color: white; border-radius: 4px; font-size:12px;">View Detail</a>
+                            <a href="view-appointment.php?viewid=<?php echo $row['ID'];?>" class="view-btn" style="text-decoration:none; padding: 5px 10px; background: #007bff; color: white; border-radius: 4px; font-size:12px;">View Detail</a>
                         </td>
                     </tr>
                 <?php 
@@ -87,7 +92,7 @@ if (strlen($_SESSION['uid']) == 0) {
                 } else { 
                 ?>
                     <tr>
-                        <td colspan="6" style="color:red; text-align:center; padding:20px;">
+                        <td colspan="7" style="color:red; text-align:center; padding:20px;">
                             You haven't booked any appointments yet!
                         </td>
                     </tr>

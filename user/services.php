@@ -16,16 +16,16 @@
     $query = mysqli_query($con, "SELECT * FROM services");
     while ($row = mysqli_fetch_array($query)) {
     ?>
-<div class="service-card">
-    <img src="../admin/images/<?php echo $row['image']; ?>" alt="Service Image">
-    <h2><?php echo $row['service_name']; ?></h2>
-    <p><?php echo $row['service_desc']; ?></p>
-    <p class="price">Cost of Service: rs.<?php echo $row['cost']; ?></p>
-    <a href="get-appointment.php" class="btn">Get Appointment</a>
-</div>
+    <div class="service-card">
+        <img src="../admin/images/<?php echo $row['image']; ?>" alt="Service Image">
+        <h2><?php echo $row['service_name']; ?></h2>
+        <p><?php echo $row['service_desc']; ?></p>
+        <p class="price">Cost of Service: rs.<?php echo $row['cost']; ?></p>
+        <a href="get-appointment.php?serviceid=<?php echo $row['id']; ?>" class="btn">Get Appointment</a>
+    </div>
     <?php } ?>
     </main>
 
-<?php include ('include/footer.php');?>
+    <?php include ('include/footer.php');?>
 </body>
 </html>

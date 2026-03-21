@@ -1,15 +1,14 @@
-<?php include('includes/dbconnection.php'); ?>
+<?php 
+session_start();
+include('includes/dbconnection.php'); ?>
 <?php
-// 1. Unified the variable check. We will look for 'invoiceid' to match your links.
 if(isset($_GET['invoiceid']) && !empty($_GET['invoiceid'])) {
     $invid = $_GET['invoiceid'];
 } else {
-    // If neither is found, show error
+    
     echo "<h2 style='color:red; text-align:center;'>Error: Invalid Invoice ID. No ID provided in the URL.</h2>";
     exit;
 }
-// 2. Fetch User Details (Only need to do this once at the top)
-// Added mysqli_real_escape_string for basic security against SQL injection
 $safe_invid = mysqli_real_escape_string($con, $invid);
 
 $ret = mysqli_query($con, "SELECT DISTINCT tblusers.FullName, tblusers.email, tblusers.MobileNumber, tblinvoice.PostingDate 

@@ -5,28 +5,26 @@ body {
     background-color: #efefef;
 }
 
-/* Main content fixed between header and footer */
+/* MAIN CONTENT - Extended Layout */
 .main-content {
-    position: fixed;
-    top: 60px;                          /* header height */
-    left: 60px;                         /* collapsed sidebar width */
-    right: 0;
-    bottom: 50px;                       /* footer height */
+    position: relative; /* Changed to allow vertical scrolling */
+    top: 60px;          /* Matches header height */
+    margin-left: 0;     /* Starts at 0, pushed by JS .shifted class */
+    min-height: 100vh;  /* Background fills screen */
     padding: 20px;
-    overflow-y: auto;
     background-color: #efefef;
     box-sizing: border-box;
-    transition: left 0.3s ease;         /* smooth slide when sidebar opens */
+    transition: margin-left 0.3s ease;
 }
 
-/* When sidebar is open — .shifted toggled by your JS */
+/* Sidebar Toggle Class */
 .main-content.shifted {
-    left: 250px;
+    margin-left: 250px;
 }
 
 .container {
     width: 96%;
-    margin: 20px auto;
+    margin: 10px auto;
 }
 
 /* Page Title */
@@ -39,9 +37,10 @@ body {
 
 /* White box container */
 .box {
-    background: #f7f7f7;
+    background: #ffffff; /* Changed to pure white for better contrast */
     border: 1px solid #dcdcdc;
     padding: 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 /* Subtitle */
@@ -55,7 +54,6 @@ body {
 .enquiry-table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
 }
 
 /* Table Header */
@@ -71,27 +69,39 @@ body {
 .enquiry-table td {
     padding: 12px;
     border: 1px solid #dcdcdc;
+    background: #fff;
 }
 
+/* Buttons */
 .view-btn {
-    background: #337ab7;
+    background: #d4a373; /* Using your custom tan color */
     color: white;
-    border: none;
     padding: 6px 12px;
-    border-radius: 3px;
-    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.view-btn:hover {
+    background: #bc8a5f;
 }
 
 .delete-btn {
     background: #d9534f;
     color: white;
-    border: none;
     padding: 6px 12px;
-    border-radius: 3px;
-    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.delete-btn:hover {
+    background: #c9302c;
 }
 
 .action-buttons {
     display: flex;
-    gap: 5px;
+    gap: 8px;
 }

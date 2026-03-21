@@ -2,33 +2,31 @@ body {
     font-family: 'Poppins', 'Roboto', sans-serif;
     background: #f4f4f4;
     margin: 0;
-    padding: 0;                         /* removed — conflicts with fixed layout */
 }
 
-/* Main content fixed between header and footer */
+/* MAIN CONTENT - Extended Layout */
 .main-content {
-    position: fixed;
-    top: 60px;                          /* header height */
-    left: 60px;                         /* collapsed sidebar width */
-    right: 0;
-    bottom: 50px;                       /* footer height */
+    position: relative; /* Changed from fixed to allow scrolling */
+    top: 60px;          /* header height */
+    margin-left: 0;     /* Starts at 0, pushed by JS .shifted class */
+    min-height: 100vh;  /* Background fills screen */
     padding: 20px;
-    overflow-y: auto;
     background: #f4f4f4;
     box-sizing: border-box;
-    transition: left 0.3s ease;         /* smooth slide when sidebar opens */
+    transition: margin-left 0.3s ease; /* smooth slide */
 }
 
-/* When sidebar is open — .shifted toggled by your JS */
+/* Toggled by your JS */
 .main-content.shifted {
-    left: 250px;
+    margin-left: 250px;
 }
 
 /* Page title */
 .title {
     color: #f05a1a;
     font-size: 28px;
-    margin: 20px 60px;
+    margin: 20px 0;
+    padding-left: 4%;
 }
 
 /* Container */
@@ -38,70 +36,53 @@ body {
     background: #ffffff;
     padding: 25px;
     border: 1px solid #ddd;
-}
-
-
-
-/* Card box */
-.card {
-    background: #ffffff;
-    border: 1px solid #ddd;
-    padding: 25px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
 }
 
-/* Sub heading */
-.card h3 {
+.subtitle {
     color: #666;
     margin-bottom: 15px;
+    font-size: 18px;
 }
 
-/* Table style */
-table {
+/* Table Style */
+.appointment-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-table th {
+.appointment-table th {
     background: #f7f7f7;
     border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
     font-size: 14px;
+    color: #333;
 }
 
-table td {
+.appointment-table td {
     border: 1px solid #ddd;
     padding: 12px;
     font-size: 14px;
 }
 
 /* Buttons */
-.view {
+.view-btn {
     background: #337ab7;
     color: white;
     border: none;
-    padding: 6px 12px;
+    padding: 6px 15px;
     cursor: pointer;
     border-radius: 3px;
+    text-decoration: none;
+    font-size: 13px;
+    display: inline-block;
+    transition: background 0.3s;
 }
 
-.view:hover {
+.view-btn:hover {
     background: #2c6aa0;
-}
-
-.delete {
-    background: #d9534f;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    cursor: pointer;
-    border-radius: 3px;
-    margin-left: 5px;
-}
-
-.delete:hover {
-    background: #c9302c;
 }
 
 .action-buttons {

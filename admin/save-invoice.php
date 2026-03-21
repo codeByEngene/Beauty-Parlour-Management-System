@@ -1,16 +1,16 @@
 <?php
+session_start();
+error_reporting(0);
 include('includes/dbconnection.php');
 
 if (isset($_POST['assign'])) {
     $userid = $_GET['addid']; 
-    $services = $_POST['selected_services']; // Array from checkboxes
+    $services = $_POST['selected_services']; 
     
-    // Generate a unique 9-digit Billing ID
     $billingid = mt_rand(100000000, 999999999);
 
     if (!empty($services)) {
         foreach ($services as $serviceid) {
-            // INSERT the data into tblinvoice
             $query = mysqli_query($con, "INSERT INTO tblinvoice (Userid, ServiceId, BillingId) 
                                          VALUES ('$userid', '$serviceid', '$billingid')");
         }

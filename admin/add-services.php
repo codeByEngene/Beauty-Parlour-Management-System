@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'includes/dbconnection.php';
 
 if(isset($_POST['submit']))
@@ -47,7 +48,7 @@ if(isset($_POST['submit']))
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/sidebar.php'; ?>
 
-    <main class="main-content">
+    <main id="main-content" class="main-content">
         <div class="container">
             <h2 class="page-title">Add Services</h2>
             <div class="card-box">

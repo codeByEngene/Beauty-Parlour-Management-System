@@ -1,21 +1,50 @@
-const hamburger = document.getElementById("hamburger");
-const sidebar = document.getElementById("sidebar");
-const mainContent = document.querySelector(".main-content");
+document.addEventListener("DOMContentLoaded", function () {
+    const hamburger = document.getElementById("hamburger");
+    const sidebar = document.getElementById("sidebar");
+    const mainContent = document.getElementById("main-content"); // Fixed: uses ID now
 
-// Sidebar is OPEN by default — add 'active' class on page load
-sidebar.classList.add("active");
-mainContent.classList.add("shifted");
+    // 1. Sidebar is OPEN by default
+    if (sidebar && mainContent) {
+        sidebar.classList.add("active");
+        mainContent.classList.add("shifted");
+    }
 
-// Only toggle when hamburger is clicked
-hamburger.addEventListener("click", function () {
-    sidebar.classList.toggle("active");
-    mainContent.classList.toggle("shifted");
-});
+    // 2. Click Event
+    if (hamburger) {
+        hamburger.addEventListener("click", function () {
+            sidebar.classList.toggle("active");
+            mainContent.classList.toggle("shifted");
+        });
+    }
 
-// Submenu toggle — only on menu link click
-document.querySelectorAll(".menu > a").forEach(function (menu) {
-    menu.addEventListener("click", function (e) {
-        e.preventDefault();
-        this.parentElement.classList.toggle("active");
+    // 3. Submenu toggle
+    document.querySelectorAll(".menu > a").forEach(function (menu) {
+        menu.addEventListener("click", function (e) {
+            const parent = this.parentElement;
+            if (parent.querySelector('.submenu')) { // Check if submenu exists
+                e.preventDefault();
+                parent.classList.toggle("active");
+            }
+        });
     });
 });
+
+function updateNotificationCount() {
+    // This assumes you have a small file that just returns the count number
+    fetch('get_new_count.php')
+        .then(response => response.text())
+        .then(count => {
+            const badge = document.querySelector('.notification-badge');
+            if (parseInt(count) > 0) {
+                if (badge) {
+                    badge.textContent = count;
+                } else {
+                    // Refresh if badge needs to be created
+                    location.reload(); 
+                }
+            }
+        });
+}
+
+// Check every 1 minute
+setInterval(updateNotificationCount, 60000);

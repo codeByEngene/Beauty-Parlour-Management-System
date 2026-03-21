@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('includes/dbconnection.php');
 if(isset($_GET['delid'])) {
     $id = $_GET['delid'];

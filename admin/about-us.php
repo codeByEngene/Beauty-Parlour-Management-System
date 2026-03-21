@@ -1,7 +1,8 @@
 <?php 
+session_start();
 $conn = new mysqli("localhost", "root", "", "pms_db");
 
-$msg = ""; // Initialize an empty message variable
+$msg = ""; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_btn'])) {
     $title = mysqli_real_escape_string($conn, $_POST['page_title']);
@@ -10,13 +11,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_btn'])) {
     $sql = "UPDATE about_settings SET page_title='$title', page_description='$desc' WHERE id=1";
     
     if ($conn->query($sql) === TRUE) {
-        $msg = "success"; // Set flag for the popup
+        $msg = "success"; 
     } else {
         $msg = "error";
     }
 }
 
-// Fetch current data for the form
 $result = $conn->query("SELECT * FROM about_settings WHERE id=1");
 $data = $result->fetch_assoc();
 ?>
@@ -33,12 +33,12 @@ $data = $result->fetch_assoc();
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/sidebar.php'; ?>
 
-<div class="main-content">
+<main id="main-content" class="main-content">
     <div class="container">
         <h1 class="title">Update About Us</h1>
         <div class="panel">
             <form method="POST" action="">
-                <h3>Update About Us:</h3>
+                <h3>Update About Us Details:</h3>
 
                 <label>Page Title</label>
                 <input type="text" name="page_title" value="<?php echo $data['page_title']; ?>" class="input">
@@ -52,16 +52,15 @@ $data = $result->fetch_assoc();
             </form>
         </div>
     </div>
-</div>
+</main>
+
 <?php if ($msg == "success"): ?>
 <script>
-    // This is a simple browser alert popup
     alert("Update Successfully!");
-    
-    // Optional: Redirect back to the same page to clear the POST data
     window.location.href = "about-us.php"; 
 </script>
 <?php endif; ?>
+
 <?php include 'includes/footer.php'; ?>
 <script src="js/script.js"></script>
 

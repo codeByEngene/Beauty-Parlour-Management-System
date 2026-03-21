@@ -1,89 +1,164 @@
+/* --- Global Styling --- */
 body {
-    font-family: 'Poppins', 'Roboto', sans-serif;
-    background: #e6e6e6;
+    font-family: 'Poppins', sans-serif;
+    background: #f4f7f6;
     margin: 0;
 }
 
-/* Main content fixed between header and footer */
+/* --- Layout Fix --- */
 .main-content {
-    position: fixed;
-    top: 60px;                      /* header height */
-    left: 60px;                     /* collapsed sidebar width */
-    right: 0;
-    bottom: 50px;                   /* footer height */
-    padding: 40px;
-    overflow-y: auto;
-    background: #f2f2f2;
-    box-sizing: border-box;
-    transition: left 0.3s ease;     /* smooth slide when sidebar opens */
-}
-
-/* When sidebar is open — .shifted toggled by your JS */
-.main-content.shifted {
-    left: 250px;                    /* expanded sidebar width */
-}
-
-/* Inner container */
-.container {
-    width: 80%;
-    margin: 0 auto;
-}
-
-/* Page title */
-.title {
-    color: #ff5a00;
-    font-size: 36px;
-    margin-bottom: 20px;
-}
-
-/* Panel box */
-.panel {
-    background: #f7f7f7;
-    border: 1px solid #d5d5d5;
+    position: relative; /* relative prevents footer overlap */
+    top: 60px;
+    margin-left: 60px;
+    min-height: calc(100vh - 110px);
     padding: 30px;
+    background: #f4f7f6;
+    box-sizing: border-box;
+    transition: margin-left 0.3s ease;
 }
 
-.panel h3 {
-    color: #666;
-    font-weight: normal;
+.main-content.shifted {
+    margin-left: 280px;
 }
 
-/* Label style */
+.title {
+    color: #e65100;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+/* --- Panel & Cards --- */
+.panel {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+}
+
+.panel-subtitle {
+    margin-top: 0;
+    color: #444;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* --- Form Elements --- */
+.search-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
 .label {
-    display: block;
-    margin-top: 20px;
-    margin-bottom: 8px;
-    font-weight: bold;
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
 }
 
-/* Input style */
 .input {
-    width: 100%;
-    padding: 10px;
+    flex: 1;
+    padding: 12px;
     border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
 }
 
-/* Button style */
-.btn {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #3a78b3;
-    border: none;
+.input:focus { border-color: #e65100; }
+
+.btn-search {
+    padding: 0 25px;
+    background: #4e73df;
     color: white;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
+    font-weight: 500;
 }
 
-/* Footer */
-.footer {
-    text-align: center;
-    padding: 15px;
-    background: #f7f7f7;
-    border: 1px solid #d5d5d5;
-    border-top: none;
+.btn-clear {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    background: #f8f9fa;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* --- Results Table --- */
+.result-info span { color: #e65100; font-weight: 600; }
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 20px;
 }
 
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
+.invoice-table th {
+    background: #f8f9fa;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #555;
+}
+
+.invoice-table td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.btn-view {
+    background: #2a9d8f;
+    color: white;
+    padding: 6px 15px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 13px;
+    transition: background 0.3s;
+}
+
+.btn-view:hover { background: #21867a; }
+
+.no-data {
+    text-align: center;
+    color: #d9534f;
+    padding: 40px !important;
+}
+
+.input-with-icon {
+    position: relative;
+    flex: 1;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.input-with-icon .input {
+    padding-left: 35px; /* Make room for the icon */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Button hover effects with icons */
+.btn-search i, .btn-clear i, .btn-view i {
+    margin-right: 5px;
+}
+
+.btn-search:hover {
+    background: #2e59d9;
+    box-shadow: 0 2px 8px rgba(78, 115, 223, 0.4);
 }

@@ -1,32 +1,31 @@
-body{
-font-family: 'Poppins', 'Roboto', sans-serif;
-background:#f3f3f3;
-margin:0;
-padding:30px;
+body {
+    font-family: 'Poppins', 'Roboto', sans-serif;
+    background: #f3f3f3;
+    margin: 0;
+    padding: 0; /* Changed from 30px to 0 to avoid double padding with main */
 }
 
 /* ================= MAIN CONTENT ================= */
 .main-content {
-    position: fixed;
+    /* CHANGED: From fixed to relative to allow the table to extend/scroll */
+    position: relative;
     top: 60px;                          /* header height */
-    left: 60px;                         /* collapsed sidebar width */
-    right: 0;
-    bottom: 50px;                       /* footer height */
+    margin-left: 0;                     /* starts at 0 */
+    min-height: 100vh;                  /* Forces background to fill the screen */
     padding: 20px;
     background: #f2f2f2;
-    overflow-y: auto;
     box-sizing: border-box;
-    transition: left 0.3s ease;         /* smooth slide when sidebar opens */
+    transition: margin-left 0.3s ease;  /* smooth slide when sidebar opens */
 }
 
-/* When sidebar is open — .shifted toggled by your JS */
+/* When sidebar is active, your JS adds .shifted */
 .main-content.shifted {
-    left: 250px;
+    margin-left: 250px; 
 }
 
 /* ================= CONTAINER ================= */
 .container {
-    width: 80%;
+    width: 95%; /* Increased for better table visibility */
     margin: 0 auto;
 }
 
@@ -42,13 +41,7 @@ padding:30px;
     background: #ffffff;
     padding: 25px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.card-title {
-    background: #f2f2f2;
-    padding: 10px;
-    margin: -25px -25px 20px;
-    font-weight: 500;
+    overflow-x: auto; /* Adds scrollbar if table is too wide for screen */
 }
 
 /* ================= TABLE ================= */
@@ -83,18 +76,10 @@ padding:30px;
     margin-right: 5px;
 }
 
-.btn-edit:hover {
-    background: #01467f;
-}
-
 .btn-delete {
     background: #f34842;
     color: white;
     padding: 5px 10px;
     text-decoration: none;
     border-radius: 3px;
-}
-
-.btn-delete:hover {
-    background: #c73630;
 }

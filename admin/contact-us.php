@@ -1,5 +1,5 @@
 <?php
-// Database connection
+session_start();
 $con = mysqli_connect("localhost", "root", "", "pms_db");
 
 $msg = "";
@@ -10,7 +10,6 @@ if(isset($_POST['update'])) {
     $time  = mysqli_real_escape_string($con, $_POST['timing']);
     $desc  = mysqli_real_escape_string($con, $_POST['pagedescription']);
 
-    // Updating tblpages based on PageType
     $query = mysqli_query($con, "UPDATE tblpages SET PageTitle='$title', Email='$email', MobileNumber='$phone', Timing='$time', PageDescription='$desc' WHERE PageType='contactus'");
     
     if ($query) { 
@@ -18,7 +17,6 @@ if(isset($_POST['update'])) {
     }
 }
 
-// Fetch data to pre-fill the form
 $ret = mysqli_query($con, "SELECT * FROM tblpages WHERE PageType='contactus'");
 $row = mysqli_fetch_array($ret);
 ?>
@@ -33,7 +31,8 @@ $row = mysqli_fetch_array($ret);
 
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/sidebar.php'; ?>
-    <div class="main-content">
+
+    <div id="main-content" class="main-content">
         <div class="container">
             <h1 class="title">Update Contact Us</h1>
             <div class="panel">
@@ -67,6 +66,7 @@ $row = mysqli_fetch_array($ret);
         window.location.href='update-contact.php'; 
     </script>
     <?php endif; ?>
+
 <?php include 'includes/footer.php'; ?>
 <script src="js/script.js"></script>
 </body>

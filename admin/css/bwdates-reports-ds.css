@@ -1,89 +1,115 @@
+/* General Reset */
 body {
-    font-family: 'Poppins', 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: #f3f3f3;
     margin: 0;
-    padding: 0;                         /* removed — conflicts with fixed layout */
 }
 
-/* Main content fixed between header and footer */
+/* MAIN CONTENT - Responsive Layout */
 .main-content {
-    position: fixed;
-    top: 60px;                          /* header height */
-    left: 60px;                         /* collapsed sidebar width */
-    right: 0;
-    bottom: 50px;                       /* footer height */
-    padding: 20px;
-    overflow-y: auto;
+    position: relative;
+    top: 60px;          /* header height */
+    margin-left: 0;     /* sidebar collapsed */
+    min-height: calc(100vh - 110px); /* Adjust based on header/footer */
+    padding: 40px;
     background: #f3f3f3;
     box-sizing: border-box;
-    transition: left 0.3s ease;         /* smooth slide when sidebar opens */
+    transition: margin-left 0.3s ease;
 }
 
-/* When sidebar is open — .shifted toggled by your JS */
+/* Sidebar Toggle Support */
 .main-content.shifted {
-    left: 250px;
+    margin-left: 250px;
 }
 
 .container {
-    width: 90%;
+    max-width: 800px;
     margin: auto;
 }
 
 .title {
-    color: #ff5a00;
-    margin-bottom: 20px;
+    color: #f67535;
+    font-size: 28px;
+    margin-bottom: 25px;
+    font-weight: 600;
 }
 
+/* Card Styling */
 .card {
-    background: white;
+    background: #ffffff;
     border: 1px solid #ddd;
-    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.card h3 {
-    background: #f7f7f7;
-    padding: 10px;
-    margin: -20px -20px 20px -20px;
+.card-header {
+    background: #f8f9fa;
+    padding: 15px 25px;
     border-bottom: 1px solid #ddd;
 }
 
+.card-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #444;
+    font-weight: 500;
+}
+
+/* Form Layout */
 form {
+    padding: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
 }
 
 label {
-    margin-top: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-size: 14px;
+    color: #666;
+    font-weight: 500;
 }
 
-input {
-    padding: 10px;
+input[type="date"] {
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
-button {
-    width: 120px;
-    margin-top: 15px;
-    padding: 10px;
-    background: #6a6bb7;
+input[type="date"]:focus {
+    border-color: #f67535;
+}
+
+/* Button Styling */
+.button-row {
+    margin-top: 10px;
+}
+
+.btn-submit {
+    padding: 12px 25px;
+    background: #4e73df;
     color: white;
     border: none;
-    border-radius: 3px;
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background 0.3s;
 }
 
-button:hover {
-    background: #4c4da3;
+.btn-submit:hover {
+    background: #2e59d9;
 }
 
-
-
-
-
-
-
-
-
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 20px;
+    }
+}
