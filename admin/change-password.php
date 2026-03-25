@@ -1,24 +1,20 @@
 <?php
 session_start();
-error_reporting(E_ALL); // Changed to see errors if they occur during development
+error_reporting(E_ALL); 
 include('includes/dbconnection.php');
 
-// 1. Check if Admin is logged in
 if (strlen($_SESSION['bpmsaid']) == 0) {
     header('location:../login.php');
 } else {
-    // 2. Handle Password Update Logic
     if (isset($_POST['submit'])) {
         $adminid = $_SESSION['bpmsaid'];
-        $cpass = md5($_POST['currentpassword']); // Current password from form
-        $newpass = md5($_POST['newpassword']);   // New password from form
+        $cpass = md5($_POST['currentpassword']); 
+        $newpass = md5($_POST['newpassword']);   
 
-        // Check if the current password matches what is in the database
         $query = mysqli_query($con, "SELECT id FROM tblusers WHERE id='$adminid' AND password='$cpass'");
         $row = mysqli_fetch_array($query);
 
         if ($row > 0) {
-            // If it matches, perform the update
             $update_query = mysqli_query($con, "UPDATE tblusers SET password='$newpass' WHERE id='$adminid'");
             
             if ($update_query) {
@@ -28,7 +24,7 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
                 echo "<script>alert('Error: Something went wrong. Please try again.');</script>";
             }
         } else {
-            // If current password is wrong
+
             echo "<script>alert('Your Current Password is wrong!');</script>";
         }
     }

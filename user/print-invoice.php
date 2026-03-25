@@ -20,16 +20,15 @@ $user = mysqli_fetch_array($ret);
     <meta charset="UTF-8">
     <title>Receipt_<?php echo $invid; ?></title>
     <style>
-        /* Responsive CSS for Print */
         body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 20px; background: #fff; }
         
         .invoice-box { 
             width: 100%; 
-            max-width: 800px; /* Fixed width for better layout */
+            max-width: 800px; 
             margin: auto; 
             padding: 30px; 
             border: 1px solid #eee;
-            box-sizing: border-box; /* Important: keeps padding inside the width */
+            box-sizing: border-box; 
         }
 
         .header-section { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #e76f51; padding-bottom: 10px; }
@@ -48,13 +47,12 @@ $user = mysqli_fetch_array($ret);
 
         .footer-note { text-align: center; margin-top: 40px; font-style: italic; color: #666; font-size: 13px; }
 
-        /* Fix for cut-off issues */
         @media print {
             body { padding: 0; margin: 0; }
             .invoice-box { border: none; width: 100%; max-width: 100%; padding: 10px; }
             .no-print { display: none; }
             
-            /* Forces the browser to print colors/backgrounds */
+
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>

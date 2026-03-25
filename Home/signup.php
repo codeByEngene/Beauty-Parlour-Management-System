@@ -1,6 +1,9 @@
 <?php
 session_start();
-// Check if file exists to prevent path errors
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Handle database connection path
 if(file_exists('includes/dbconnection.php')){
     include('includes/dbconnection.php');
 } else {
@@ -8,26 +11,24 @@ if(file_exists('includes/dbconnection.php')){
 }
 
 if (isset($_POST['submit'])) {
-    $fname    = mysqli_real_escape_string($con, $_POST['fname']);
-    $mobile   = mysqli_real_escape_string($con, $_POST['phone']);
+    $fname    = mysqli_real_escape_string($con, $_POST['fullname']); 
+    $mobile   = mysqli_real_escape_string($con, $_POST['mobilenumber']); 
     $email    = mysqli_real_escape_string($con, $_POST['email']);
-    $role     = mysqli_real_escape_string($con, $_POST['role']);
-    $password = $_POST['password']; // Get raw password for validation
+    $password = $_POST['password'];
+    $role     = "user"; 
+    $status   = "active";
 
-    // PHP Server-Side Validation
-    if(strlen($fname) < 3) {
-        echo "<script>alert('Name must be at least 3 characters');</script>";
+    // Server-side validation
+    if(strlen($fname) < 2) {
+        echo "<script>alert('Name must be at least 2 characters');</script>";
     } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "<script>alert('Invalid Email Format');</script>";
-    } elseif(!preg_match('/^[0-9]{10}+$/', $mobile)) {
+    } elseif(!preg_match('/^[0-9]{10}$/', $mobile)) {
         echo "<script>alert('Phone number must be exactly 10 digits');</script>";
     } elseif(strlen($password) < 6) {
         echo "<script>alert('Password must be at least 6 characters');</script>";
     } else {
-        // Secure Password Hashing (Better than md5)
         $hashed_password = md5($password);
-        $status = 'active'; 
-
         $check = mysqli_query($con, "SELECT id FROM tblusers WHERE email='$email' OR MobileNumber='$mobile'");
 
         if (mysqli_num_rows($check) > 0) {
@@ -35,12 +36,10 @@ if (isset($_POST['submit'])) {
         } else {
             $query = mysqli_query($con, "INSERT INTO tblusers (FullName, MobileNumber, email, password, role, status) 
                                          VALUES ('$fname', '$mobile', '$email', '$hashed_password', '$role', '$status')");
-
             if ($query) {
-                echo "<script>alert('Registration Successful! You can login now.');</script>";
-                echo "<script>window.location='login.php';</script>";
+                echo "<script>alert('Registration Successful!'); window.location='login.php';</script>";
             } else {
-                echo "<script>alert('Something went wrong. Please try again.');</script>";
+                echo "<script>alert('Error. Please try again.');</script>";
             }
         }
     }
@@ -53,9 +52,9 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <title>Sign Up | BPMS</title>
     <link rel="stylesheet" href="signup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .error { color: #e74c3c; font-size: 12px; margin-top: 3px; display: block; font-weight: bold;}
-        input.invalid { border: 1px solid #e74c3c; }
     </style>
 </head>
 <body>
@@ -71,7 +70,8 @@ if (isset($_POST['submit'])) {
             
             <div class="input-field">
                 <label>Full Name</label>
-                <input type="text" name="fname" id="fname" placeholder="eg. Anjana Shrestha" required onkeyup="validateName()">
+                <input type="text" name="fullname" id="fullname" placeholder="Anjana Shrestha" required 
+                       onkeypress="return restrictToLetters(event)" onkeyup="validateName()">
                 <small id="nameError" class="error"></small>
             </div>
 
@@ -83,23 +83,16 @@ if (isset($_POST['submit'])) {
 
             <div class="input-field">
                 <label>Phone Number</label>
-                <input type="tel" name="phone" id="phone" placeholder="10-digit number" required onkeyup="validatePhone()">
+                <input type="tel" name="mobilenumber" id="mobilenumber" placeholder="Enter 10 digits" required 
+                       onkeypress="return restrictToNumbers(event)" onkeyup="validatePhone()">    
                 <small id="phoneError" class="error"></small>
             </div>
 
-            <div class="input-field">
+            <div class="input-field" style="position: relative;">
                 <label>Password</label>
-                <input type="password" name="password" id="password" required onkeyup="validatePass()">
+                <input type="password" name="password" id="password" placeholder="Enter your password" required onkeyup="validatePass()">
+                <i class="fa fa-eye" id="togglePassword" style="position: absolute; right: 10px; top: 38px; cursor: pointer;"></i>
                 <small id="passError" class="error"></small>
-            </div>
-
-            <div class="role-based">
-                <label>Role</label>
-                <select name="role" id="role" required>
-                    <option value="" disabled selected>Select Role</option>
-                    <option value="admin">Admin</option>
-                    <option value="user">User</option>
-                </select>
             </div>
 
             <div class="btn-sign">
@@ -110,69 +103,6 @@ if (isset($_POST['submit'])) {
     </div>
 </div>
 
-<script>
-// Real-time Name Validation
-function validateName() {
-    let name = document.getElementById("fname").value;
-    let error = document.getElementById("nameError");
-    if(name.length < 3) {
-        error.textContent = "Name must be at least 3 characters.";
-    } else {
-        error.textContent = "";
-    }
-}
-
-// Real-time Email Validation
-function validateEmail() {
-    let email = document.getElementById("email").value;
-    let error = document.getElementById("emailError");
-    let regex = /^\S+@\S+\.\S+$/;
-    if(!regex.test(email)) {
-        error.textContent = "Please enter a valid email address.";
-    } else {
-        error.textContent = "";
-    }
-}
-
-// Real-time Phone Validation
-function validatePhone() {
-    let phone = document.getElementById("phone").value;
-    let error = document.getElementById("phoneError");
-    let regex = /^[0-9]{10}$/; // Exactly 10 digits
-    if(!regex.test(phone)) {
-        error.textContent = "Phone must be exactly 10 digits.";
-    } else {
-        error.textContent = "";
-    }
-}
-
-// Real-time Password Validation
-function validatePass() {
-    let pass = document.getElementById("password").value;
-    let error = document.getElementById("passError");
-    if(pass.length < 6) {
-        error.textContent = "Password must be at least 6 characters.";
-    } else {
-        error.textContent = "";
-    }
-}
-
-// Final check on submit
-function validateForm() {
-    validateName();
-    validateEmail();
-    validatePhone();
-    validatePass();
-
-    if (document.getElementById("nameError").textContent || 
-        document.getElementById("emailError").textContent ||
-        document.getElementById("phoneError").textContent || 
-        document.getElementById("passError").textContent) {
-        alert("Please correct the errors before submitting.");
-        return false;
-    }
-    return true;
-}
-</script>
+<script src="js/validation.js"></script>
 </body>
 </html>

@@ -7,9 +7,8 @@ if (!isset($_SESSION['bpmsaid']) || strlen($_SESSION['bpmsaid']) == 0) {
     header('location:../index.php'); 
     exit();
 }
-
-// User details nikalne
 $fullname = $_SESSION['fullname'];
+
 ?>
 
 <!DOCTYPE html>
@@ -27,8 +26,6 @@ $fullname = $_SESSION['fullname'];
 
 <body>
 <?php 
-// Header file include garda path check garnu hola
-// Yadi 'include' folder baira chha bhane path ../include/header.php hunu parcha
 include('include/header.php');
 ?>
 
@@ -53,22 +50,34 @@ include('include/header.php');
   </div>
 
   <section class="parlour">
-    <h1>Our Salon is Most Popular</h1>
+    <h1>Our Salon Premium Services</h1>
     <p>Anua Hair and Beauty Salon offers a wide range of beauty services.</p>
 
     <div class="row">
       <div class="parlour-col">
-        <img src="images/service2.jpg" alt="Service 1" />
+        <img src="images/O3+ Radiant & Glow Bridal Facial.jpg" alt="Service 1" />
+        <h2>O3+ Radiant & Glow Bridal Facial</h2>
+         <p>The brand focuses on ingredient technology, clinical studies, and providing professional-grade skincare solutions like facial kits, serums, and packs, with a headquarters in Noida, India.</p>
+         <p class="price">Cost of Service: rs1200</p>
+          <a href="services.php" class="btn">Read More</a>
+          <div class="layer"></div>
+      </div>
+
+      <div class="parlour-col">
+        <img src="images/Fruit Facial.jpg" alt="Service 2" />
+        <h2>Fruit Facial</h2>
+        <p>Natural fruit-based facial for glowing skin.</p> 
+        <p class="price">Cost of Service: rs.500</p>
+         <a href="services.php" class="btn">Read More</a>
         <div class="layer"></div>
       </div>
 
       <div class="parlour-col">
-        <img src="images/service3.jpg" alt="Service 2" />
-        <div class="layer"></div>
-      </div>
-
-      <div class="parlour-col">
-        <img src="images/service1.png" alt="Service 3" />
+        <img src="images/Charcoal Facial.jpg" alt="Service 3" />
+        <h2>Charcoal Facial</h2>
+        <p>Deep cleansing facial with activated charcoal.</p> 
+        <p class="price">Cost of Service: rs.1000</p>
+         <a href="services.php" class="btn">Read More</a>
         <div class="layer"></div>
       </div>
     </div>
@@ -121,6 +130,7 @@ include('include/header.php');
       </div>
     </div>
   </section>
+
 
  <?php include('include/footer.php');?>
 

@@ -23,6 +23,10 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
             color: orange;
             font-weight: bold;
         }
+        /* Optional: Adding a slight highlight for the very top row to indicate it's the newest */
+        .appointment-table tbody tr:first-child {
+            background-color: #fff9f0;
+        }
     </style>
 </head>
 <body>
@@ -48,7 +52,7 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
             </thead>
             <tbody>
             <?php
-            
+            // Logic: Sort by ID in Descending order (DESC) so the newest ID appears first
             $ret = mysqli_query($con, "SELECT 
                 tblappointment.ID, 
                 tblappointment.AppointmentNumber, 
@@ -61,7 +65,8 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
                 FROM tblappointment 
                 JOIN tblusers ON tblusers.id = tblappointment.UserID 
                 LEFT JOIN services ON services.id = tblappointment.ServiceId 
-                WHERE tblappointment.Status='Pending' OR tblappointment.Status=''");
+                WHERE tblappointment.Status='Pending' OR tblappointment.Status=''
+                ORDER BY tblappointment.ID DESC"); 
             
             $cnt = 1;
             if(mysqli_num_rows($ret) > 0) {

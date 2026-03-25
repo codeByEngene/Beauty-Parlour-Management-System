@@ -5,39 +5,29 @@ ini_set('display_errors', 1);
 include('includes/dbconnection.php');
 
 if (isset($_POST['login'])) {
-    // 1. Sanitize and Encrypt Input
     $email = mysqli_real_escape_string($con, $_POST['email']);
-    
-    // This creates a 32-character hash. 
-    // If your DB has "12345" instead of "827ccb0eea8a706c4c34a16891f84e7b", it will fail.
     $password = md5($_POST['password']); 
     $selectedRole = mysqli_real_escape_string($con, $_POST['role']); 
 
-    // 2. Find the user in the database
+    if ($selectedRole == 'admin') {
+        $allowedAdmins = ['fireio224327@gmail.com', 'shresthaanjana694@gmail.com']; 
+        if (!in_array($email, $allowedAdmins)) {
+            echo "<script>alert('Access Denied! Your email is not authorized as an administrator.');</script>";
+            echo "<script>window.location.href='login.php'</script>";
+            exit();
+        }
+    }
+
     $query = mysqli_query($con, "SELECT * FROM tblusers WHERE email='$email' AND password='$password' AND role='$selectedRole'");
     
     if (mysqli_num_rows($query) > 0) {
         $row = mysqli_fetch_array($query); 
-        $userEmail = $row['email'];
 
-        // 3. THE 2-ADMIN RESTRICTION (Email Whitelist)
-        if ($selectedRole == 'admin') {
-            $allowedAdmins = ['fireio224327@gmail.com', 'shresthaanjana694@gmail.com']; 
-
-            if (!in_array($userEmail, $allowedAdmins)) {
-                echo "<script>alert('Access Denied! Only authorized administrators can login.');</script>";
-                echo "<script>window.location.href='login.php'</script>";
-                exit();
-            }
-        }
-
-        // 4. Set Sessions
         $_SESSION['bpmsaid'] = $row['id']; 
         $_SESSION['uid'] = $row['id'];
         $_SESSION['role'] = $row['role']; 
         $_SESSION['fullname'] = $row['FullName'];
 
-        // 5. Redirect based on role
         if ($row['role'] == 'admin') {
             echo "<script>window.location.href='../admin/dashboard.php'</script>";
             exit();
@@ -46,10 +36,7 @@ if (isset($_POST['login'])) {
             exit();
         }
     } else {
-        // DEBUG TIP: If you are sure the password is correct, 
-        // go to phpMyAdmin and manually change the password field to: 827ccb0eea8a706c4c34a16891f84e7b
-        // That will reset your password to "12345" in MD5 format.
-        echo "<script>alert('Invalid Details! Please check your credentials.');</script>";
+        echo "<script>alert('Invalid Details! Please check your credentials and selected role.');</script>";
     }
 }
 ?>
@@ -87,17 +74,16 @@ if (isset($_POST['login'])) {
                 <i class="fa fa-eye toggle-password" id="eyeIcon" onclick="togglePassword()"></i>
             </div>
 
-            <div class="forgot-password-link">
-                <a href="forgot-password.php">Forgot Password?</a>
+            <div class="role-based">
+                <label>Login As</label>
+                <select name="role" id="role" required>
+                    <option value="user">User</option>
+                    <option value="admin">Administrator</option>
+                </select>
             </div>
 
-            <div class="role-based">
-                <label>Select Role</label>
-                <select name="role" id="role" required>
-                    <option value="" disabled selected>Choose your role</option>
-                    <option value="admin">admin</option>
-                    <option value="user">user</option>
-                </select>
+            <div class="forgot-password-link">
+                <a href="forgot-password.php">Forgot Password?</a>
             </div>
 
             <button type="submit" name="login" class="btn-login">Login Now</button>

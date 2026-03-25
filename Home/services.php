@@ -17,10 +17,10 @@ include('includes/dbconnection.php');
  
   <main class="service-grid">
     <div class="service-card">
-      <img src="images/O3.jpg" alt="O3+ Facial">
-      <h2>O3+ Radiant & Glow Bridal Facial</h2>
-      <p>The brand focuses on ingredient technology, clinical studies, and providing professional-grade skincare solutions like facial kits, serums, and packs, with a headquarters in Noida, India.</p>
-      <p class="price">Cost of Service: $1200</p>
+      <img src="images/Hair Highlights.jpeg" alt="Hair Highlights">
+      <h2>Hair Highlights</h2>
+      <p>Enhance your hair with professional highlights for a stunning look.</p>
+      <p class="price">Cost of Service: rs.1200</p>
       <a href="signup.php" class="btn">Get Appointment</a>
     </div>
 
@@ -33,10 +33,10 @@ include('includes/dbconnection.php');
     </div>
 
     <div class="service-card">
-      <img src="images/c1.jpg" alt="Charcoal Facial">
-      <h2>Charcoal Facial</h2>
-      <p>Deep cleansing facial with activated charcoal.</p>
-      <p class="price">Cost of Service: rs.1000</p>
+      <img src="./images/Acne Treatment Facial.jpeg" alt="Acne Treatment Facial">
+      <h2>Acne Treatment Facial</h2>
+      <p>Specialized facial treatment for acne-prone skin.</p>
+      <p class="price">Cost of Service: rs.500</p>
       <a href="signup.php" class="btn">Get Appointment</a>
     </div>
 
@@ -49,15 +49,15 @@ include('includes/dbconnection.php');
     </div>
 
      <div class="service-card">
-      <img src="images/Manicure.jpeg" alt="Normal Menicure">
-      <h2>Normal Menicure</h2>
-      <p>A normal manicure service includes nail trimming, shaping, cuticle care, and a hand massage, finished with a polish application.</p>
+      <img src="images/pedicure.jpg" alt="Normal Pedicure">
+      <h2>Normal Pedicure</h2>
+      <p>A normal pedicure service includes nail trimming, shaping, cuticle care, and a foot massage, finished with a polish application.</p>
       <p class="price">Cost of Service: rs.300</p>
       <a href="signup.php" class="btn">Get Appointment</a>
     </div>
 
-     <div class="service-card">
-      <img src="images/pedicure.jpg" alt="Deluxe pedicure">
+     <div class="service-card"> 
+      <img src="images/Deluxe Pedicure.jpg" alt="Deluxe pedicure">
       <h2>Deluxe Pedicure</h2>
       <p>A deluxe pedicure includes all the services of a basic pedicure, plus additional treatments like a longer foot massage, callus removal, exfoliation, and a hydrating mask for your feet and calves.</p>
       <p class="price">Cost of Service: rs.600</p>

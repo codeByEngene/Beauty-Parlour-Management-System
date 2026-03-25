@@ -1,5 +1,4 @@
 <?php 
-session_start();
 include('includes/dbconnection.php'); ?>
 <?php
 if(isset($_GET['invoiceid']) && !empty($_GET['invoiceid'])) {
@@ -17,6 +16,12 @@ $ret = mysqli_query($con, "SELECT DISTINCT tblusers.FullName, tblusers.email, tb
                            WHERE tblinvoice.BillingId='$safe_invid'");
 $user = mysqli_fetch_array($ret);
 ?>
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +29,7 @@ $user = mysqli_fetch_array($ret);
     <title>Invoice Details</title>
     <link rel="stylesheet" href="css/view-customer.css">
     <style>
-        .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; }
+        .invoice-box { max-width: 800px; margin: auto; padding: 110px; border: 1px solid #eee; }
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
     </style>

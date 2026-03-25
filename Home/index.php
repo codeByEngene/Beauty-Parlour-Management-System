@@ -28,7 +28,7 @@ include('includes/dbconnection.php');
         
         <h2>Welcome to Our Beauty Parlour</h2>
         <p>Experience the best beauty services with us.</p>
-        <a href="signup.php" class="btn">Get Appointment</a>
+        <a href="login.php" class="btn">Get Appointment</a>
       </div>
     </div>
 
@@ -37,35 +37,45 @@ include('includes/dbconnection.php');
       <div class="caption">
         <h2>Our Premium Services</h2>
         <p>Professional care for your beauty and wellness.</p>
-        <a href="signup.php" class="btn">Get Appointment</a>
+        <a href="login.php" class="btn">Get Appointment</a>
       </div>
     </div>
   </div>
 
-  <!-- Parlour Section -->
   <section class="parlour">
     <h1>Our Salon is Most Popular</h1>
     <p>Anua Hair and Beauty Salon offers a wide range of beauty services.</p>
 
     <div class="row">
       <div class="parlour-col">
-        <img src="images/service2.jpg" alt="Service 1" />
+        <img src="images/hair-cut.jpg" alt="Hair-cut and Styling" />
+        <h2>Hair Cut and Styling</h2>
+        <p>Professional haircuts and styling for all hair types.</p>
+        <p class="price">Cost of Service: rs.500</p>
+         <a href="services.php" class="btn">Read More</a>
         <div class="layer"></div>
       </div>
 
       <div class="parlour-col">
         <img src="images/service3.jpg" alt="Service 2" />
+        <h2>Glowskin Facial</h2>
+        <p>Exclusive facial for radiant skin.</p>
+        <p class="price">Cost of Service: rs.800</p>
+        <a href="services.php" class="btn">Read More</a>
         <div class="layer"></div>
       </div>
 
       <div class="parlour-col">
         <img src="images/service1.png" alt="Service 3" />
+        <h2>Advanced Hair Treatment</h2>
+        <p>Professional hair treatment for healthy and shiny hair.</p>
+        <p class="price">Cost of Service: rs.1000</p>
+        <a href="services.php" class="btn">Read More</a>
         <div class="layer"></div>
       </div>
     </div>
   </section>
 
-  <!-- Image Content Section -->
   <div class="image-container">
     <div class="overlay"></div>
     <div class="text-content">
@@ -75,11 +85,10 @@ include('includes/dbconnection.php');
         Home salon provide well trained beauty professionals for beauty services
         at your home including Facial, Clean Up, Bleach, waxing, pedicure, manicure.
       </h2>
-      <a href="signup.php" class="btn">Get an Appointment</a>
+      <a href="login.php" class="btn">Get an Appointment</a>
     </div>
   </div>
 
-  <!-- Section: Hair Salon Info -->
   <section class="salon-section">
     <div class="salon-container">
       <div class="salon-image">

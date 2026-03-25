@@ -29,3 +29,76 @@
 .navbar ul li a:hover {
   color: #f39c12;
 }
+
+/* Appointment reminder banner */
+.reminder-banner {
+  background: #fff8dd;
+  border: 1px solid #f9d776;
+  color: #805500;
+  padding: 10px 12px;
+  margin: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.reminder-item {
+  margin: 3px 0;
+}
+
+/* Notification icon in navbar */
+.notification-icon {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  color: #f39c12;
+  font-size: 18px;
+  cursor: pointer;
+}
+.notification-icon i {
+  margin-right: 5px;
+}
+.time-remaining {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  backdrop-filter: blur(3px);
+}
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  text-align: left;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  position: relative;
+}
+.modal-content h3 {
+  color: #b5838d;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+.close-modal {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888;
+}
+.modal-content p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+

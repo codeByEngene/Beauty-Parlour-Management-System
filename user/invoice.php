@@ -51,7 +51,6 @@ if (!isset($_SESSION['uid'])) {
                 </thead>
                 <tbody>
                 <?php
-                // Fetch invoices specifically for the logged-in user (uid)
                 $ret = mysqli_query($con, "SELECT tblusers.FullName, tblusers.MobileNumber, tblinvoice.BillingId, tblinvoice.PostingDate 
                                            FROM tblinvoice 
                                            JOIN tblusers ON tblusers.id = tblinvoice.Userid 
