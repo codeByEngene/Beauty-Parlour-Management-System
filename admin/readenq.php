@@ -1,10 +1,20 @@
 <?php 
-include('includes/dbconnection.php'); 
-session_start();
+session_start(); // Move this to the top
 error_reporting(0);
+include('includes/dbconnection.php');
+
+// Now the session check will work correctly
 if (strlen($_SESSION['bpmsaid']) == 0) {
     header('location:logout.php');
+    exit(); // Always add exit after a redirect
 } else {
+    // Delete Logic (Added to make your Delete button actually work)
+    if(isset($_GET['delid'])) {
+        $rid = intval($_GET['delid']);
+        $sql = mysqli_query($con, "DELETE FROM tblcontact WHERE ID='$rid'");
+        echo "<script>alert('Data Deleted');</script>";
+        echo "<script>window.location.href='manage-read-enquiry.php'</script>";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

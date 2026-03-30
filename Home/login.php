@@ -6,11 +6,11 @@ include('includes/dbconnection.php');
 
 if (isset($_POST['login'])) {
     $email = mysqli_real_escape_string($con, $_POST['email']);
-    $password = md5($_POST['password']); 
+    $password = $_POST['password']; 
     $selectedRole = mysqli_real_escape_string($con, $_POST['role']); 
 
     if ($selectedRole == 'admin') {
-        $allowedAdmins = ['fireio224327@gmail.com', 'shresthaanjana694@gmail.com']; 
+        $allowedAdmins = ['admin1@gmail.com', 'admin2@gmail.com']; 
         if (!in_array($email, $allowedAdmins)) {
             echo "<script>alert('Access Denied! Your email is not authorized as an administrator.');</script>";
             echo "<script>window.location.href='login.php'</script>";
@@ -18,22 +18,25 @@ if (isset($_POST['login'])) {
         }
     }
 
-    $query = mysqli_query($con, "SELECT * FROM tblusers WHERE email='$email' AND password='$password' AND role='$selectedRole'");
-    
-    if (mysqli_num_rows($query) > 0) {
-        $row = mysqli_fetch_array($query); 
+    $query = mysqli_query($con, "SELECT * FROM tblusers WHERE email='$email' AND role='$selectedRole'");
+    $row = mysqli_fetch_array($query);
+    if ($row && md5($password) == $row['password']) {
+
+        session_regenerate_id();
 
         $_SESSION['bpmsaid'] = $row['id']; 
         $_SESSION['uid'] = $row['id'];
         $_SESSION['role'] = $row['role']; 
         $_SESSION['fullname'] = $row['FullName'];
 
-        if ($row['role'] == 'admin') {
-            echo "<script>window.location.href='../admin/dashboard.php'</script>";
+        if ($_SESSION['role'] === 'admin') {
+            header("Location: ../admin/dashboard.php");
+            exit();
+        } else if ($_SESSION['role'] === 'user') {
+            header("Location: ../user/dashboard.php");
             exit();
         } else {
-            echo "<script>window.location.href='../user/dashboard.php'</script>";
-            exit();
+            echo "<script>alert('Invalid role assigned to this account.');</script>";
         }
     } else {
         echo "<script>alert('Invalid Details! Please check your credentials and selected role.');</script>";
@@ -45,6 +48,7 @@ if (isset($_POST['login'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BPMS | Login</title>
     <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

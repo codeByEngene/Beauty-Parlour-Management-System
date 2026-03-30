@@ -6,6 +6,7 @@ include('includes/dbconnection.php');
 // Admin login check
 if (strlen($_SESSION['bpmsaid']) == 0) {
     header('location:logout.php');
+    exit();
 } else {
 
 if(isset($_GET['delid'])) {
@@ -23,6 +24,30 @@ if(isset($_GET['delid'])) {
     <meta charset="UTF-8">
     <title>All Appointment - BPMS Admin</title>
     <link rel="stylesheet" href="css/all-appointment.css">
+    <style>
+        /* Consistent pleasant UI for your buttons */
+        .view-btn {
+            background-color: #4e73df;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .delete-btn {
+            background-color: #e74a3b;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            margin-left: 5px;
+        }
+        .status-pending { color: orange; font-weight: bold; }
+        .status-accepted { color: green; font-weight: bold; }
+        .status-rejected { color: red; font-weight: bold; }
+        .action-buttons { display: flex; align-items: center; }
+    </style>
 </head>
 <body>
 <?php include 'includes/header.php'; ?>
@@ -34,7 +59,7 @@ if(isset($_GET['delid'])) {
     <div class="container">
         <h3 class="subtitle">Complete Appointment List:</h3>
 
-        <table class="appointment-table">
+        <table class="appointment-table" width="100%" border="1" style="border-collapse: collapse;">
             <thead>
                 <tr>
                     <th>#</th>
@@ -64,8 +89,8 @@ if(isset($_GET['delid'])) {
                     <td><?php echo $row['AppointmentNumber'];?></td>
                     <td><?php echo $row['FullName'];?></td> 
                     <td><?php echo $row['MobileNumber'];?></td>
-                    <td><?php echo $row['AptDate'];?></td>
-                    <td><?php echo $row['AptTime'];?></td>
+                    <td><?php echo date("d-M-Y", strtotime($row['AptDate']));?></td>
+                    <td><?php echo date("h:i A", strtotime($row['AptTime']));?></td>
                     <td>
                         <?php 
                         $status = $row['Status'];
@@ -97,7 +122,7 @@ if(isset($_GET['delid'])) {
         </table>
     </div>
 </main>
-<?php include 'includes/footer.php'; ?>
+
 <script src="js/script.js"></script>
 </body>
 </html>

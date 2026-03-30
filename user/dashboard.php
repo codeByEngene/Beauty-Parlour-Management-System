@@ -3,12 +3,47 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Include database connection (crucial for fetching the appointment time)
+include('include/dbconnection.php');
+
 if (!isset($_SESSION['bpmsaid']) || strlen($_SESSION['bpmsaid']) == 0) {
     header('location:../index.php'); 
     exit();
 }
-$fullname = $_SESSION['fullname'];
 
+$fullname = $_SESSION['fullname'];
+$uid = $_SESSION['bpmsaid'];
+
+// --- APPOINTMENT REMINDER LOGIC ---
+date_default_timezone_set('Asia/Kathmandu'); // Set to Nepal timezone
+$currentTime = new DateTime();
+$notificationMsg = "";
+
+// Fetch only accepted appointments for the logged-in user
+$query = mysqli_query($con, "SELECT AptDate, AptTime, AppointmentNumber FROM tblappointment WHERE UserID='$uid' AND Status='Accepted'");
+
+if ($query) {
+    while($row = mysqli_fetch_array($query)) {
+        // Combine Date and Time from DB into one DateTime object
+        $aptDateTimeStr = $row['AptDate'] . ' ' . $row['AptTime'];
+        $aptDateTime = new DateTime($aptDateTimeStr);
+        
+        // Calculate the difference between now and the appointment time
+        if ($aptDateTime > $currentTime) {
+            $diff = $currentTime->diff($aptDateTime);
+            
+            // Convert difference to total minutes
+            $minutesLeft = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
+            
+            // If appointment is within the next 60 minutes (1 hour)
+            if ($minutesLeft <= 60 && $minutesLeft > 0) {
+                $notificationMsg = "Friendly Reminder: You have an appointment (No: " . $row['AppointmentNumber'] . ") coming up in <strong>" . $minutesLeft . " minutes!</strong> Please be ready.";
+                break; // We only need to show the most immediate upcoming appointment
+            }
+        }
+    }
+}
+// ----------------------------------
 ?>
 
 <!DOCTYPE html>
@@ -22,13 +57,86 @@ $fullname = $_SESSION['fullname'];
   <link rel="stylesheet" href="include/header.css">
   <link rel="stylesheet" href="include/footer.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  
+  <style>
+    /* Styling for the Notification Popup */
+    .reminder-modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6); /* Black with opacity */
+    }
+    .reminder-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 30px;
+      border-radius: 10px;
+      width: 40%;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      position: relative;
+      animation: slideDown 0.5s ease-out;
+    }
+    .reminder-content h2 { color: #ff4757; margin-bottom: 15px; }
+    .reminder-content p { font-size: 18px; line-height: 1.5; color: #333; }
+    .close-btn {
+      color: #aaa;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close-btn:hover { color: #000; }
+    .okay-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 25px;
+      background-color: #ff4757;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      cursor: pointer;
+      border: none;
+      font-size: 16px;
+    }
+    .okay-btn:hover { background-color: #ff6b81; }
+    @keyframes slideDown {
+      from { top: -100px; opacity: 0; }
+      to { top: 0; opacity: 1; }
+    }
+  </style>
 </head>
 
 <body>
-<?php 
-include('include/header.php');
-?>
+<?php include('include/header.php'); ?>
 
+  <?php if(!empty($notificationMsg)): ?>
+  <div id="aptModal" class="reminder-modal">
+    <div class="reminder-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2><i class="fa fa-bell"></i> Upcoming Appointment!</h2>
+      <p><?php echo $notificationMsg; ?></p>
+      <button class="okay-btn" onclick="closeModal()">Got it!</button>
+    </div>
+  </div>
+
+  <script>
+    // Automatically display the modal when the page loads if there's a message
+    window.onload = function() {
+      document.getElementById('aptModal').style.display = 'block';
+    };
+
+    function closeModal() {
+      document.getElementById('aptModal').style.display = 'none';
+    }
+  </script>
+  <?php endif; ?>
   <div class="slideshow">
     <div class="slide">
       <img src="images/bg1.jpg" alt="Slide 1" />
@@ -130,7 +238,6 @@ include('include/header.php');
       </div>
     </div>
   </section>
-
 
  <?php include('include/footer.php');?>
 

@@ -40,28 +40,25 @@
 
 /* SECTION */
 .appointment {
-    padding: 60px 20px; /* Reduced side padding for centered look */
-    display: flex; /* Centering outer alignment */
-    justify-content: center;
-}
-
-/* NEW: Container designed specifically for centering */
-.centered-container {
-    width: 100%;
-    max-width: 750px; /* Limits the form width to prevent stretching */
+    padding: 60px 20px;
     display: flex;
     justify-content: center;
 }
 
-/* REMOVED: Old .container and .info rules */
+.centered-container {
+    width: 100%;
+    max-width: 750px;
+    display: flex;
+    justify-content: center;
+}
 
 /* FORM BOX */
 .form-box {
-    width: 100%; /* Form now fills its centered container */
+    width: 100%;
     background: #fff;
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Optional: Soft shadow makes form pop */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
 .form-box form {
@@ -82,16 +79,14 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 15px;
-    width: 100%; /* All fields full width */
+    width: 100%;
 }
 
 .form-box textarea {
     min-height: 120px;
 }
 
-/* Updated dropdown style */
 .appointment-time {
-    width: 100%; /* Dropdown fills form on all devices */
     cursor: pointer;
 }
 
@@ -112,7 +107,17 @@
     background: #ff4c8b;
 }
 
-/* RESPONSIVE (Simplified) */
+/* PRICE DISPLAY STYLES */
+.service-price-tag {
+    font-weight: bold;
+    color: #27ae60; /* Professional Green */
+    background: #eafaf1;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* RESPONSIVE */
 @media(max-width:768px){
     .breadcrumb { padding: 10px 20px; }
     .hero h1 { font-size: 32px; }

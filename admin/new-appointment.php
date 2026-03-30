@@ -3,8 +3,10 @@ session_start();
 error_reporting(E_ALL);
 include('includes/dbconnection.php');
 
+// Admin login check - ensure session exists before loading content
 if (strlen($_SESSION['bpmsaid']) == 0) {
     header('location:logout.php');
+    exit(); // Always exit after a header redirect
 } else {
 ?>
 <!DOCTYPE html>
@@ -23,10 +25,26 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
             color: orange;
             font-weight: bold;
         }
-        /* Optional: Adding a slight highlight for the very top row to indicate it's the newest */
+        /* Pleasant, consistent button style */
+        .view-btn {
+            background-color: #4e73df;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+        .view-btn:hover {
+            background-color: #2e59d9;
+        }
+        /* Highlight for the newest row */
         .appointment-table tbody tr:first-child {
             background-color: #fff9f0;
         }
+        .appointment-table { width: 100%; border-collapse: collapse; }
+        .appointment-table th, .appointment-table td { padding: 12px; border: 1px solid #eee; text-align: left; }
     </style>
 </head>
 <body>
@@ -52,7 +70,7 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
             </thead>
             <tbody>
             <?php
-            // Logic: Sort by ID in Descending order (DESC) so the newest ID appears first
+            // Logic: Sort by ID DESC so the newest appears first
             $ret = mysqli_query($con, "SELECT 
                 tblappointment.ID, 
                 tblappointment.AppointmentNumber, 
@@ -65,7 +83,7 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
                 FROM tblappointment 
                 JOIN tblusers ON tblusers.id = tblappointment.UserID 
                 LEFT JOIN services ON services.id = tblappointment.ServiceId 
-                WHERE tblappointment.Status='Pending' OR tblappointment.Status=''
+                WHERE tblappointment.Status='Pending' OR tblappointment.Status='' OR tblappointment.Status='0'
                 ORDER BY tblappointment.ID DESC"); 
             
             $cnt = 1;
@@ -78,12 +96,12 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
                     <td><?php echo $row['FullName'];?></td>
                     <td class="service-tag"><?php echo ($row['service_name'] != "") ? $row['service_name'] : "Not Specified"; ?></td>
                     <td><?php echo $row['MobileNumber'];?></td>
-                    <td><?php echo $row['AptDate'];?></td>
-                    <td><?php echo $row['AptTime'];?></td>
+                    <td><?php echo date("d-M-Y", strtotime($row['AptDate']));?></td>
+                    <td><?php echo date("h:i A", strtotime($row['AptTime']));?></td>
                     <td><span class="status-pending">Pending</span></td>
                     <td>
                         <div class="action-buttons">
-                            <a href="view-appointment.php?viewid=<?php echo $row['ID'];?>" class="view-btn" style="text-decoration:none;">View / Process</a>
+                            <a href="view-appointment.php?viewid=<?php echo $row['ID'];?>" class="view-btn">View / Process</a>
                         </div>
                     </td>
                 </tr>

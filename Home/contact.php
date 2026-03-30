@@ -15,7 +15,6 @@ if(isset($_POST['submit'])) {
     $email   = mysqli_real_escape_string($con, $_POST['email']);
     $message = mysqli_real_escape_string($con, $_POST['message']);
 
-    // Check if user is logged in to link their ID
     $uid = (isset($_SESSION['uid']) && !empty($_SESSION['uid'])) ? $_SESSION['uid'] : "NULL";
 
     $query = mysqli_query($con,
@@ -27,7 +26,7 @@ if(isset($_POST['submit'])) {
         echo "<script>alert('Your message was sent successfully!');</script>";
         echo "<script>window.location='contact.php'</script>";
     } else {
-        echo "<script>alert('Something went wrong. Error: " . mysqli_error($con) . "');</script>";
+        echo "<script>alert('Something went wrong. Please try again.');</script>";
     }
 }
 ?>
@@ -41,6 +40,51 @@ if(isset($_POST['submit'])) {
     <link rel="stylesheet" href="includes/header.css">
     <link rel="stylesheet" href="includes/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    
+    <script>
+        function validateInputs() {
+            const nameInput = document.getElementById('name');
+            const phoneInput = document.getElementById('phone');
+
+            // 1. Name: Block numbers/special chars (Letters and spaces only)
+            nameInput.oninput = function() {
+                this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+            };
+
+            // 2. Phone: Block letters, allow only 10 digits
+            phoneInput.oninput = function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                if (this.value.length > 10) {
+                    this.value = this.value.slice(0, 10);
+                }
+            };
+        }
+
+        // Final check before submission
+        function checkForm() {
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            
+            // Nepal Mobile Prefix Check (Starts with 98 or 97)
+            const nepalPattern = /^(98|97)\d{8}$/;
+            // Standard Email Pattern
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (!nepalPattern.test(phone)) {
+                alert("Please enter a valid Nepal mobile number starting with 98 or 97 (10 digits).");
+                return false;
+            }
+
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address (e.g., name@example.com).");
+                return false;
+            }
+
+            return true;
+        }
+
+        window.onload = validateInputs;
+    </script>
 </head>
 <body>
 
@@ -72,14 +116,14 @@ if(isset($_POST['submit'])) {
         </div>
     </div>
 
-    <form class="contact-form" method="POST"> 
+    <form class="contact-form" method="POST" onsubmit="return checkForm()"> 
         <div class="row">
-            <input type="text" name="name" placeholder="Your Full Name" required>
+            <input type="text" name="name" id="name" placeholder="Your Full Name" required>
         </div>
 
         <div class="row">
-            <input type="text" name="phone" placeholder="Phone Number" required>
-            <input type="email" name="email" placeholder="Email Address" required>
+            <input type="text" name="phone" id="phone" placeholder="Phone Number (e.g. 98XXXXXXXX)" required>
+            <input type="email" name="email" id="email" placeholder="Email Address" required>
         </div>
 
         <textarea name="message" placeholder="Type your message here..." required></textarea>

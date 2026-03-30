@@ -3,8 +3,10 @@ session_start();
 error_reporting(E_ALL);
 include('includes/dbconnection.php');
 
+// Admin login check - critical to prevent auto-logout
 if (strlen($_SESSION['bpmsaid']) == 0) {
     header('location:logout.php');
+    exit();
 } else {
 ?>
 <!DOCTYPE html>
@@ -13,6 +15,29 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
     <meta charset="UTF-8">
     <title>Accepted Appointment - BPMS Admin</title>
     <link rel="stylesheet" href="css/accepted-appointment.css">
+    <style>
+        /* Modern, pleasant button style */
+        .view-btn {
+            background-color: #4e73df;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+        .view-btn:hover {
+            background-color: #2e59d9;
+        }
+        .status-accepted {
+            color: green;
+            font-weight: bold;
+        }
+        .appointment-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .appointment-table th, .appointment-table td { padding: 12px; border: 1px solid #eee; text-align: left; }
+        .appointment-table thead tr { background-color: #f8f9fc; }
+    </style>
 </head>
 <body>
 <?php include 'includes/header.php'; ?>
@@ -37,6 +62,7 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
             </thead>
             <tbody>
             <?php
+            // Fetching only 'Accepted' status appointments
             $ret = mysqli_query($con, "SELECT tblappointment.ID, tblappointment.AppointmentNumber, tblappointment.AptDate, tblappointment.AptTime, tblusers.FullName, tblusers.MobileNumber 
                                        FROM tblappointment 
                                        JOIN tblusers ON tblusers.id = tblappointment.UserID 
@@ -51,16 +77,19 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
                     <td><?php echo $row['AppointmentNumber'];?></td>
                     <td><?php echo $row['FullName'];?></td>
                     <td><?php echo $row['MobileNumber'];?></td>
-                    <td><?php echo $row['AptDate'];?></td>
-                    <td><?php echo $row['AptTime'];?></td>
-                    <td><span style="color:green; font-weight:bold;">Accepted</span></td>
+                    <td><?php echo date("d-M-Y", strtotime($row['AptDate']));?></td>
+                    <td><?php echo date("h:i A", strtotime($row['AptTime']));?></td>
+                    <td><span class="status-accepted">Accepted</span></td>
                     <td>
                         <div class="action-buttons">
-                            <a href="view-appointment.php?viewid=<?php echo $row['ID'];?>" class="view-btn" style="text-decoration:none;">View</a>
+                            <a href="view-appointment.php?viewid=<?php echo $row['ID'];?>" class="view-btn">View</a>
                         </div>
                     </td>
                 </tr>
-            <?php $cnt++; } } else { ?>
+            <?php 
+                $cnt++; 
+                } 
+            } else { ?>
                 <tr>
                     <td colspan="8" style="text-align:center; color:red; padding:20px;">No accepted appointments found.</td>
                 </tr>

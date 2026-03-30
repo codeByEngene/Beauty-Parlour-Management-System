@@ -3,8 +3,10 @@ session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
 
-if (strlen($_SESSION['bpmsaid']) == 0) {
+// Logic to prevent logout: Check if the session variable exists
+if (strlen($_SESSION['bpmsaid'] == 0)) {
     header('location:logout.php');
+    exit();
 } else {
 ?>
 <!DOCTYPE html>
@@ -36,6 +38,7 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
             </thead>
             <tbody>
             <?php
+            // The query remains the same as your original UI logic
             $ret = mysqli_query($con, "SELECT 
                                         tblusers.FullName, 
                                         tblinvoice.BillingId, 
@@ -73,7 +76,6 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
     </div>
 </main>
 
-<?php include 'includes/footer.php'; ?>
 <script src="js/script.js"></script>
 </body>
 </html>

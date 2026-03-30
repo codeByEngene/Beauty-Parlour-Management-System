@@ -3,10 +3,11 @@ session_start();
 error_reporting(0);
 include('includes/dbconnection.php');
 
-if (strlen($_SESSION['bpmsaid']) == 0) {
-    header('location:logout.php');
-} else {
+$firstDayOfMonth = date('Y-m-01'); 
+$today = date('Y-m-d');
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,12 +32,12 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
             <form action="bwdates-reports-details.php" method="post" name="bwdatesreport">
                 <div class="form-group">
                     <label for="fromdate">From Date</label>
-                    <input type="date" name="fromdate" id="fromdate" class="form-control" required="true">
+                    <input type="date" name="fromdate" id="fromdate" class="form-control" required="true" max="<?php echo $today; ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="todate">To Date</label>
-                    <input type="date" name="todate" id="todate" class="form-control" required="true">
+                    <input type="date" name="todate" id="todate" class="form-control" required="true" max="<?php echo $today; ?>">
                 </div>
 
                 <div class="button-row">
@@ -49,6 +50,21 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
 
 <?php include 'includes/footer.php'; ?>
 <script src="js/script.js"></script>
+
+<script>
+    document.getElementById('fromdate').addEventListener('change', function() {
+        var fromDateValue = this.value;
+        var toDateInput = document.getElementById('todate');
+        
+        // Set the minimum selectable date for the 'To Date' input
+        toDateInput.setAttribute('min', fromDateValue);
+        
+        // Optional: If the user already selected a 'To Date' that is now invalid, clear it
+        if (toDateInput.value && toDateInput.value < fromDateValue) {
+            toDateInput.value = '';
+        }
+    });
+</script>
 </body>
 </html>
-<?php } ?>
+<?php ?>

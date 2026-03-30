@@ -3,32 +3,29 @@ session_start();
 error_reporting(E_ALL);
 include('include/dbconnection.php');
 
-// User login check
 if (strlen($_SESSION['uid']) == 0) {
     header('location:logout.php');
 } else {
 
-    // Logic to handle form submission
     if(isset($_POST['submit'])) {
         $userid = $_SESSION['uid']; 
         $adate = $_POST['adate'];
         $atime = $_POST['appointment_time'];
-        $msg = $_POST['message'];
+        $msg = mysqli_real_escape_string($con, $_POST['message']); 
         
-        // Get service ID from URL
         $serviceid = isset($_GET['serviceid']) ? $_GET['serviceid'] : NULL;
         $aptnumber = mt_rand(100000000, 999999999); 
 
-        // Backend Safety Check
         $currentDate = date('Y-m-d');
-        $currentTime = date('H:i');
-        $selectedTime = date('H:i', strtotime($atime));
-
-        if($adate == $currentDate && $selectedTime < $currentTime){
-            echo "<script>alert('Error: The selected time has already passed. Please choose a future time.');</script>";
-        } elseif(empty($serviceid)) {
+        $currentTime = date('H:i:s');
+        
+        if($adate < $currentDate || ($adate == $currentDate && $atime <= $currentTime)){
+            echo "<script>alert('Error: You cannot book an appointment in the past.');</script>";
+        } 
+        elseif(empty($serviceid)) {
             echo "<script>alert('Please select a service before booking.');</script>";
-        } else {
+        } 
+        else {
             $query = mysqli_query($con, "INSERT INTO tblappointment
             (AppointmentNumber, UserID, ServiceId, AptDate, AptTime, Message, Status) 
             VALUES('$aptnumber', '$userid', '$serviceid', '$adate', '$atime', '$msg', 'Pending')");
@@ -37,10 +34,11 @@ if (strlen($_SESSION['uid']) == 0) {
                 echo "<script>alert('Appointment sent! Your number is $aptnumber');</script>";
                 echo "<script>window.location.href='bookinghistory.php'</script>";
             } else {
-                echo "<script>alert('Something went wrong. Please try again.');</script>";
+                echo "<script>alert('Database Error. Please try again.');</script>";
             }
         }
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,7 +89,7 @@ if (strlen($_SESSION['uid']) == 0) {
 
 /* --- REFINED BUTTONS & BOXES --- */
 .btn-select-main {
-    background-color: #b5838d; /* Muted Rose */
+    background-color: #b5838d; 
     color: white;
     width: 100%;
     padding: 14px;
@@ -103,9 +101,7 @@ if (strlen($_SESSION['uid']) == 0) {
     margin-bottom: 15px;
     transition: 0.3s;
 }
-.btn-select-main:hover {
-    background-color: #a6737c;
-}
+.btn-select-main:hover { background-color: #a6737c; }
 
 .selected-service-box {
     background: #fdf6f0; 
@@ -120,13 +116,8 @@ if (strlen($_SESSION['uid']) == 0) {
     align-items: center;
 }
 
-/* Overriding form button to match new theme */
-.form-box button[name="submit"] {
-    background: #b5838d !important;
-}
-.form-box button[name="submit"]:hover {
-    background: #a6737c !important;
-}
+.form-box button[name="submit"] { background: #b5838d !important; }
+.form-box button[name="submit"]:hover { background: #a6737c !important; }
 </style>
 
 </head>
@@ -150,15 +141,16 @@ if (strlen($_SESSION['uid']) == 0) {
 <div class="form-box">
 <form method="post" id="appointmentForm">
     
-    <label>Selected Service</label>
+    <label>Selected Service & Price</label>
     <?php 
     if(isset($_GET['serviceid'])) {
-        $sid = $_GET['serviceid'];
-        $get_service = mysqli_query($con, "SELECT service_name FROM services WHERE id='$sid'");
+        $sid = mysqli_real_escape_string($con, $_GET['serviceid']);
+        $get_service = mysqli_query($con, "SELECT service_name, Cost FROM services WHERE id='$sid'");
         $res = mysqli_fetch_array($get_service);
         if($res) {
             echo "<div class='selected-service-box'>";
-            echo "<span><i class='fa fa-sparkles'></i> " . $res['service_name'] . "</span>";
+            echo "<span><i class='fa fa-sparkles'></i> " . htmlspecialchars($res['service_name']) . "</span>";
+            echo "<span class='service-price-tag'>Rs. " . number_format($res['Cost'], 2) . "</span>";
             echo "<a href='javascript:void(0)' onclick='openModal()' style='font-size: 12px; color: #8f7463; text-decoration: underline;'>Change</a>";
             echo "</div>";
         }
@@ -187,7 +179,7 @@ if (strlen($_SESSION['uid']) == 0) {
     </select>
 
     <label>Message / Special Requests</label>
-    <textarea name="message" placeholder="e.g., Sensitive skin, hair length, or specific preferences..."></textarea>
+    <textarea name="message" placeholder="e.g., Sensitive skin..."></textarea>
 
     <button type="submit" name="submit">Make an Appointment</button>
 </form>
@@ -199,14 +191,14 @@ if (strlen($_SESSION['uid']) == 0) {
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <h3>Our Services</h3>
-        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Please select the service you wish to book:</p>
+        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Choose a treatment to see the price:</p>
         
         <select id="modalServiceSelect" class="appointment-time" style="margin-bottom: 25px; border: 1px solid #b5838d;">
             <option value="">-- Choose a treatment --</option>
             <?php 
-            $query_s = mysqli_query($con, "SELECT id, service_name FROM services");
+            $query_s = mysqli_query($con, "SELECT id, service_name, Cost FROM services");
             while($row_s = mysqli_fetch_array($query_s)) {
-                echo "<option value='".$row_s['id']."'>".$row_s['service_name']."</option>";
+                echo "<option value='".$row_s['id']."'>".$row_s['service_name']." (Rs. ".$row_s['Cost'].")</option>";
             }
             ?>
         </select>
@@ -218,6 +210,15 @@ if (strlen($_SESSION['uid']) == 0) {
 <?php include('include/footer.php');?>
 
 <script>
+document.getElementById('appointmentForm').onsubmit = function(e) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (!urlParams.has('serviceid')) {
+        e.preventDefault();
+        alert("Please click 'Choose Service' before booking.");
+        openModal();
+    }
+};
+
 function openModal() { document.getElementById('serviceModal').style.display = "block"; }
 function closeModal() { document.getElementById('serviceModal').style.display = "none"; }
 
@@ -271,4 +272,3 @@ window.onload = filterTime;
 
 </body>
 </html>
-<?php } ?>

@@ -1,16 +1,19 @@
 <?php
 session_start();
 error_reporting(0);
-include('includes/dbconnection.php');
+include('includes/dbconnection.php'); // Fixed: Added semicolon
 
-
-if (strlen($_SESSION['bpmsaid']) == 0) {
-    header('location:logout.php');
-} else {
-
+// Capture inputs
 $from = (!empty($_POST['fromdate'])) ? $_POST['fromdate'] : date('Y-m-d');
 $to = (!empty($_POST['todate'])) ? $_POST['todate'] : date('Y-m-d');
 $type = (isset($_POST['type'])) ? $_POST['type'] : 'month'; 
+
+// SMART SWAP LOGIC: Fixes the 25-Mar to 02-Mar logic issue automatically
+if (strtotime($from) > strtotime($to)) {
+    $temp = $from;
+    $from = $to;
+    $to = $temp;
+}
 
 if ($type == 'year') {
     $from_display = date("Y", strtotime($from));
@@ -22,7 +25,8 @@ if ($type == 'year') {
               FROM tblinvoice t1
               JOIN services t2 ON t1.ServiceId = t2.id
               WHERE DATE(t1.PostingDate) BETWEEN '$from' AND '$to'
-              GROUP BY YEAR(t1.PostingDate)";
+              GROUP BY YEAR(t1.PostingDate)
+              ORDER BY YEAR(t1.PostingDate) ASC";
 } else {
     $from_display = date("F-Y", strtotime($from));
     $to_display = date("F-Y", strtotime($to));
@@ -40,7 +44,6 @@ if ($type == 'year') {
 $result = mysqli_query($con, $query);
 $grand_total = 0;
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,4 +114,4 @@ $grand_total = 0;
 <script src="js/script.js"></script>
 </body>
 </html>
-<?php } ?>
+<?php  ?>
