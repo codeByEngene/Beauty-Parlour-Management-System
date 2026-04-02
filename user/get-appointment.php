@@ -26,19 +26,29 @@ if (strlen($_SESSION['uid']) == 0) {
             echo "<script>alert('Please select a service before booking.');</script>";
         } 
         else {
-            $query = mysqli_query($con, "INSERT INTO tblappointment
-            (AppointmentNumber, UserID, ServiceId, AptDate, AptTime, Message, Status) 
-            VALUES('$aptnumber', '$userid', '$serviceid', '$adate', '$atime', '$msg', 'Pending')");
-
-            if ($query) {
-                echo "<script>alert('Appointment sent! Your number is $aptnumber');</script>";
-                echo "<script>window.location.href='bookinghistory.php'</script>";
+            // --- SLOT AVAILABILITY CHECK ---
+            $checkSlot = mysqli_query($con, "SELECT id FROM tblappointment WHERE AptDate='$adate' AND AptTime='$atime' AND Status != 'Rejected'");
+            
+            if(mysqli_num_rows($checkSlot) > 0) {
+                echo "<script>alert('Slot Unavailable: This time slot is already booked. Please choose another time.');</script>";
             } else {
-                echo "<script>alert('Database Error. Please try again.');</script>";
+                $query = mysqli_query($con, "INSERT INTO tblappointment
+                (AppointmentNumber, UserID, ServiceId, AptDate, AptTime, Message, Status) 
+                VALUES('$aptnumber', '$userid', '$serviceid', '$adate', '$atime', '$msg', 'Pending')");
+
+                if ($query) {
+                    echo "<script>alert('Appointment sent! Your number is $aptnumber');</script>";
+                    echo "<script>window.location.href='bookinghistory.php'</script>";
+                } else {
+                    echo "<script>alert('Database Error. Please try again.');</script>";
+                }
             }
         }
     }
 }
+    // Memory logic: Pulling data from the URL to keep the boxes filled
+    $existingDate = isset($_GET['date']) ? $_GET['date'] : '';
+    $existingTime = isset($_GET['time']) ? $_GET['time'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -118,6 +128,9 @@ if (strlen($_SESSION['uid']) == 0) {
 
 .form-box button[name="submit"] { background: #b5838d !important; }
 .form-box button[name="submit"]:hover { background: #a6737c !important; }
+
+/* Custom red warning label style */
+.warn-text { color: #e74c3c; font-size: 13px; display: none; margin-bottom: 10px; font-weight: bold; }
 </style>
 
 </head>
@@ -160,10 +173,20 @@ if (strlen($_SESSION['uid']) == 0) {
     ?>
 
     <label>Appointment Date</label>
-    <input type="date" name="adate" id="adate" required min="<?php echo date('Y-m-d'); ?>" onchange="filterTime()">
+    <input type="date" name="adate" id="adate" required 
+           value="<?php echo $existingDate; ?>"
+           min="<?php echo date('Y-m-d'); ?>" 
+           max="<?php echo date('Y-12-31'); ?>" 
+           oninput="validateYear(this); this.setCustomValidity('')" 
+           onchange="filterTime()"
+           oninvalid="this.setCustomValidity('Please pick a valid date for your appointment.')">
+    <p id="dateWarn" class="warn-text">Please select a valid date in <?php echo date('Y'); ?>.</p>
 
     <label>Appointment Time</label>
-    <select name="appointment_time" id="appointment_time" class="appointment-time" required>
+    <select name="appointment_time" id="appointment_time" class="appointment-time" required 
+            onchange="validateField(this)"
+            oninvalid="this.setCustomValidity('Please select a time slot from the list.')" 
+            oninput="this.setCustomValidity('')">
         <option value="">Select Time</option>
         <option value="09:00:00">9:00 AM</option>
         <option value="10:00:00">10:00 AM</option>
@@ -177,6 +200,7 @@ if (strlen($_SESSION['uid']) == 0) {
         <option value="18:00:00">6:00 PM</option>
         <option value="19:00:00">7:00 PM</option>
     </select>
+    <p id="timeWarn" class="warn-text">Please choose a time slot.</p>
 
     <label>Message / Special Requests</label>
     <textarea name="message" placeholder="e.g., Sensitive skin..."></textarea>
@@ -210,48 +234,58 @@ if (strlen($_SESSION['uid']) == 0) {
 <?php include('include/footer.php');?>
 
 <script>
-document.getElementById('appointmentForm').onsubmit = function(e) {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (!urlParams.has('serviceid')) {
-        e.preventDefault();
-        alert("Please click 'Choose Service' before booking.");
-        openModal();
-    }
-};
-
 function openModal() { document.getElementById('serviceModal').style.display = "block"; }
 function closeModal() { document.getElementById('serviceModal').style.display = "none"; }
 
 function confirmService() {
     const serviceId = document.getElementById('modalServiceSelect').value;
+    const currentDate = document.getElementById('adate').value;
+    const currentTime = document.getElementById('appointment_time').value;
     if(serviceId) {
-        window.location.href = "get-appointment.php?serviceid=" + serviceId;
+        // Appends existing data to the URL so PHP can put it back after reload
+        window.location.href = "get-appointment.php?serviceid=" + serviceId + "&date=" + currentDate + "&time=" + currentTime;
     } else {
         alert("Please select a service first.");
     }
 }
 
-window.onclick = function(event) {
-    if (event.target == document.getElementById('serviceModal')) { closeModal(); }
+function validateYear(element) {
+    const currentYear = new Date().getFullYear();
+    const warn = document.getElementById('dateWarn');
+    if (element.value) {
+        const inputYear = parseInt(element.value.split('-')[0]);
+        if (inputYear !== currentYear) {
+            element.value = "";
+            warn.style.display = "block";
+        } else { warn.style.display = "none"; }
+    }
 }
+
+function validateField(element) {
+    document.getElementById('timeWarn').style.display = (element.value === "") ? "block" : "none";
+}
+
+document.getElementById('appointmentForm').onsubmit = function(e) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (!urlParams.has('serviceid')) {
+        alert("Please select a service first.");
+        openModal();
+        e.preventDefault();
+    }
+};
 
 function filterTime() {
     const dateInput = document.getElementById('adate');
     const timeSelect = document.getElementById('appointment_time');
     const options = timeSelect.options;
     const today = new Date();
-    const selectedDateStr = dateInput.value;
-    if(!selectedDateStr) return;
-    
-    const selectedDate = new Date(selectedDateStr);
+    if(!dateInput.value) return;
+    const selectedDate = new Date(dateInput.value);
     const isToday = today.toDateString() === selectedDate.toDateString();
-    const currentHour = today.getHours();
-    const currentMinutes = today.getMinutes();
-
     for (let i = 1; i < options.length; i++) {
         if (isToday) {
             const [optHour, optMin] = options[i].value.split(':');
-            if (parseInt(optHour) < currentHour || (parseInt(optHour) === currentHour && parseInt(optMin) <= currentMinutes)) {
+            if (parseInt(optHour) < today.getHours() || (parseInt(optHour) === today.getHours() && parseInt(optMin) <= today.getMinutes())) {
                 options[i].style.display = 'none';
                 options[i].disabled = true;
             } else {
@@ -262,9 +296,6 @@ function filterTime() {
             options[i].style.display = 'block';
             options[i].disabled = false;
         }
-    }
-    if (timeSelect.selectedOptions[0] && timeSelect.selectedOptions[0].disabled) {
-        timeSelect.value = "";
     }
 }
 window.onload = filterTime;

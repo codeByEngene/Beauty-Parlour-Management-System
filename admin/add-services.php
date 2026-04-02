@@ -4,6 +4,19 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1); 
 include 'includes/dbconnection.php';
 
+// --- AJAX CHECK LOGIC (Must stay at the very top) ---
+if (isset($_POST['check_service_name'])) {
+    $service_name = mysqli_real_escape_string($con, $_POST['check_service_name']);
+    $query = mysqli_query($con, "SELECT service_name FROM services WHERE service_name = '$service_name'");
+    if (mysqli_num_rows($query) > 0) {
+        echo "exists";
+    } else {
+        echo "available";
+    }
+    exit(); // Stops the rest of the page from loading for the AJAX call
+}
+
+// --- ORIGINAL FORM SUBMISSION LOGIC ---
 if(isset($_POST['submit']))
 {
     $service_name = mysqli_real_escape_string($con, $_POST['service_name']);
@@ -54,7 +67,6 @@ if(isset($_POST['submit']))
     <link rel="stylesheet" href="includes/sidebar.css">
     <link rel="stylesheet" href="includes/footer.css">
     <style>
-        /* New style for the counter - keeping UI clean */
         .char-count {
             font-size: 12px;
             color: #666;
@@ -65,6 +77,11 @@ if(isset($_POST['submit']))
         .limit-reached {
             color: #e74c3c;
             font-weight: bold;
+        }
+        .status-msg{
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
         }
     </style>
 </head>
@@ -79,7 +96,8 @@ if(isset($_POST['submit']))
                 <form method="post" enctype="multipart/form-data" id="serviceForm">
                     <div class="form-group">
                         <label>Service Name</label>
-                        <input type="text" name="service_name" class="form-control" placeholder="Enter Service Name" required>
+                        <input type="text" name="service_name" id="service_name" class="form-control" placeholder="Enter Service Name" required oninput="checkAvailability()">
+                        <span id="availability-status" style="font-size:12px; margin-top:5px; display:block;"></span>
                     </div>
                     <div class="form-group">
                         <label>Service Description</label>
@@ -87,8 +105,9 @@ if(isset($_POST['submit']))
                         <span class="char-count" id="char_counter">0 / 300 characters</span>
                     </div>
                     <div class="form-group">
-                        <label>Cost</label>
-                        <input type="number" name="cost" id="service_cost" class="form-control" min="1" placeholder="Enter Cost" required oninput="checkPrice()">
+                        <label>Cost (Rs.)</label>
+                        <input type="number" name="cost" id="service_cost" class="form-control" min="1" placeholder="Enter Cost" required oninput="validateCost()">
+                        <span id="cost-status" class="status-msg"></span>
                     </div>
                     <div class="form-group">
                         <label>Service Image</label>
@@ -105,25 +124,97 @@ if(isset($_POST['submit']))
     <?php include 'includes/footer.php'; ?>
     
     <script>
-    // Price Guard
-    function checkPrice() {
-        var costField = document.getElementById('service_cost');
-        if (costField.value < 0) {
-            alert('You cannot enter a negative number.');
-            costField.value = "";
+
+        const serviceDescription ={
+            "Haircut": "Our expert barbers provide precision haircuts tailored to your style. Whether you prefer a classic cut or a modern look, we ensure you leave with confidence and satisfaction.",
+            "Shaving": "Experience a traditional shaving service with our skilled barbers. We use high-quality products to give you a smooth and refreshing shave, leaving your skin feeling rejuvenated.",
+            "Facial": "Indulge in our rejuvenating facial treatments designed to cleanse, exfoliate, and nourish your skin. Our facials are tailored to your skin type, leaving you with a radiant and refreshed complexion.",
+            "Hair Coloring": "Transform your look with our professional hair coloring services. Whether you want a subtle change or a bold new color, our expert stylists will help you achieve the perfect shade that complements your style.",
+            "Beard Trim": "Keep your beard looking sharp and well-groomed with our beard trimming service. Our barbers will shape and style your beard to enhance your facial features, giving you a polished and refined appearance.",
+            "Hair Spa": "Relax and rejuvenate with our hair spa treatments. Our nourishing hair spa services help to restore moisture, improve scalp health, and leave your hair feeling soft, silky, and revitalized.",
+            "Head Massage": "Experience ultimate relaxation with our head massage service. Our skilled therapists use soothing techniques to relieve tension, improve blood circulation, and promote overall well-being, leaving you feeling refreshed and revitalized.",
+            "Hot Towel Shave": "Indulge in the luxury of a hot towel shave. Our barbers will wrap your face in warm towels to open up your pores, followed by a close and comfortable shave that leaves your skin feeling smooth and refreshed.",
+            "Hair Styling": "Get the perfect look for any occasion with our hair styling services. Whether you want a sleek and polished style or a trendy and voluminous look, our expert stylists will create a hairstyle that suits your personality and enhances your features.",
+            "Scalp Treatment": "Revitalize your scalp with our specialized scalp treatments. Our treatments are designed to address various scalp concerns, such as dandruff, dryness, and itchiness, promoting a healthy scalp environment for optimal hair growth.",
+            "Makeup Application": "Enhance your natural beauty with our professional makeup application services. Whether you need a subtle everyday look or a bold statement for a special occasion, our skilled makeup artists will create a flawless finish that complements your features.",
+            "Eyebrow Shaping": "Define and shape your eyebrows with our expert eyebrow shaping services. Our skilled technicians will analyze your facial features and create a customized eyebrow shape that enhances your natural beauty and frames your face perfectly.",
+            "Massage Therapy": "Relax and unwind with our therapeutic massage services. Our skilled therapists use a variety of techniques to relieve muscle tension, reduce stress, and promote overall well-being, leaving you feeling rejuvenated and refreshed."
+        };
+        function handleServiceName(){
+            checkAvailability(); // Check availability on page load in case of pre-filled value
+            autoFillDescription(); // Auto-fill description if service name matches
+        }
+
+        function autoFillDesciption(){
+            var nameInput = document.getElementById('service_name').value.trim();
+            var descArea = document.getElementById('service_desc');
+
+            for(let key in serviceDescription) {
+                if(nameInput.toLowerCase() === key.toLowerCase()) {
+                    descArea.value = serviceDescription[key];
+                    updateCounter(); // Update character counter after auto-filling
+                    return;
+                }
+            }
+             // If no match, clear the description
+            descArea.value = '';
+            updateCounter(); // Update character counter after clearing 
+        }
+
+    function checkAvailability() {
+        var serviceName = document.getElementById('service_name').value;
+        var statusSpan = document.getElementById('availability-status');
+        var submitBtn = document.querySelector('button[name="submit"]');
+
+        if(serviceName.trim().length > 2) {
+            var xhr = new XMLHttpRequest();
+            // We call THIS same file
+            xhr.open('POST', 'add-services.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState === 4 && xhr.status === 200) {
+                    var response = xhr.responseText.trim();
+                    if(response === 'exists') {
+                        statusSpan.innerHTML = '<i class="fa fa-times-circle"></i> Service name is already taken.';
+                        statusSpan.style.color = '#e74c3c';
+                        submitBtn.disabled = true;
+                    } else {
+                        statusSpan.innerHTML = '<i class="fa fa-check-circle"></i> Service name is available.';
+                        statusSpan.style.color = '#27ae60';
+                        submitBtn.disabled = false;
+                    }
+                }
+            };
+            // Note we send "check_service_name" so the PHP knows to run the check logic
+            xhr.send('check_service_name=' + encodeURIComponent(serviceName));
+        } else {
+            statusSpan.innerHTML = '';
+            submitBtn.disabled = false;
         }
     }
 
-    // New Character Counter Logic
+    function validateCost() {
+        var costField = document.getElementById('service_cost');
+        var costStatus = document.getElementById('cost-status');
+        var submitBtn = document.querySelector('button[name="submit"]');
+        if (costField.value !== '' && parseFloat(costField.value) < 0) {
+            costStatus.innerHTML = '<i class="fa fa-times-circle"></i> Cost cannot be negative.';
+            costStatus.style.color = '#e74c3c';
+            submitBtn.disabled = true;
+        } else {
+            costStatus.innerHTML = '';
+            submitBtn.disabled = false;
+        }
+    }
+
     function updateCounter() {
         var descField = document.getElementById('service_desc');
         var counter = document.getElementById('char_counter');
         var maxLength = descField.getAttribute("maxlength");
         var currentLength = descField.value.length;
 
-        counter.innerHTML = currentLength + " / " + maxLength + " characters";
+        counter.innerHTML = currentLength + " / " + maxLength + "characters";
 
-        // Turn red when 90% full
         if (currentLength >= (maxLength * 0.9)) {
             counter.classList.add("limit-reached");
         } else {

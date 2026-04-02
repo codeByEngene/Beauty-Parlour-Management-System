@@ -106,7 +106,14 @@ function validateEmail() {
 function validatePhone() {
     let phone = document.getElementById("mobilenumber").value;
     let error = document.getElementById("phoneError");
-    if(phone.length === 10) error.textContent = "";
+    if(phone.length === 0) {
+        error.textContent = "";
+    } else if(phone.length < 10) {
+        error.style.color = "#e74c3c";
+        error.textContent = "Phone number must be 10 digits.";
+    } else {
+        error.textContent = "";
+    }
 }
 
 function validateForm() {

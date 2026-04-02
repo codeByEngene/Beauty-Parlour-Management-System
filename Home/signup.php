@@ -16,7 +16,6 @@ if (isset($_POST['submit'])) {
     $password  = $_POST['password'];
     $repeatpass = $_POST['repeatpassword']; // Captured the repeat password
     $role      = "user"; 
-    $status    = "active";
 
     // Server-side validation
     if(strlen($fname) < 2) {
@@ -37,8 +36,8 @@ if (isset($_POST['submit'])) {
             echo "<script>alert('Email or Mobile already exists');</script>";
         } else {
             // Note: repeatpassword is NOT added to the query as it's not in your table
-            $query = mysqli_query($con, "INSERT INTO tblusers (FullName, MobileNumber, email, password, role, status) 
-                                         VALUES ('$fname', '$mobile', '$email', '$hashed_password', '$role', '$status')");
+            $query = mysqli_query($con, "INSERT INTO tblusers (FullName, MobileNumber, email, password, role) 
+                                         VALUES ('$fname', '$mobile', '$email', '$hashed_password', '$role')");
             if ($query) {
                 echo "<script>alert('Registration Successful!'); window.location='login.php';</script>";
             } else {
