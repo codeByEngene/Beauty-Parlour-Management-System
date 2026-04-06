@@ -21,33 +21,33 @@ if (isset($_POST['submit'])) {
     $serdesc = mysqli_real_escape_string($con, $_POST['serdesc']);
     $cost = mysqli_real_escape_string($con, $_POST['cost']);
     
-    // Image Upload Logic
-    $image = $_FILES["serviceimage"]["name"];
-    
-    if(!empty($image)) {
-        // If a new image is uploaded
-        $extension = substr($image, strlen($image)-4, strlen($image));
-        $allowed_extensions = array(".jpg", "jpeg", ".png", ".gif");
+    // Safety check for backend
+    if($cost <= 0) {
+        echo "<script>alert('Error: Cost must be greater than zero.');</script>";
+    } else {
+        $image = $_FILES["serviceimage"]["name"];
         
-        if(!in_array($extension, $allowed_extensions)) {
-            echo "<script>alert('Invalid format. Only jpg / jpeg/ png /gif format allowed');</script>";
-        } else {
-            // Rename image to prevent overwriting
-            $newimage = md5($image.time()).$extension;
-            move_uploaded_file($_FILES["serviceimage"]["tmp_name"], "images/".$newimage);
+        if(!empty($image)) {
+            $extension = substr($image, strlen($image)-4, strlen($image));
+            $allowed_extensions = array(".jpg", "jpeg", ".png", ".gif");
             
-            $query = mysqli_query($con, "UPDATE services SET service_name='$sername', service_desc='$serdesc', cost='$cost', image='$newimage' WHERE id='$editid'");
+            if(!in_array($extension, $allowed_extensions)) {
+                echo "<script>alert('Invalid format. Only jpg / jpeg/ png /gif format allowed');</script>";
+            } else {
+                $newimage = md5($image.time()).$extension;
+                move_uploaded_file($_FILES["serviceimage"]["tmp_name"], "images/".$newimage);
+                $query = mysqli_query($con, "UPDATE services SET service_name='$sername', service_desc='$serdesc', cost='$cost', image='$newimage' WHERE id='$editid'");
+            }
+        } else {
+            $query = mysqli_query($con, "UPDATE services SET service_name='$sername', service_desc='$serdesc', cost='$cost' WHERE id='$editid'");
         }
-    } else {
-        // If no new image is selected, keep the old one
-        $query = mysqli_query($con, "UPDATE services SET service_name='$sername', service_desc='$serdesc', cost='$cost' WHERE id='$editid'");
-    }
 
-    if ($query) {
-        echo "<script>alert('Service has been updated successfully.');</script>";
-        echo "<script>window.location.href = 'manage-services.php'</script>";
-    } else {
-        echo "<script>alert('Something went wrong. Please try again.');</script>";
+        if ($query) {
+            echo "<script>alert('Service has been updated successfully.');</script>";
+            echo "<script>window.location.href = 'manage-services.php'</script>";
+        } else {
+            echo "<script>alert('Something went wrong. Please try again.');</script>";
+        }
     }
 }
 ?>
@@ -69,6 +69,9 @@ if (isset($_POST['submit'])) {
         .btn-primary { background: #6467c2; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .page-title { text-align: center; color: #333; margin-bottom: 30px; }
         .current-img { width: 150px; border-radius: 5px; margin-bottom: 10px; display: block; border: 1px solid #ddd; }
+        
+        /* Error message styles */
+        .status-msg { font-size: 12px; margin-top: 5px; display: block; color: #e74c3c; }
     </style>
 </head>
 <body>
@@ -97,7 +100,11 @@ if (isset($_POST['submit'])) {
 
                 <div class="form-group">
                     <label>Cost</label>
-                    <input type="number" name="cost" class="form-control" value="<?php echo $row['cost']; ?>" required>
+                    <input type="number" name="cost" id="service_cost" class="form-control" value="<?php echo $row['cost']; ?>" required 
+                           min="1" step="0.01"
+                           onkeydown="blockMinus(event)" 
+                           oninput="validateCost()">
+                    <span id="cost-status" class="status-msg"></span>
                 </div>
 
                 <div class="form-group">
@@ -108,7 +115,7 @@ if (isset($_POST['submit'])) {
                 </div>
 
                 <div class="action-buttons">
-                    <button type="submit" name="submit" class="btn-primary">Update Service</button>
+                    <button type="submit" name="submit" class="btn-primary" id="submitBtn">Update Service</button>
                     <a href="manage-services.php" style="margin-left:15px; color: #e94e02; text-decoration: none; font-weight: bold;">Cancel</a>
                 </div>
             </form>
@@ -116,6 +123,37 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 </main>
+
+<script>
+// Logic to block the minus key
+function blockMinus(event) {
+    if (event.keyCode === 189 || event.keyCode === 109 || event.key === '-') {
+        event.preventDefault();
+        var costStatus = document.getElementById('cost-status');
+        costStatus.innerHTML = '<i class="fa fa-times-circle"></i> Negative signs are not allowed.';
+        alert("The minus sign (-) is blocked. Price must be a positive number.");
+        return false;
+    }
+}
+
+// Logic to validate the input value
+function validateCost() {
+    var costField = document.getElementById('service_cost');
+    var costStatus = document.getElementById('cost-status');
+    var submitBtn = document.getElementById('submitBtn');
+    var val = parseFloat(costField.value);
+
+    if (costField.value !== '' && val < 1) {
+        costField.value = ''; 
+        costStatus.innerHTML = '<i class="fa fa-times-circle"></i> Price must be greater than zero.';
+        submitBtn.disabled = true;
+    } else {
+        costStatus.innerHTML = '';
+        submitBtn.disabled = false;
+    }
+}
+</script>
+
 <script src="js/script.js"></script>
 </body>
 </html>

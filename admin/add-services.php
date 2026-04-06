@@ -13,7 +13,7 @@ if (isset($_POST['check_service_name'])) {
     } else {
         echo "available";
     }
-    exit(); // Stops the rest of the page from loading for the AJAX call
+    exit(); 
 }
 
 // --- ORIGINAL FORM SUBMISSION LOGIC ---
@@ -23,10 +23,8 @@ if(isset($_POST['submit']))
     $service_desc = mysqli_real_escape_string($con, $_POST['service_desc']);
     $cost = $_POST['cost'];
 
-    if($cost < 0) {
-        echo "<script>alert('Error: You cannot enter a negative number for the price.');</script>";
-    } elseif($cost == 0) {
-        echo "<script>alert('Price cannot be zero.');</script>";
+    if($cost <= 0) {
+        echo "<script>alert('Error: Price must be a positive number greater than zero.');</script>";
     } else {
         $check_service = mysqli_query($con, "SELECT service_name FROM services WHERE service_name = '$service_name'");
         
@@ -96,7 +94,7 @@ if(isset($_POST['submit']))
                 <form method="post" enctype="multipart/form-data" id="serviceForm">
                     <div class="form-group">
                         <label>Service Name</label>
-                        <input type="text" name="service_name" id="service_name" class="form-control" placeholder="Enter Service Name" required oninput="checkAvailability()">
+                        <input type="text" name="service_name" id="service_name" class="form-control" placeholder="Enter Service Name" required oninput="handleServiceName()">
                         <span id="availability-status" style="font-size:12px; margin-top:5px; display:block;"></span>
                     </div>
                     <div class="form-group">
@@ -106,7 +104,8 @@ if(isset($_POST['submit']))
                     </div>
                     <div class="form-group">
                         <label>Cost (Rs.)</label>
-                        <input type="number" name="cost" id="service_cost" class="form-control" min="1" placeholder="Enter Cost" required oninput="validateCost()">
+                        <input type="number" name="cost" id="service_cost" class="form-control" min="1" step="0.01" placeholder="Enter Cost" required onkeydown="blockMinus(event)" oninput="validateCost()" onchange="validateCost()">
+
                         <span id="cost-status" class="status-msg"></span>
                     </div>
                     <div class="form-group">
@@ -114,7 +113,7 @@ if(isset($_POST['submit']))
                         <input type="file" name="service_image" class="form-control" required>
                     </div>
                     <div class="action-buttons">
-                        <button type="submit" name="submit" class="btn-primary">Add</button>
+                        <button type="submit" name="submit" class="btn-primary" id="submitBtn">Add</button>
                     </div>
                 </form>
             </div>
@@ -124,8 +123,7 @@ if(isset($_POST['submit']))
     <?php include 'includes/footer.php'; ?>
     
     <script>
-
-        const serviceDescription ={
+        const serviceDescription = {
             "Haircut": "Our expert barbers provide precision haircuts tailored to your style. Whether you prefer a classic cut or a modern look, we ensure you leave with confidence and satisfaction.",
             "Shaving": "Experience a traditional shaving service with our skilled barbers. We use high-quality products to give you a smooth and refreshing shave, leaving your skin feeling rejuvenated.",
             "Facial": "Indulge in our rejuvenating facial treatments designed to cleanse, exfoliate, and nourish your skin. Our facials are tailored to your skin type, leaving you with a radiant and refreshed complexion.",
@@ -140,87 +138,102 @@ if(isset($_POST['submit']))
             "Eyebrow Shaping": "Define and shape your eyebrows with our expert eyebrow shaping services. Our skilled technicians will analyze your facial features and create a customized eyebrow shape that enhances your natural beauty and frames your face perfectly.",
             "Massage Therapy": "Relax and unwind with our therapeutic massage services. Our skilled therapists use a variety of techniques to relieve muscle tension, reduce stress, and promote overall well-being, leaving you feeling rejuvenated and refreshed."
         };
+
         function handleServiceName(){
-            checkAvailability(); // Check availability on page load in case of pre-filled value
-            autoFillDescription(); // Auto-fill description if service name matches
+            checkAvailability(); 
+            autoFillDescription();
         }
 
-        function autoFillDesciption(){
+        function autoFillDescription(){
             var nameInput = document.getElementById('service_name').value.trim();
             var descArea = document.getElementById('service_desc');
 
-            for(let key in serviceDescription) {
-                if(nameInput.toLowerCase() === key.toLowerCase()) {
-                    descArea.value = serviceDescription[key];
-                    updateCounter(); // Update character counter after auto-filling
-                    return;
-                }
+            // Find matching key case-insensitively
+            let match = Object.keys(serviceDescription).find(key => key.toLowerCase() === nameInput.toLowerCase());
+
+            if(match) {
+                descArea.value = serviceDescription[match];
+                updateCounter();
             }
-             // If no match, clear the description
-            descArea.value = '';
-            updateCounter(); // Update character counter after clearing 
         }
 
-    function checkAvailability() {
-        var serviceName = document.getElementById('service_name').value;
-        var statusSpan = document.getElementById('availability-status');
-        var submitBtn = document.querySelector('button[name="submit"]');
+        function checkAvailability() {
+            var serviceName = document.getElementById('service_name').value;
+            var statusSpan = document.getElementById('availability-status');
+            var submitBtn = document.getElementById('submitBtn');
 
-        if(serviceName.trim().length > 2) {
-            var xhr = new XMLHttpRequest();
-            // We call THIS same file
-            xhr.open('POST', 'add-services.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-                if(xhr.readyState === 4 && xhr.status === 200) {
-                    var response = xhr.responseText.trim();
-                    if(response === 'exists') {
-                        statusSpan.innerHTML = '<i class="fa fa-times-circle"></i> Service name is already taken.';
-                        statusSpan.style.color = '#e74c3c';
-                        submitBtn.disabled = true;
-                    } else {
-                        statusSpan.innerHTML = '<i class="fa fa-check-circle"></i> Service name is available.';
-                        statusSpan.style.color = '#27ae60';
-                        submitBtn.disabled = false;
+            if(serviceName.trim().length > 2) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'add-services.php', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onreadystatechange = function() {
+                    if(xhr.readyState === 4 && xhr.status === 200) {
+                        var response = xhr.responseText.trim();
+                        if(response === 'exists') {
+                            statusSpan.innerHTML = '<i class="fa fa-times-circle"></i> Service name already taken.';
+                            statusSpan.style.color = '#e74c3c';
+                            submitBtn.disabled = true;
+                        } else {
+                            statusSpan.innerHTML = '<i class="fa fa-check-circle"></i> Service name available.';
+                            statusSpan.style.color = '#27ae60';
+                            submitBtn.disabled = false;
+                        }
                     }
-                }
-            };
-            // Note we send "check_service_name" so the PHP knows to run the check logic
-            xhr.send('check_service_name=' + encodeURIComponent(serviceName));
-        } else {
-            statusSpan.innerHTML = '';
-            submitBtn.disabled = false;
+                };
+                xhr.send('check_service_name=' + encodeURIComponent(serviceName));
+            } else {
+                statusSpan.innerHTML = '';
+            }
         }
-    }
 
-    function validateCost() {
-        var costField = document.getElementById('service_cost');
-        var costStatus = document.getElementById('cost-status');
-        var submitBtn = document.querySelector('button[name="submit"]');
-        if (costField.value !== '' && parseFloat(costField.value) < 0) {
-            costStatus.innerHTML = '<i class="fa fa-times-circle"></i> Cost cannot be negative.';
-            costStatus.style.color = '#e74c3c';
-            submitBtn.disabled = true;
-        } else {
-            costStatus.innerHTML = '';
-            submitBtn.disabled = false;
+
+        function blockMinus(event) {
+        // 189 is the minus key on top row, 109 is the minus key on numpad
+            if (event.keyCode === 189 || event.keyCode === 109 || event.key === '-') {
+                event.preventDefault(); // This stops the character from appearing
+                
+                var costStatus = document.getElementById('cost-status');
+                costStatus.innerHTML = '<i class="fa fa-times-circle"></i> Negative signs are not allowed.';
+                costStatus.style.color = '#e74c3c';
+                
+                // Optional: show an alert as requested
+                alert("The minus sign (-) is blocked. Price must be a positive number.");
+                return false;
+            }
         }
-    }
+        function validateCost() {
+            var costField = document.getElementById('service_cost');
+            var costStatus = document.getElementById('cost-status');
+            var submitBtn = document.getElementById('submitBtn');
+            var val = parseFloat(costField.value);
 
-    function updateCounter() {
-        var descField = document.getElementById('service_desc');
-        var counter = document.getElementById('char_counter');
-        var maxLength = descField.getAttribute("maxlength");
-        var currentLength = descField.value.length;
-
-        counter.innerHTML = currentLength + " / " + maxLength + "characters";
-
-        if (currentLength >= (maxLength * 0.9)) {
-            counter.classList.add("limit-reached");
-        } else {
-            counter.classList.remove("limit-reached");
+            // Validation for non-empty input that is 0 or less
+            if (costField.value !== '' && val < 1) {
+                costField.value = ''; // Reset the field
+                costStatus.innerHTML = '<i class="fa fa-times-circle"></i> Price must be greater than zero.';
+                costStatus.style.color = '#e74c3c';
+                alert("The price cannot be negative or zero.");
+                submitBtn.disabled = true;
+            } else {
+                costStatus.innerHTML = '';
+                submitBtn.disabled = false;
+            }
         }
-    }
+
+        function updateCounter() {
+            var descField = document.getElementById('service_desc');
+            var counter = document.getElementById('char_counter');
+            var maxLength = descField.getAttribute("maxlength");
+            var currentLength = descField.value.length;
+
+            counter.innerHTML = currentLength + " / " + maxLength + " characters";
+
+            if (currentLength >= (maxLength * 0.9)) {
+                counter.classList.add("limit-reached");
+            } else {
+                counter.classList.remove("limit-reached");
+            }
+        }
     </script>
     <script src="js/script.js"></script>
 </body>

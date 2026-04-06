@@ -103,6 +103,7 @@ if (strlen($_SESSION['bpmsaid']) == 0) {
     <?php } ?>
 </main>
 
+
 <?php include 'includes/footer.php'; ?>
 <script src="js/script.js"></script>
 </body>

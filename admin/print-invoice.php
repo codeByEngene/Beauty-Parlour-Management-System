@@ -55,6 +55,17 @@ $user = mysqli_fetch_array($ret);
             
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
+        @media print {
+        @page { 
+            margin: 0; /* This tells the browser to remove the default margins where the URL sits */
+        }
+        body { 
+            margin: 1.6cm; /* This adds margin back to your content so it doesn't touch the edge of the paper */
+        }
+        .no-print { display: none; }
+        }
+
+
     </style>
 </head>
 <body onload="window.print()">
