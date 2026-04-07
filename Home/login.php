@@ -9,6 +9,7 @@ if (isset($_POST['login'])) {
     $password = $_POST['password']; 
     $selectedRole = mysqli_real_escape_string($con, $_POST['role']); 
 
+    // Handle Admin Authorization Check
     if ($selectedRole == 'admin') {
         $allowedAdmins = ['admin1@gmail.com', 'admin2@gmail.com']; 
         if (!in_array($email, $allowedAdmins)) {
@@ -18,10 +19,12 @@ if (isset($_POST['login'])) {
         }
     }
 
+    // Query Database
     $query = mysqli_query($con, "SELECT * FROM tblusers WHERE email='$email' AND role='$selectedRole'");
     $row = mysqli_fetch_array($query);
-    if ($row && md5($password) == $row['password']) {
 
+    // Verify Password (using MD5 as per your current setup)
+    if ($row && md5($password) == $row['password']) {
         session_regenerate_id();
 
         $_SESSION['bpmsaid'] = $row['id']; 
@@ -29,11 +32,17 @@ if (isset($_POST['login'])) {
         $_SESSION['role'] = $row['role']; 
         $_SESSION['fullname'] = $row['FullName'];
 
+        // REDIRECTION LOGIC
         if ($_SESSION['role'] === 'admin') {
             header("Location: ../admin/dashboard.php");
             exit();
         } else if ($_SESSION['role'] === 'user') {
-            header("Location: ../user/dashboard.php");
+            // Check if the user came from the "Get Appointment" button
+            if (isset($_GET['redirect']) && $_GET['redirect'] == 'appointment') {
+                header("Location: ../user/get-appointment.php"); // Path to your booking page
+            } else {
+                header("Location: ../user/dashboard.php");
+            }
             exit();
         } else {
             echo "<script>alert('Invalid role assigned to this account.');</script>";
@@ -63,7 +72,7 @@ if (isset($_POST['login'])) {
     </div>
 
     <div class="login-form-wrapper">
-        <form method="POST" action="">
+        <form method="POST" action="<?php echo $_SERVER['PHP_SELF'] . (isset($_GET['redirect']) ? '?redirect='.$_GET['redirect'] : ''); ?>">
             <h2>Welcome Back</h2>
             <p>Please login to your account to continue</p>
 

@@ -58,28 +58,103 @@ if (isset($_POST['submit'])) {
     <title>Edit Service | BPMS Admin</title>
     <link rel="stylesheet" href="css/style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body { margin: 0; padding: 0; box-sizing: border-box; }
-        .main-content { padding: 40px; margin-left: 250px; background: #f4f7f6; min-height: 100vh; width: calc(100% - 250px); box-sizing: border-box; }
-        .main-content .container { max-width: 800px; margin: 0 auto; }
-        .card-box { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #444; }
-        .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
-        .btn-primary { background: #6467c2; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .page-title { text-align: center; color: #333; margin-bottom: 30px; }
-        .current-img { width: 150px; border-radius: 5px; margin-bottom: 10px; display: block; border: 1px solid #ddd; }
-        
-        /* Error message styles */
-        .status-msg { font-size: 12px; margin-top: 5px; display: block; color: #e74c3c; }
-    </style>
+   <style>
+    body { 
+        margin: 0; 
+        padding: 0; 
+        font-family: 'Poppins', sans-serif;
+        background: #f4f7f6; 
+    }
+
+    /* FIXED: Changed to match manage-services logic */
+    .main-content { 
+        position: fixed;
+        top: 60px; /* Space for header */
+        margin-left: 0; 
+        min-height: 100vh; 
+        padding: 30px;
+        background: #f4f7f6; 
+        box-sizing: border-box;
+        transition: margin-left 0.3s ease; 
+    }
+
+    /* This class is toggled by your JS script.js */
+    .main-content.shifted {
+        margin-left: 290px; 
+    }
+
+    .container { 
+        background:#ffffff;
+        border:1px solid #ddd;
+        padding: 25px;
+        max-width: 900px; 
+        margin: 0 auto;
+        border-radius: 4px;
+        box-shadow: 0 5px 15px rgba(0,0,0.1);
+    }   
+
+    .card-box { 
+        background: #fff; 
+        padding: 30px; 
+        border-radius: 10px; 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+    }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #444; }
+    
+    .form-control { 
+        width: 100%; 
+        padding: 12px; 
+        border: 1px solid #ddd; 
+        border-radius: 5px; 
+        box-sizing: border-box; 
+        font-size: 14px;
+    }
+
+    .btn-primary { 
+        background: #6467c2; 
+        color: white; 
+        border: none; 
+        padding: 12px 25px; 
+        border-radius: 5px; 
+        cursor: pointer; 
+        font-weight: bold; 
+        transition: 0.3s;
+    }
+
+    .btn-primary:hover { background: #4e51a8; }
+
+    .page-title { 
+        text-align: center; 
+        color: #e94e02; /* Matched to your manage-services theme */
+        margin-bottom: 30px; 
+        font-size: 32px;
+    }
+
+    .current-img { 
+        width: 150px; 
+        height: auto;
+        border-radius: 5px; 
+        margin-bottom: 10px; 
+        display: block; 
+        border: 1px solid #ddd; 
+    }
+    
+    .status-msg { font-size: 12px; margin-top: 5px; display: block; color: #e74c3c; }
+
+    /* Responsive adjustment */
+    @media (max-width: 768px) {
+        .main-content.shifted { margin-left: 0; }
+    }
+</style>
 </head>
 <body>
 
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/sidebar.php'; ?>
 
-<main class="main-content">
+<main id="main-content" class="main-content">
     <div class="container">
         <h2 class="page-title">Update Service Details</h2>
         <div class="card-box">

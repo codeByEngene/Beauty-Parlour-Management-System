@@ -103,7 +103,7 @@ $existingTime = isset($_GET['time']) ? $_GET['time'] : '';
         <option value="15:00:00">3:00 PM</option>
         <option value="16:00:00">4:00 PM</option>
     </select>
-    <p id="slotWarn" class="warn-text">Slot Unavailable: Already booked.</p>
+    <p id="slotWarn" class="warn-text">Slot Unavailable: Already booked, Select another time.</p>
 
     <label>Message / Special Requests</label>
     <textarea name="message" placeholder="e.g., Sensitive skin..."></textarea>

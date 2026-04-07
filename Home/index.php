@@ -37,7 +37,7 @@ include('includes/dbconnection.php');
       <div class="caption">
         <h2>Our Premium Services</h2>
         <p>Professional care for your beauty and wellness.</p>
-        <a href="login.php" class="btn">Get Appointment</a>
+       <a href="login.php?redirect=appointment" class="btn">Get Appointment</a>
       </div>
     </div>
   </div>
@@ -85,7 +85,7 @@ include('includes/dbconnection.php');
         Home salon provide well trained beauty professionals for beauty services
         at your home including Facial, Clean Up, Bleach, waxing, pedicure, manicure.
       </h2>
-      <a href="login.php" class="btn">Get an Appointment</a>
+      <a href="login.php?redirect=appointment" class="btn">Get Appointment</a>
     </div>
   </div>
 
