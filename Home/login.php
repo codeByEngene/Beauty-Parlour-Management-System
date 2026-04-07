@@ -4,12 +4,29 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1); 
 include('includes/dbconnection.php');
 
+// 1. REAL-TIME AJAX VALIDATION (Background)
+
+if (isset($_POST['check_email'])) {
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $role = mysqli_real_escape_string($con, $_POST['role']);
+    
+    $checkQuery = mysqli_query($con, "SELECT id FROM tblusers WHERE email='$email' AND role='$role'");
+    
+    if (mysqli_num_rows($checkQuery) > 0) {
+        echo "exists";
+    } else {
+        echo "not_found";
+    }
+    exit(); // Always exit after an AJAX response
+}
+
+// 2. MAIN LOGIN FORM SUBMISSION
 if (isset($_POST['login'])) {
     $email = mysqli_real_escape_string($con, $_POST['email']);
     $password = $_POST['password']; 
     $selectedRole = mysqli_real_escape_string($con, $_POST['role']); 
 
-    // Handle Admin Authorization Check
+    // --- Admin Authorization Guard ---
     if ($selectedRole == 'admin') {
         $allowedAdmins = ['admin1@gmail.com', 'admin2@gmail.com']; 
         if (!in_array($email, $allowedAdmins)) {
@@ -19,11 +36,11 @@ if (isset($_POST['login'])) {
         }
     }
 
-    // Query Database
+    // --- Query Database ---
     $query = mysqli_query($con, "SELECT * FROM tblusers WHERE email='$email' AND role='$selectedRole'");
     $row = mysqli_fetch_array($query);
 
-    // Verify Password (using MD5 as per your current setup)
+    // --- Password & Role Verification ---
     if ($row && md5($password) == $row['password']) {
         session_regenerate_id();
 
@@ -32,19 +49,21 @@ if (isset($_POST['login'])) {
         $_SESSION['role'] = $row['role']; 
         $_SESSION['fullname'] = $row['FullName'];
 
-        // REDIRECTION LOGIC
+        // --- Redirection Logic ---
         if ($_SESSION['role'] === 'admin') {
             header("Location: ../admin/dashboard.php");
             exit();
-        } else if ($_SESSION['role'] === 'user') {
-            // Check if the user came from the "Get Appointment" button
+        } 
+        else if ($_SESSION['role'] === 'user') {
+            // Check for redirect source (e.g., from the home page booking button)
             if (isset($_GET['redirect']) && $_GET['redirect'] == 'appointment') {
-                header("Location: ../user/get-appointment.php"); // Path to your booking page
+                header("Location: ../user/get-appointment.php");
             } else {
                 header("Location: ../user/dashboard.php");
             }
             exit();
-        } else {
+        } 
+        else {
             echo "<script>alert('Invalid role assigned to this account.');</script>";
         }
     } else {
@@ -78,7 +97,15 @@ if (isset($_POST['login'])) {
 
             <div class="input-field">
                 <label>Email Address</label>
-                <input type="email" name="email" placeholder="Enter your email" required>
+                <input type="email" name="email" id="email" placeholder="Enter your email" required oninput="validateEmailFormat()" onblur="checkEmailRealTime()">
+                
+                <span id="format-warn" style="color: #e74c3c; font-size: 12px; display: none; margin-top: 5px;">
+                    <i class="fa fa-envelope"></i> Please enter a valid email address (e.g., anjana@gmail.com).
+                </span>
+            
+                <span id="email-warn" style="color: #e74c3c; font-size: 12px; display: none; margin-top: 5px;">
+                    <i class="fa fa-exclamation-circle"></i> This email is not registered as a <span id="role-text">user</span>.
+                </span>
             </div>
 
             <div class="input-field">
@@ -110,6 +137,63 @@ if (isset($_POST['login'])) {
 </div>
 
 <script>
+ // Part 1: Check if the email looks like a real email address
+function validateEmailFormat() {
+    const email = document.getElementById('email').value;
+    const formatWarn = document.getElementById('format-warn');
+    const dbWarn = document.getElementById('email-warn');
+    const loginBtn = document.querySelector('.btn-login');
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (email === "") {
+        formatWarn.style.display = "none";
+        return;
+    }
+
+    if (!emailPattern.test(email)) {
+        formatWarn.style.display = "block";
+        dbWarn.style.display = "none"; 
+        loginBtn.disabled = true;
+        loginBtn.style.opacity = "0.5";
+    } else {
+        formatWarn.style.display = "none";
+        loginBtn.disabled = false;
+        loginBtn.style.opacity = "1";
+    }
+}
+
+// Part 2: Check if the email exists in your database
+function checkEmailRealTime() {
+    const email = document.getElementById('email').value;
+    const role = document.getElementById('role').value;
+    const dbWarn = document.getElementById('email-warn');
+    const formatWarn = document.getElementById('format-warn');
+    const roleText = document.getElementById('role-text');
+
+    // Only check DB if the format is already correct
+    if (email !== "" && formatWarn.style.display === "none") {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "<?php echo $_SERVER['PHP_SELF']; ?>", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                const response = this.responseText.trim();
+                
+                if (response === "not_found") {
+                    roleText.innerText = role;
+                    dbWarn.style.display = "block";
+                } else {
+                    dbWarn.style.display = "none";
+                }
+            }
+        };
+        xhr.send("check_email=1&email=" + email + "&role=" + role);
+    }
+}
+
+document.getElementById('role').addEventListener('change', checkEmailRealTime);
 function togglePassword() {
     const passwordField = document.getElementById("password");
     const eyeIcon = document.getElementById("eyeIcon");

@@ -20,7 +20,7 @@
         <img src="../admin/images/<?php echo $row['image']; ?>" alt="Service Image">
         <h2><?php echo $row['service_name']; ?></h2>
         <p><?php echo $row['service_desc']; ?></p>
-        <p class="price">Cost of Service: rs.<?php echo $row['cost']; ?></p>
+        <p class="price">Cost of Service: Rs.<?php echo $row['cost']; ?></p>
         <a href="get-appointment.php?serviceid=<?php echo $row['id']; ?>" class="btn">Get Appointment</a>
     </div>
     <?php } ?>

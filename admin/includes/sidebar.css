@@ -1,6 +1,4 @@
 
-/* ================= HEADER ================= */
-
 #header{
   position: fixed;
   top: 0;
@@ -14,9 +12,6 @@
   box-shadow: 0 2px 5px #ccc;
   z-index: 2000;
 }
-
-
-/* ================= SIDEBAR ================= */
 
 .sidebar{
   position: fixed;

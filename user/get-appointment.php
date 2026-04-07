@@ -6,7 +6,7 @@ include('include/dbconnection.php');
 if (strlen($_SESSION['uid']) == 0) {
     header('location:logout.php');
 } else {
-    // --- NEW: AJAX Check (Doesn't affect UI) ---
+    // --- AJAX Check ---
     if (isset($_POST['check_availability'])) {
         $adate = mysqli_real_escape_string($con, $_POST['date']);
         $atime = mysqli_real_escape_string($con, $_POST['time']);
@@ -42,7 +42,6 @@ if (strlen($_SESSION['uid']) == 0) {
     }
 }
 $existingDate = isset($_GET['date']) ? $_GET['date'] : '';
-$existingTime = isset($_GET['time']) ? $_GET['time'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,7 +69,7 @@ $existingTime = isset($_GET['time']) ? $_GET['time'] : '';
 </head>
 <body>
 <?php include('include/header.php');?>
-<section class="hero"><div class="hero-overlay"><h1>Book Appointment</h1><p>Your beauty journey starts here.</p></div></section>
+<section class="hero"><div class="hero-overlay"><h1>Book Appointment</h1><p>Your Beauty journey starts here.</p></div></section>
 <div class="breadcrumb"><a href="dashboard.php">Home</a> › Book Appointment</div>
 <section class="appointment">
 <div class="centered-container"> 
@@ -87,9 +86,16 @@ $existingTime = isset($_GET['time']) ? $_GET['time'] : '';
         }
     } else { echo "<button type='button' class='btn-select-main' onclick='openModal()'><i class='fa fa-list-ul'></i> Click to Choose Service</button>"; }
     ?>
-    <label>Appointment Date</label>
-    <input type="date" name="adate" id="adate" required value="<?php echo $existingDate; ?>" min="<?php echo date('Y-m-d'); ?>" onchange="checkAvailability(); filterTime();">
-    <p id="dateWarn" class="warn-text">Please select a valid date.</p>
+        <label>Appointment Date</label>
+        <input type="date" 
+            name="adate" 
+            id="adate" 
+            required 
+            value="<?php echo $existingDate; ?>" 
+            min="<?php echo date('Y-m-d'); ?>" 
+            max="<?php echo date('Y-12-31'); ?>" 
+            onchange="validateDate();">
+        <p id="dateWarn" class="warn-text">Error: Please select a valid date within <?php echo date('Y'); ?>.</p>
 
     <label>Appointment Time</label>
     <select name="appointment_time" id="appointment_time" class="appointment-time" required onchange="checkAvailability()">
@@ -103,7 +109,7 @@ $existingTime = isset($_GET['time']) ? $_GET['time'] : '';
         <option value="15:00:00">3:00 PM</option>
         <option value="16:00:00">4:00 PM</option>
     </select>
-    <p id="slotWarn" class="warn-text">Slot Unavailable: Already booked, Select another time.</p>
+    <p id="slotWarn" class="warn-text">Sorry! Slot Unavailable: Please select another time.</p>
 
     <label>Message / Special Requests</label>
     <textarea name="message" placeholder="e.g., Sensitive skin..."></textarea>
@@ -138,6 +144,49 @@ function confirmService() {
     if(sid) { window.location.href = "get-appointment.php?serviceid=" + sid + "&date=" + document.getElementById('adate').value; }
 }
 
+function validateDate() {
+    const dateInput = document.getElementById('adate');
+    const dateWarn = document.getElementById('dateWarn');
+    const btn = document.getElementById('submitBtn');
+    
+    const val = dateInput.value; 
+    if (!val) return;
+
+    const selectedDate = new Date(val);
+    const today = new Date();
+    
+    // Reset today's time to 00:00:00 for a fair comparison
+    today.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    // Get the year string to check for that 6-digit error
+    const inputYear = val.split('-')[0];
+
+    // 1. Block if year is more than 4 digits (e.g., 275760)
+    // 2. Block if the date is in the past
+    if (inputYear.length > 4 || selectedDate < today) {
+        dateWarn.style.display = "block";
+        dateWarn.innerText = (inputYear.length > 4) 
+            ? "Error: Please enter a valid 4-digit year." 
+            : "Error: You cannot book a past date.";
+        
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+        
+        // If it's a 6-digit year, clear it immediately
+        if(inputYear.length > 4) dateInput.value = ""; 
+    } else {
+        // SUCCESS: Date is Today or in the Future
+        dateWarn.style.display = "none";
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        
+        filterTime();
+        checkAvailability();
+    }
+}
+
+
 function checkAvailability() {
     const date = document.getElementById('adate').value;
     const time = document.getElementById('appointment_time').value;
@@ -155,9 +204,17 @@ function checkAvailability() {
                     btn.style.opacity = "0.5";
                     warn.style.display = "block";
                 } else {
-                    btn.disabled = false;
-                    btn.style.opacity = "1";
-                    warn.style.display = "none";
+                    // Only re-enable if Date is not also invalid
+                    const dInput = new Date(document.getElementById('adate').value);
+                    const tDay = new Date();
+                    tDay.setHours(0,0,0,0);
+                    dInput.setHours(0,0,0,0);
+                    
+                    if(dInput >= tDay) {
+                        btn.disabled = false;
+                        btn.style.opacity = "1";
+                        warn.style.display = "none";
+                    }
                 }
             }
         };
@@ -173,9 +230,11 @@ function filterTime() {
     if(!dateInput.value) return;
     const selectedDate = new Date(dateInput.value);
     const isToday = today.toDateString() === selectedDate.toDateString();
+    
     for (let i = 1; i < options.length; i++) {
         if (isToday) {
             const [optHour] = options[i].value.split(':');
+            // If current time is past the slot hour, hide it
             if (parseInt(optHour) <= today.getHours()) {
                 options[i].disabled = true;
                 options[i].style.display = 'none';
@@ -183,7 +242,13 @@ function filterTime() {
         } else { options[i].disabled = false; options[i].style.display = 'block'; }
     }
 }
-window.onload = filterTime;
+
+// Initial filter on load
+window.onload = function() {
+    if(document.getElementById('adate').value) {
+        validateDate();
+    }
+};
 </script>
 </body>
 </html>
