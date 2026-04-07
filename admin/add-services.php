@@ -190,13 +190,12 @@ if(isset($_POST['submit']))
         function blockMinus(event) {
         // 189 is the minus key on top row, 109 is the minus key on numpad
             if (event.keyCode === 189 || event.keyCode === 109 || event.key === '-') {
-                event.preventDefault(); // This stops the character from appearing
+                event.preventDefault(); 
                 
                 var costStatus = document.getElementById('cost-status');
-                costStatus.innerHTML = '<i class="fa fa-times-circle"></i> Negative signs are not allowed.';
+                costStatus.innerHTML = '<i class="fa fa-times-circle"></i> Negative numbers are not allowed.';
                 costStatus.style.color = '#e74c3c';
-                
-                // Optional: show an alert as requested
+
                 alert("The minus sign (-) is blocked. Price must be a positive number.");
                 return false;
             }
@@ -207,9 +206,8 @@ if(isset($_POST['submit']))
             var submitBtn = document.getElementById('submitBtn');
             var val = parseFloat(costField.value);
 
-            // Validation for non-empty input that is 0 or less
             if (costField.value !== '' && val < 1) {
-                costField.value = ''; // Reset the field
+                costField.value = ''; 
                 costStatus.innerHTML = '<i class="fa fa-times-circle"></i> Price must be greater than zero.';
                 costStatus.style.color = '#e74c3c';
                 alert("The price cannot be negative or zero.");

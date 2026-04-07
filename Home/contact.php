@@ -41,45 +41,103 @@ if(isset($_POST['submit'])) {
     <link rel="stylesheet" href="includes/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
+    <style>
+        /* Real-time Warning Styles */
+        .input-group {
+            width: 100%;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .input-warning {
+            color: #d9534f;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            display: none; /* Hidden by default */
+            font-weight: bold;
+        }
+        input.invalid {
+            border: 2px solid #d9534f !important;
+        }
+        input.valid {
+            border: 2px solid #5cb85c !important;
+        }
+    </style>
+
     <script>
         function validateInputs() {
             const nameInput = document.getElementById('name');
             const phoneInput = document.getElementById('phone');
+            const emailInput = document.getElementById('email');
 
-            // 1. Name: Block numbers/special chars (Letters and spaces only)
+            // 1. Name Validation: Block numbers/special chars
             nameInput.oninput = function() {
+                const warning = document.getElementById('nameWarning');
+                if (/[^a-zA-Z\s]/.test(this.value)) {
+                    warning.style.display = "block";
+                    this.classList.add('invalid');
+                } else {
+                    warning.style.display = "none";
+                    this.classList.remove('invalid');
+                }
                 this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
             };
 
-            // 2. Phone: Block letters, allow only 10 digits
+            // 2. Phone Validation: Nepal Specific (98/97 and 10 digits)
             phoneInput.oninput = function() {
-                this.value = this.value.replace(/[^0-9]/g, '');
+                const warning = document.getElementById('phoneWarning');
+                this.value = this.value.replace(/[^0-9]/g, ''); // Block letters
+                
+                if (this.value.length > 0 && !/^(98|97)/.test(this.value)) {
+                    warning.innerText = "Number must start with 98 or 97";
+                    warning.style.display = "block";
+                    this.classList.add('invalid');
+                } else if (this.value.length > 0 && this.value.length < 10) {
+                    warning.innerText = "Enter exactly 10 digits";
+                    warning.style.display = "block";
+                    this.classList.add('invalid');
+                } else {
+                    warning.style.display = "none";
+                    this.classList.remove('invalid');
+                    if(this.value.length === 10) this.classList.add('valid');
+                }
+
                 if (this.value.length > 10) {
                     this.value = this.value.slice(0, 10);
                 }
             };
+
+            // 3. Email Validation: Real-time pattern
+            emailInput.oninput = function() {
+                const warning = document.getElementById('emailWarning');
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                
+                if (this.value.length > 0 && !emailPattern.test(this.value)) {
+                    warning.style.display = "block";
+                    this.classList.add('invalid');
+                    this.classList.remove('valid');
+                } else if (this.value.length > 0) {
+                    warning.style.display = "none";
+                    this.classList.remove('invalid');
+                    this.classList.add('valid');
+                }
+            };
         }
 
-        // Final check before submission
+        // Final validation before PHP processing
         function checkForm() {
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
-            
-            // Nepal Mobile Prefix Check (Starts with 98 or 97)
             const nepalPattern = /^(98|97)\d{8}$/;
-            // Standard Email Pattern
             const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
             if (!nepalPattern.test(phone)) {
-                alert("Please enter a valid Nepal mobile number starting with 98 or 97 (10 digits).");
+                alert("Please enter a valid 10-digit Nepal mobile number (98/97).");
                 return false;
             }
-
             if (!emailPattern.test(email)) {
-                alert("Please enter a valid email address (e.g., name@example.com).");
+                alert("Please enter a valid email address.");
                 return false;
             }
-
             return true;
         }
 
@@ -118,12 +176,21 @@ if(isset($_POST['submit'])) {
 
     <form class="contact-form" method="POST" onsubmit="return checkForm()"> 
         <div class="row">
-            <input type="text" name="name" id="name" placeholder="Your Full Name" required>
+            <div class="input-group">
+                <input type="text" name="name" id="name" placeholder="Your Full Name" required>
+                <span id="nameWarning" class="input-warning">Please use letters and spaces only.</span>
+            </div>
         </div>
 
         <div class="row">
-            <input type="text" name="phone" id="phone" placeholder="Phone Number (e.g. 98XXXXXXXX)" required>
-            <input type="email" name="email" id="email" placeholder="Email Address" required>
+            <div class="input-group" style="width: 48%;">
+                <input type="text" name="phone" id="phone" placeholder="Phone (98XXXXXXXX)" required>
+                <span id="phoneWarning" class="input-warning">Invalid Nepal mobile format.</span>
+            </div>
+            <div class="input-group" style="width: 48%;">
+                <input type="email" name="email" id="email" placeholder="Email Address" required>
+                <span id="emailWarning" class="input-warning">Enter a valid email (e.g. name@gmail.com).</span>
+            </div>
         </div>
 
         <textarea name="message" placeholder="Type your message here..." required></textarea>
