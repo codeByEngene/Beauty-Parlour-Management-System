@@ -1,26 +1,56 @@
-#Beauty Parlour Management System
+# Beauty Parlour Management System
 
-## Setup Instructions 
-1. Clone repository
+## Project Description
+This is a web-based Beauty Parlour Management System developed as a 4th semester BCA project.  
+The system is designed to manage services, appointments, users, and contact messages efficiently.
+
+This project has been created by me and my friend as part of our academic coursework.
+
+---
+
+## Setup Instructions
+1. Clone the repository
 2. Import `database/pms_db.sql` into phpMyAdmin
-3. Configure database in `config.php`
-4. Run project on XAMPP localhost
+3. Configure database connection in `config.php`
+4. Run the project on XAMPP localhost:
+
+
+---
 
 ## Features
-- User/Admin login system
-- Appointment booking
+- User and Admin login system
+- Appointment booking system
 - Service management
-- Contact system
+- Contact form system
 - Invoice generation
 
-Login Credential:
-Admin:
-Email Address: admin1@gmail.com
-Password: 123456
-User:
-Can create new User.
+---
 
-## Tech Stack
-- PHP
-- MySQL
-- HTML, CSS, JS
+##  Login Credentials
+
+### Admin
+- Email: admin1@gmail.com  
+- Password: 123456  
+
+### User
+- Users can register themselves from the signup page
+
+---
+
+##  Tech Stack
+- PHP (Backend)
+- MySQL (Database)
+- HTML, CSS (Frontend)
+- JavaScript (Client-side logic)
+- XAMPP (Local server)
+
+---
+
+##  Academic Purpose
+This project is developed for educational purposes as part of the 4th semester BCA curriculum.
+
+---
+
+##  Project Team
+Developed by:
+- Me and my friend (BCA 4th Semester Students)
