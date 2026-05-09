@@ -36,7 +36,7 @@ if (isset($_POST['login'])) {
         if ($selectedRole == 'admin') {
             $allowedAdmins = ['admin1@gmail.com', 'admin2@gmail.com']; 
             if (!in_array($email, $allowedAdmins)) {
-                echo "<script>alert('Access Denied! Your email is not authorized as an administrator.');</script>";
+                echo "<script>alert('Invalid Credentials! Please check your credentials and selected role.');</script>";
                 echo "<script>window.location.href='login.php'</script>";
                 exit();
             }
@@ -66,7 +66,7 @@ if (isset($_POST['login'])) {
                 exit();
             }
         } else {
-            echo "<script>alert('Invalid Details! Please check your credentials and selected role.');</script>";
+            echo "<script>alert('Invalid Credentials! Please check your credentials and selected role.');</script>";
         }
     }
 }

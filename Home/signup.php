@@ -67,7 +67,7 @@ if (isset($_POST['submit'])) {
 <div id="signup">
     <div class="img">
         <div class="logo">
-            <h1>Beauty Parlour<br>Management System</h1>
+            <h1>Beauty Parlour Management System</h1>
         </div>
     </div>
     <div id="form-wrapper">
